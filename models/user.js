@@ -1,13 +1,15 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
+const { addressSchema } = require('./address')
 
 const userSchema = new mongoose.Schema(
   {
     name: {
       type: String,
       trim: true,
-      required: true
+      required: true,
+      maxlength: 50
     },
     email: {
       type: String,
@@ -26,14 +28,18 @@ const userSchema = new mongoose.Schema(
     history: {
       type: Array,
       default: []
+    },
+    address: {
+      type: addressSchema
     }
   },
   { timestamps: true }
 );
 
+
 userSchema.methods.generateAuthToken = function() {
   const token = jwt.sign(
-    { _id: this._id, isAdmin: this.isAdmin,  },
+    { _id: this._id, isAdmin: this.isAdmin },
     process.env.JWT_SECRET
   );
   return token;
