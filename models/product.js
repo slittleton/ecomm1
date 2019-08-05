@@ -14,6 +14,10 @@ const productSchema = new mongoose.Schema(
       ref: "Category",
       required: true
     },
+    photo: {
+      data: Buffer,
+      contentType: String
+    },
     description: {
       type: String,
       required: true,

@@ -1,24 +1,95 @@
-const Product = require('../models/product');
-
+const Product = require("../models/product");
+const formidable = require("formidable");
+const fs = require("fs");
 
 exports.productById = (req, res, callback, id) => {
   Product.findById(id)
-    .populate('category')
-    .exec((err, product)=> {
-      if(err || !product) {
-        return res.status(400).json({error: "product not found"})
+    .populate("category")
+    .exec((err, product) => {
+      if (err || !product) {
+        return res.status(400).json({ error: "product not found" });
       }
       req.product = product;
       callback();
-    })
-    
-}
+    });
+};
 
+// CREATE PRODUCT =======================================================
 exports.createProduct = (req, res) => {
+  const form = new formidable.IncomingForm();
+  form.keepExtensions = true;
 
-console.log(req.body)
+  form.parse(req, (err, fields, files) => {
+    if (err) {
+      return res.status(400).json({ error: "image could not be uploaded" });
+    }
 
+    const { name, category, description, price, quantity, sold } = fields;
 
-// use product model to save product to database
-  res.send('ok')
-} 
+    if (!name || !category || !description || !price || !quantity || !sold) {
+      return res.status(400).json({ error: "all fields are required" });
+    }
+
+    const product = new Product(fields);
+
+    // Handle Uploaded Photo
+    if (files.photo) {
+      if (files.photo.size > 1000000) {
+        return res.status(400).json({ error: "photo must be less than 1mb" });
+      }
+    }
+    product.photo.data = fs.readFileSync(files.photo.path);
+    product.photo.contentType = files.photo.type;
+
+    product.save((err, data) => {
+      if (err) {
+        return res.status(400).json({ error: err });
+      }
+      res.json(data);
+    });
+  });
+};
+
+// DELETE PRODUCT =======================================================
+
+exports.deleteProduct = (req, res) => {
+  // productById runs on params in routes/product.js
+  // and sets product info in req.product
+  req.product.remove((err, deletedProduct) => {
+    if (err) {
+      return res.status(400).json({ error: err });
+    }
+    res.send("product deleted");
+  });
+};
+
+// UPDATE PRODUCT =======================================================
+
+exports.updateProduct = (req, res) => {
+  let form = new formidable.IncomingForm();
+  form.keepExtensions = true;
+  form.parse(req, (err, fields, files) => {
+    //files refers to the uploaded image
+    if (err) {
+      return res.status(400).json({ error: "error uploading image" });
+    }
+
+    let product = req.product; // original product info
+    //product properties reassigned to properites from update (ie fields)
+    product = Object.assign(product, fields);
+
+    if (files.photo) {
+      if (files.photo.size > 1000000) {
+        return res.status(400).json({ error: "photo must be less than 1mb" });
+      }
+
+      product.photo.data = fs.readFileSync(files.photo.path);
+      product.photo.contentType = files.photo.type;
+    }
+
+    product.save((err, data)=> {
+      if(err){return res.status(400).json({error: err})}
+      res.json({message: "Update Successful"})
+    })
+  });
+};

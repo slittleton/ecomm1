@@ -1,12 +1,28 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const {checkAuth, checkAdmin} = require('../controllers/auth');
-const {createProduct} = require('../controllers/product');
+const { checkAuth, checkAdmin } = require("../controllers/auth");
+const {
+  createProduct,
+  deleteProduct,
+  updateProduct,
+  productById
+} = require("../controllers/product");
 
+router.get("/product/:productId");
+router.post("/product/create", checkAuth, checkAdmin, createProduct);
+router.delete(
+  "/product/delete/:productId",
+  checkAuth,
+  checkAdmin,
+  deleteProduct
+);
+router.put(
+  "/product/update/:productId",
+  checkAuth,
+  checkAdmin,
+  updateProduct
+);
 
-router.get('/product/:productId');
-router.post('/product/create', checkAuth, checkAdmin, createProduct)
+router.param("productId", productById);
 
-// router.param('productId', productById);
-
-module.exports = router
+module.exports = router;

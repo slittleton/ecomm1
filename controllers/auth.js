@@ -26,7 +26,8 @@ exports.signIn = async (req, res) => {
     if (!validPassword) {
       return res.status(400).send("Invalid email or password.");
     }
-
+    user.password = undefined
+    
     //generate jwt
     const token = await user.generateAuthToken();
     return res.header("Authorization", token).json({ user });
@@ -39,7 +40,7 @@ exports.checkAuth = (req, res, callback) => {
   try{
     const decoded = jwt.verify(token, process.env.JWT_SECRET)
     if(decoded){
-      console.log('AUTH: ', decoded)
+      // console.log('AUTH: ', decoded)
       req.auth = decoded
     }else{
       return res.status(401).send('Unable to verify token')
@@ -53,7 +54,7 @@ exports.checkAuth = (req, res, callback) => {
 
 exports.checkAdmin = (req, res, next)=> {
   if(req.auth.isAdmin){
-    console.log('ADMIN CHECK: SUCCESS')
+    // console.log('ADMIN CHECK: SUCCESS')
   } else{
     return res.status(401).send('Access Denied: user lacks admin privileges')
   }
