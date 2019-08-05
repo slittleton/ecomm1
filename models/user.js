@@ -49,5 +49,10 @@ userSchema.methods.hashPassword = async function(password) {
   hashedPassword = await bcrypt.hash(password, salt);
   return hashedPassword;
 };
+userSchema.statics.hashPassword = async function(password) {
+  const salt = await bcrypt.genSalt(10);
+  hashedPassword = await bcrypt.hash(password, salt);
+  return hashedPassword;
+};
 
 module.exports = mongoose.model("User", userSchema);

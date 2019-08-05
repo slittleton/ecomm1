@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const {checkAuth} = require('../controllers/auth')
-const {userById} = require('../controllers/user')
+const {userById, updateUser} = require('../controllers/user');
+const bcrypt = require("bcrypt");
 
 
 router.get('/userprofile', checkAuth, userById, (req, res)=>{
@@ -10,6 +11,7 @@ router.get('/userprofile', checkAuth, userById, (req, res)=>{
   res.json(user)
 })
 
+router.put('/user/update', checkAuth, userById, updateUser);
 
 
 
