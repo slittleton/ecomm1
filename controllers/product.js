@@ -14,6 +14,20 @@ exports.productById = (req, res, callback, id) => {
     });
 };
 
+// GET PRODUCT =========================================================
+exports.getProduct = (req, res) => {
+  req.product.photo = undefined
+  return res.json(req.product)
+}
+
+// GET PHOTO ===========================================================
+exports.productPhoto = (req, res) => {
+  if(req.product.photo.data) {
+    res.set("Content-Type", req.product.photo.contentType);
+    return res.send(req.product.photo.data);
+  }
+}
+
 // CREATE PRODUCT =======================================================
 exports.createProduct = (req, res) => {
   const form = new formidable.IncomingForm();
