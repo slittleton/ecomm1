@@ -7,6 +7,7 @@ const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
 const productRoutes = require("./routes/product");
 const categoryRoutes = require("./routes/category");
+const oderRoutes = require("./routes/order");
 
 const PORT = process.env.PORT || 8000;
 const mongoURI = process.env.MONGO_URI;
@@ -24,5 +25,6 @@ app.use("/api", authRoutes);
 app.use("/api", userRoutes);
 app.use("/api", productRoutes);
 app.use("/api", categoryRoutes);
+app.use("/api", oderRoutes);
 
 app.listen(PORT, console.log(`Listening on port ${PORT}`));

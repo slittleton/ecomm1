@@ -13,8 +13,8 @@ const { orderById, createOrder } = require("../controllers/order");
 router.post(
   "/order/create",
   checkAuth,
-  addToUserOrderHistory,
-  decreaseQuantity,
+  // addToUserOrderHistory,
+  // decreaseQuantity,
   createOrder
 );
 
