@@ -8,19 +8,20 @@ const {
   productById,
   getProduct,
   productPhoto,
- // productsList,
-//  productsSearch
+  productsList,
+  productsSearch
 } = require("../controllers/product");
 
-router.get("/product/:productId", getProduct);
-router.get("/product/photo/:productId", productPhoto)
+
 router.post("/product/create", checkAuth, checkAdmin, createProduct);
 router.delete("/product/delete/:productId", checkAuth, checkAdmin,deleteProduct);
 router.put("/product/update/:productId", checkAuth, checkAdmin, updateProduct);
 
+router.get("/product/:productId", getProduct);
+router.get("/product/photo/:productId", productPhoto)
 
-// router.get('/products', productsList)
-// router.get('/products/search', productsSearch)
+router.get('/products', productsList)
+router.get('/products/search', productsSearch)
 
 router.param("productId", productById);
 
