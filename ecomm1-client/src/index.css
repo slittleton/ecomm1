@@ -103,3 +103,23 @@ body {
   border-radius: .5rem;
   font-size: 1.25rem;
 }
+
+/* SUCCESS & ERROR MESSAGE STYLING =========================================== */
+.success {
+  text-align: center;
+  border: 1px solid green;
+  width: 20rem;
+  padding: 1rem;
+  border-radius: .5rem;
+  color: green;
+  
+}
+.error {
+  text-align: center;
+  border: 1px solid red;
+  width: 20rem;
+  padding: 1rem;
+  border-radius: .5rem;
+  color: red;
+
+}

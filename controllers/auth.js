@@ -11,6 +11,7 @@ exports.signUp = async (req, res) => {
   await user.save();
   user.password = undefined;
 
+  console.log(user)
   //generate jwt
   const token = await user.generateAuthToken();
   return res.header("Authorization", token).json({ user });

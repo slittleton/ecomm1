@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import Layout from "../layout/Layout";
 import { Link } from "react-router-dom";
 import { signUp } from "../../actions/authActions";
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
-const SignUp = (props) => {
+const SignUp = props => {
   const [values, setValues] = useState({
     name: "",
     email: "",
-    password: ""
+    password: "",
+    test: true
   });
 
   const { name, email, password } = values;
@@ -65,15 +66,41 @@ const SignUp = (props) => {
       </div>
     );
   };
+  const showSuccess = () => {
+    return (
+      <div
+        className="container"
+        style={{ display: props.user.userId ? "" : "none" }}
+      >
+        <div className="success">
+          Account Created, Please <Link to="/signin">Sign In</Link>
+        </div>
+      </div>
+    );
+  };
+  const showError = () => {
+    return (
+      <div
+        className="container"
+        style={{ display: props.user.error ? "" : "none" }}
+      >
+        <div className="error">
+        Error {props.user.error} 
+        </div>
+      </div>
+    );
+  };
 
   return (
     <Layout title="Sign Up" description="Please Sign Up To Create An Account">
+      {showSuccess()}
+      {showError()}
       {signupForm()}
     </Layout>
   );
 };
 const mapStateToProps = state => {
-  console.log('from state', state);
+  console.log("from state", state);
   return {
     user: state.authReducer
   };

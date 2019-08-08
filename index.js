@@ -8,6 +8,7 @@ const userRoutes = require("./routes/user");
 const productRoutes = require("./routes/product");
 const categoryRoutes = require("./routes/category");
 const oderRoutes = require("./routes/order");
+const addCorsHeaders = require("./customMiddleware/addCorsHeaders");
 
 const PORT = process.env.PORT || 8000;
 const mongoURI = process.env.MONGO_URI;
@@ -19,6 +20,7 @@ mongoose
 
 // Middlewares
 app.use(express.json());
+app.use(addCorsHeaders);
 
 // Routes Middleware
 app.use("/api", authRoutes);
