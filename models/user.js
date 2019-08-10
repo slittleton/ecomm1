@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
+const Joi = require("@hapi/joi");
 const { addressSchema } = require('./address')
 
 const userSchema = new mongoose.Schema(
@@ -9,12 +10,14 @@ const userSchema = new mongoose.Schema(
       type: String,
       trim: true,
       required: true,
-      maxlength: 50
+      maxlength: 50,
+      unique: true
     },
     email: {
       type: String,
       trim: true,
-      required: true
+      required: true,
+      unique: true
     },
     password: {
       type: String,
@@ -36,6 +39,15 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+function validateUser(user) {
+  const schema = {
+    name: Joi.string().min(1).max(50).required(),
+    email: Joi.string().email().min(7).max(50).required(),
+    password: Joi.string().min(1).max(50).required()
+  }
+  return Joi.validate(user, schema)
+}
+
 
 userSchema.methods.generateAuthToken = function() {
   const token = jwt.sign(
@@ -55,4 +67,5 @@ userSchema.statics.hashPassword = async function(password) {
   return hashedPassword;
 };
 
-module.exports = mongoose.model("User", userSchema);
+exports.User = mongoose.model("User", userSchema);
+exports.validateUser = validateUser;

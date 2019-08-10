@@ -1,4 +1,4 @@
-const Product = require("../models/product");
+const { Product, validateProduct } = require("../models/product");
 const formidable = require("formidable");
 const fs = require("fs");
 
@@ -29,11 +29,15 @@ exports.productPhoto = (req, res) => {
 };
 
 // CREATE PRODUCT =======================================================
-exports.createProduct = (req, res) => {
-  const form = new formidable.IncomingForm();
+exports.createProduct = async (req, res) => {
+  const form = await new formidable.IncomingForm();
   form.keepExtensions = true;
 
-  form.parse(req, (err, fields, files) => {
+  //####TODO FIX JOI VALIDATION - CURRENTLY NOT WORKING ON  form or product
+  // const {error } = validateProduct(form);
+  // if(error){return res.status(400).send(error.details[0].message)}
+
+  form.parse(req, async (err, fields, files) => {
     if (err) {
       return res.status(400).json({ error: "image could not be uploaded" });
     }
@@ -44,7 +48,7 @@ exports.createProduct = (req, res) => {
       return res.status(400).json({ error: "all fields are required" });
     }
 
-    const product = new Product(fields);
+    const product = await new Product(fields);
 
     // Handle Uploaded Photo
     if (files.photo) {
@@ -141,17 +145,15 @@ exports.productsList = (req, res) => {
     .select("-photo")
     .populate("category")
     .sort([[sortBy, order]])
-    .exec((err, products)=>{
-      if(err){
-        return(res.status(400).json({
+    .exec((err, products) => {
+      if (err) {
+        return res.status(400).json({
           error: "Products not found"
-        }))
+        });
       }
-      res.json(products)
-    })
-
+      res.json(products);
+    });
 };
-
 
 // SUBTRACT FROM QUANTITY ====================================================
 exports.decreaseQuantity = (req, res, callback) => {
@@ -159,14 +161,14 @@ exports.decreaseQuantity = (req, res, callback) => {
     return {
       updateOne: {
         filter: { _id: item._id },
-        update: { $inc: { quantity: -item.count, sold: +item.count}}
+        update: { $inc: { quantity: -item.count, sold: +item.count } }
       }
-    }
-  })
-  Product.bulkWrite(buldOps, {}, (error, products)=> {
-    if(error) {
-      return res.status(400).json({error: "Could not update product"})
+    };
+  });
+  Product.bulkWrite(buldOps, {}, (error, products) => {
+    if (error) {
+      return res.status(400).json({ error: "Could not update product" });
     }
     callback();
-  })
-}
+  });
+};

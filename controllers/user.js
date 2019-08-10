@@ -1,4 +1,4 @@
-const User = require("../models/user");
+const {User, validateUser} = require("../models/user");
 
 // GET USER BY ID =========================================================
 exports.userById = (req, res, callback) => {

@@ -85,7 +85,7 @@ body {
   font-size: 1.25rem;
   border-radius: .5rem;
   padding:.5rem;
-  background-color: black;
+  background-color: rgba(0,0,0,0);
   color: white
 }
 .form-field::placeholder{
@@ -107,12 +107,15 @@ body {
 /* SUCCESS & ERROR MESSAGE STYLING =========================================== */
 .success {
   text-align: center;
-  border: 1px solid green;
+  border: 1px solid rgb(130, 211, 130);
   width: 20rem;
   padding: 1rem;
   border-radius: .5rem;
-  color: green;
-  
+  color: rgb(130, 211, 130);
+}
+.success a {
+  color: rgb(0, 204, 204);
+  font-weight: bold
 }
 .error {
   text-align: center;

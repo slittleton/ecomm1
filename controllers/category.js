@@ -1,10 +1,15 @@
-const Category = require('../models/category');
+const { Category, validateCategory } = require("../models/category");
 
-exports.createCategory = (req, res) => {
+exports.createCategory = async (req, res) => {
+  const { error } = validateCategory(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+
   const category = new Category(req.body);
 
-  category.save((err, data) => {
-    if (err) {return res.status(400).json({ error: err})};
-    res.json(data)
+  await category.save((err, data) => {
+    if (err) {
+      return res.status(400).json({ error: err });
+    }
+    res.json(data);
   });
 };

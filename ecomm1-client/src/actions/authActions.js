@@ -3,10 +3,9 @@ const API = process.env.REACT_APP_API_URL;
 
 
 export const signUp = (name, email, password) => async dispatch => {
-  // const res = await fetch();
-  console.log(name, email, password, API)
 
   let user = {name, email, password}
+  console.log('USER', user);
 
   let data = await fetch(`${API}/signup`, {
     method: "POST",
@@ -16,15 +15,17 @@ export const signUp = (name, email, password) => async dispatch => {
     },
     body: JSON.stringify(user)
   })
-  data = await data.json();
-  console.log(data.user);
 
-  if(data.user.error){
-    dispatch({ type: AUTH_ERROR, payload: data.user.error})
-  } else {
+  data = await data.json();
+// console.log(data.user)
+
+  if(data.error){
+    dispatch({ type: AUTH_ERROR, payload: data.error})
+  } 
+  else {
+    dispatch({ type: AUTH_ERROR, payload: null});
     dispatch({ type: SIGN_UP_USER, payload: data.user });
   }
-  
 };
 
 export const signIn = () => async dispatch => {};

@@ -1,13 +1,24 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
+const Joi = require("@hapi/joi");
 
-const categorySchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: true,
-      maxlength: 25
-    }
+const categorySchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    maxlength: 25,
+    unique: true,
   }
-)
+});
 
-module.exports = mongoose.model('Category', categorySchema);
+function validateCategory(category) {
+  const schema = {
+    name: Joi.string()
+      .min(5)
+      .max(50)
+      .required()
+  };
+  return Joi.validate(category, schema);
+}
+
+exports.Category = mongoose.model("Category", categorySchema);
+exports.validateCategory = validateCategory;

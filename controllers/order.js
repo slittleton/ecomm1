@@ -17,7 +17,7 @@ exports.orderById = (req, res, callback, id) => {
 exports.createOrder = (req,res) => {
   console.log(req.body)
 
-  res.send("Order Created")
+  res.send("TODO finish server side creating order")
 }
 
 // GET LIST OF ORDERS ===============================================
