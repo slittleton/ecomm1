@@ -18,7 +18,7 @@ exports.signUp = async (req, res, next) => {
   console.log(user);
   //generate jwt
   const token = await user.generateAuthToken();
-  return res.header("Authorization", token).json({ user });
+  return res.json({ user, token });
 };
 
 // SIGN IN ============================================
@@ -35,7 +35,7 @@ exports.signIn = async (req, res, next) => {
 
     //generate jwt
     const token = await user.generateAuthToken();
-    return res.header("Authorization", token).json({ user });
+    return res.json({ user, token });
   });
 };
 

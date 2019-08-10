@@ -1,7 +1,9 @@
 import React from 'react';
 import {Link, withRouter} from 'react-router-dom';
+import { setSignInStatus } from "../../actions/authActions";
+import { connect } from "react-redux";
 
-const Menu = () => {
+const Menu = (props) => {
   return(
     <div className="menu">
       <ul className="nav">
@@ -21,7 +23,7 @@ const Menu = () => {
           </Link>
         </li>
         <li className="nav-item">
-          <Link className="nav-link" to="/signup">
+          <Link className="nav-link" to="/signup" onClick={()=>props.setSignInStatus(false)}>
             Sign Up
           </Link>
         </li>
@@ -30,4 +32,4 @@ const Menu = () => {
   )
 }
 
-export default withRouter(Menu);
+export default withRouter(connect(null, {setSignInStatus})(Menu));

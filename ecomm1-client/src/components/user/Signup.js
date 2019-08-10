@@ -1,71 +1,53 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Layout from "../layout/Layout";
-import { Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { signUp } from "../../actions/authActions";
 import { connect } from "react-redux";
+import SignupForm from "./SignupForm";
 
 const SignUp = props => {
   const [values, setValues] = useState({
     name: "",
     email: "",
     password: "",
-    test: true
+    redirect: false
   });
 
-  const { name, email, password } = values;
+  const { name, email, password, redirect } = values;
+
+  useEffect(() => {
+    if (props.user.signInStatus) {
+      setTimeout(() => {
+        setValues({ ...values, redirect: true });
+      }, 3000);
+    }
+    if (!props.user.signInStatus) {
+      setTimeout(() => {
+        setValues({ ...values, redirect: false });
+      }, 3000);
+    }
+  }, [props.user.signInStatus]);
+
+  const redirectOnSuccess = () => {
+    if (redirect) {
+      if (props.user.isAdmin) {
+        return <Redirect to="/" />;
+      }
+      if (!props.user.isAdmin) {
+        return <Redirect to="/" />;
+      }
+    }
+  };
 
   const handleChange = name => event => {
     setValues({ ...values, error: false, [name]: event.target.value });
   };
   const handleSubmit = e => {
     e.preventDefault();
-    // console.log(values);
     props.signUp(name, email, password);
   };
 
-  const signupForm = () => {
-    return (
-      <div className="container">
-        <form className="authForm" onSubmit={handleSubmit}>
-          <div className="form-control">
-            <input
-              type="text"
-              name="name"
-              value={name}
-              onChange={handleChange("name")}
-              className="form-field"
-              placeholder="Name"
-            />
-          </div>
-          <div className="form-control">
-            <input
-              type="email"
-              name="email"
-              value={email}
-              onChange={handleChange("email")}
-              className="form-field"
-              placeholder="Email"
-            />
-          </div>
-          <div className="form-control">
-            <input
-              type="password"
-              name="password"
-              value={password}
-              onChange={handleChange("password")}
-              className="form-field"
-              placeholder="Password"
-            />
-          </div>
-          <div className="form-btn">
-            <button className="btn" type="submit">
-              Submit
-            </button>
-          </div>
-        </form>
-      </div>
-    );
-  };
+
   const showSuccess = () => {
     return (
       <div
@@ -73,7 +55,7 @@ const SignUp = props => {
         style={{ display: props.user.userId ? "" : "none" }}
       >
         <div className="success">
-          Account Created, Please <Link to="/signin">Sign In</Link>
+          Account Created, You Have Been Automatically Signed In
         </div>
       </div>
     );
@@ -84,9 +66,7 @@ const SignUp = props => {
         className="container"
         style={{ display: props.user.error ? "" : "none" }}
       >
-        <div className="error">
-        Error {props.user.error} 
-        </div>
+        <div className="error">{props.user.error}</div>
       </div>
     );
   };
@@ -95,12 +75,19 @@ const SignUp = props => {
     <Layout title="Sign Up" description="Please Sign Up To Create An Account">
       {showSuccess()}
       {showError()}
-      {signupForm()}
+      {redirectOnSuccess()}
+      <SignupForm
+        name={name}
+        email={email}
+        password={password}
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+      />
     </Layout>
   );
 };
 const mapStateToProps = state => {
-  console.log("from state", state);
+  console.log("State - Signup Component:", state);
   return {
     user: state.authReducer
   };
