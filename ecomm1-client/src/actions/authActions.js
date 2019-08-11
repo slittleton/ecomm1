@@ -2,7 +2,8 @@ import {
   SIGN_UP_USER,
   SIGN_IN_USER,
   AUTH_ERROR,
-  SET_SIGNIN_STATUS
+  SET_SIGNIN_STATUS,
+  SIGN_OUT_USER
 } from "./actionTypes";
 const API = process.env.REACT_APP_API_URL;
 
@@ -71,5 +72,14 @@ export const signIn = (email, password) => async dispatch => {
     dispatch({ type: SIGN_IN_USER, payload: data.user });
   }
 };
+
+export const signOut = () => async dispatch => {
+  // delete JWT
+    localStorage.removeItem('jwt')
+
+  // clear user info from redux store 
+  dispatch({ type: SIGN_OUT_USER });
+};
+
 export const authenticate = async dispatch => () => {};
 export const isAuthenticated = async dispatch => () => {};

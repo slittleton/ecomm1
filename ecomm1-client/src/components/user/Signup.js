@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../layout/Layout";
 import { Redirect } from "react-router-dom";
-import { signUp } from "../../actions/authActions";
+import { signUp, setSignInStatus } from "../../actions/authActions";
 import { connect } from "react-redux";
 import SignupForm from "./SignupForm";
 
@@ -16,6 +16,7 @@ const SignUp = props => {
   const { name, email, password, redirect } = values;
 
   useEffect(() => {
+
     if(redirect){
       setValues({ ...values, redirect: false });
     }
@@ -51,7 +52,7 @@ const SignUp = props => {
     return (
       <div
         className="container"
-        style={{ display: props.user.signInStatus ? "" : "none" }}
+        style={{ display: redirect ? "" : "none" }}
       >
         <div className="success">
           Account Created, You Have Been Automatically Signed In
@@ -94,5 +95,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { signUp }
+  { signUp, setSignInStatus }
 )(SignUp);
