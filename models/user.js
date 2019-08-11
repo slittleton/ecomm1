@@ -47,7 +47,13 @@ function validateUser(user) {
   }
   return Joi.validate(user, schema)
 }
-
+function validateSignIn(user){
+  const schema = {
+    email: Joi.string().email().min(7).max(50).required(),
+    password: Joi.string().min(1).max(50).required()
+  }
+  return Joi.validate(user, schema)
+}
 
 userSchema.methods.generateAuthToken = function() {
   const token = jwt.sign(
@@ -69,3 +75,4 @@ userSchema.statics.hashPassword = async function(password) {
 
 exports.User = mongoose.model("User", userSchema);
 exports.validateUser = validateUser;
+exports.validateSignIn = validateSignIn;

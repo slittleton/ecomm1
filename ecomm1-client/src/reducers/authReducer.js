@@ -1,45 +1,53 @@
-import {SIGN_UP_USER, SIGN_IN_USER, AUTH_ERROR, SET_SIGNIN_STATUS} from '../actions/actionTypes';
+import {
+  SIGN_UP_USER,
+  SIGN_IN_USER,
+  AUTH_ERROR,
+  SET_SIGNIN_STATUS
+} from "../actions/actionTypes";
 
 const INITIAL_STATE = {
   signInStatus: false,
   isAdmin: false,
   userId: null,
+  userEmail: null,
   userName: null,
   userAddress: null,
   error: null
 };
+let user = null;
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case SIGN_UP_USER:
-      const user = action.payload
+      user = action.payload;
       return {
         ...state,
         isAdmin: user.isAdmin,
         userId: user._id,
         userName: user.name,
-        signInStatus: true,
+        userEmail: user.email,
+        signInStatus: true
       };
-      case AUTH_ERROR:
-        return{
-          ...state,
-          error: action.payload,
-          signInStatus: false,
-        }
-    case SIGN_IN_USER:
+    case AUTH_ERROR:
       return {
         ...state,
-        signInStatus: true,
-        isAdmin: action.payload.isAdmin,
-        userId: action.payload.userId,
-        userName: action.payload.userName,
+        error: action.payload,
       };
-      case SET_SIGNIN_STATUS:
-        console.log(action.payload)
-        return {
-          ...state,
-          signInStatus: false,
-        }
+    case SIGN_IN_USER:
+      user = action.payload;
+      return {
+        ...state,
+        isAdmin: user.isAdmin,
+        userId: user._id,
+        userName: user.name,
+        userEmail: user.email,
+        signInStatus: true
+      };
+    case SET_SIGNIN_STATUS:
+      return {
+        ...state,
+        signInStatus: action.payload
+      };
     default:
       return state;
   }

@@ -1,13 +1,13 @@
-const {User, validateUser} = require("../models/user");
+const { User, validateUser, validateSignIn } = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 // SIGN UP ============================================
 
 exports.signUp = async (req, res, next) => {
-  const {error} = validateUser(req.body);
-  if(error){
-    return res.status(400).json({error: error.details[0].message})
+  const { error } = validateUser(req.body);
+  if (error) {
+    return res.status(400).json({ error: error.details[0].message });
   }
   let user = await new User(req.body);
   //hash password and save to database
@@ -23,17 +23,28 @@ exports.signUp = async (req, res, next) => {
 
 // SIGN IN ============================================
 exports.signIn = async (req, res, next) => {
+  const { error } = validateSignIn(req.body);
+  if (error) {
+    return res.status(400).json({ error: error.details[0].message });
+  }
+
   const { email, password } = req.body;
-  User.findOne({ email }, async (err, user) => {
-    if (err) return res.status(400).json({ error: "user not found" });
+
+  await User.findOne({ email }, async (err, user) => {
+    if (err || !user) {
+      return res.status(400).json({
+        error: "User with that email does not exist. Please signup"
+      });
+    }
 
     const validPassword = await bcrypt.compare(password, user.password);
+    console.log(validPassword);
     if (!validPassword) {
-      return res.status(400).send("Invalid email or password.");
+      return res.status(400).json({error: "Invalid email or password."});
     }
     user.password = undefined;
 
-    //generate jwt
+    // generate jwt
     const token = await user.generateAuthToken();
     return res.json({ user, token });
   });

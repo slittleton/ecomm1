@@ -16,14 +16,13 @@ const SignUp = props => {
   const { name, email, password, redirect } = values;
 
   useEffect(() => {
+    if(redirect){
+      setValues({ ...values, redirect: false });
+    }
+
     if (props.user.signInStatus) {
       setTimeout(() => {
         setValues({ ...values, redirect: true });
-      }, 3000);
-    }
-    if (!props.user.signInStatus) {
-      setTimeout(() => {
-        setValues({ ...values, redirect: false });
       }, 3000);
     }
   }, [props.user.signInStatus]);
@@ -52,7 +51,7 @@ const SignUp = props => {
     return (
       <div
         className="container"
-        style={{ display: props.user.userId ? "" : "none" }}
+        style={{ display: props.user.signInStatus ? "" : "none" }}
       >
         <div className="success">
           Account Created, You Have Been Automatically Signed In

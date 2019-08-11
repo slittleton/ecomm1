@@ -1,85 +1,89 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Layout from "../layout/Layout";
 import { Redirect } from "react-router-dom";
-import {
-  signIn,
-  authenticate,
-  isAuthenticated
-} from "../../actions/authActions";
+import { signIn,setErrorStatus } from "../../actions/authActions";
 import { connect } from "react-redux";
 import SigninForm from "./SigninForm";
 
 const Signin = props => {
   const [values, setValues] = useState({
-    email: "",
-    password: "",
-    error: "",
-    loading: false,
-    redir: false
+    email: "admin@email.com",
+    password: "password",
+    redirect: false
   });
-  const { email, password, error, loading, redir } = values;
 
-  const handleChange = name => e => {
-    setValues({ ...values, error: false, [name]: e.target.value });
-  };
-  const handleSubmit = async e => {
-    e.preventDefault();
+  const { email, password, redirect } = values;
 
-    await signIn(email, password);
-  };
+  useEffect(() => {
 
-  const onSignInSuccess = () => {
-    if (redir) {
+    if (redirect) {
+      setValues({ ...values, redirect: false });
+    }
+
+    if (props.user.signInStatus) {
+      setTimeout(() => {
+        setValues({ ...values, redirect: true });
+      }, 3000);
+    }
+  }, [props.user.signInStatus]);
+
+  const redirectOnSuccess = () => {
+    if (redirect) {
       if (props.user.isAdmin) {
-        return <Redirect to="/admin/dash" />;
-      } else {
-        return <Redirect to="/user/dash" />;
+        return <Redirect to="/" />;
+      }
+      if (!props.user.isAdmin) {
+        return <Redirect to="/" />;
       }
     }
   };
 
-  // const signinForm = () => {
-  //   return (
-  //     <div className="container">
-  //       <form className="authForm" onSubmit={handleSubmit}>
-  //         <div className="form-control">
-  //           <input
-  //             type="email"
-  //             name="email"
-  //             value={email}
-  //             onChange={handleChange("email")}
-  //             className="form-field"
-  //             placeholder="Email"
-  //           />
-  //         </div>
-  //         <div className="form-control">
-  //           <input
-  //             type="password"
-  //             name="password"
-  //             value={password}
-  //             onChange={handleChange("password")}
-  //             className="form-field"
-  //             placeholder="Password"
-  //           />
-  //         </div>
-  //         <div className="form-btn">
-  //           <button className="btn">Submit</button>
-  //         </div>
-  //       </form>
-  //     </div>
-  //   );
-  // };
+  const handleChange = name => e => {
+    setValues({ ...values, [name]: e.target.value });
+
+    if(props.user.error){props.setErrorStatus(false);};
+  };
+  const handleSubmit = async e => {
+    e.preventDefault();
+    await props.signIn(email, password);
+  };
+
+  const showSuccess = () => {
+    return (
+      <div
+        className="container"
+        style={{ display: props.user.signInStatus ? "" : "none" }}
+      >
+        <div className="success">
+          Success, You Have Been Signed In
+        </div>
+      </div>
+    );
+  };
+  const showError = () => {
+    return (
+      <div
+        className="container"
+        style={{ display: props.user.error ? "" : "none" }}
+      >
+        <div className="error">{props.user.error}</div>
+      </div>
+    );
+  };
+
+
 
   return (
     <Layout title="Sign In" description="Please Sign In To Your Account">
-      {/* {signinForm()} */}
+      {showSuccess()}
+      {showError()}
       <SigninForm
         email={email}
         password={password}
         handleChange={handleChange}
         handleSubmit={handleSubmit}
       />
-      {onSignInSuccess()}
+      {redirectOnSuccess()}
     </Layout>
   );
 };
@@ -92,5 +96,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  {}
+  { signIn, setErrorStatus }
 )(Signin);

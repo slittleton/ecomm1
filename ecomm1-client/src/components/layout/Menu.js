@@ -18,12 +18,12 @@ const Menu = (props) => {
           </Link>
         </li>
         <li className="nav-item">
-          <Link className="nav-link" to="/signin">
+          <Link className="nav-link" to="/signin" onClick={ ()=> props.setSignInStatus(false)}>
             Sign In
           </Link>
         </li>
         <li className="nav-item">
-          <Link className="nav-link" to="/signup" onClick={()=>props.setSignInStatus(false)}>
+          <Link className="nav-link" to="/signup" onClick={ ()=> props.setSignInStatus(false)}>
             Sign Up
           </Link>
         </li>
