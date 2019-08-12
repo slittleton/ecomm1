@@ -11,6 +11,7 @@ const userRoutes = require("./routes/user");
 const productRoutes = require("./routes/product");
 const categoryRoutes = require("./routes/category");
 const oderRoutes = require("./routes/order");
+const messageRoutes = require('./routes/message');
 const addCorsHeaders = require("./customMiddleware/addCorsHeaders");
 
 const error = require("./customMiddleware/error");
@@ -45,6 +46,7 @@ app.use("/api", userRoutes);
 app.use("/api", productRoutes);
 app.use("/api", categoryRoutes);
 app.use("/api", oderRoutes);
+app.use("/api", messageRoutes);
 
 // error handling middleware make sure to put it at bottom of middlewares
 app.use(error);
