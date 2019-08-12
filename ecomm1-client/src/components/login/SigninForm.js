@@ -1,8 +1,6 @@
 import React from 'react';
 
-
-const SigninForm = ({ email, password, handleChange, handleSubmit}) => {
-
+const SigninForm = ({ email, password, handleChange, handleSubmit }) => {
   return (
     <div className="container">
       <form className="authForm" onSubmit={handleSubmit}>

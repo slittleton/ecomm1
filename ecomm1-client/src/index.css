@@ -10,6 +10,12 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   margin: 0;
 }
+/* GENERAL PURPOSE ==================================================== */
+.container {
+  justify-content: center;
+  display: flex;
+}
+
 /* MENU ==================================================== */
 .menu {
   margin-top: 1rem;
@@ -45,7 +51,7 @@ body {
 }
 /* LAYOUT ==================================================== */
 
-.page-heading-container{
+.page-heading-container {
   margin: 1rem 0 1rem 0;
   /* border: 1px solid white; */
   padding: 2rem;
@@ -57,50 +63,47 @@ body {
 }
 .page-description {
   font-size: 1.5rem;
-  margin-top: .5rem;
+  margin-top: 0.5rem;
 }
 /* FORMS ==================================================== */
-.container{
-  justify-content: center;
-  display: flex
-}
-.authForm{
+
+.authForm {
   justify-content: center;
   background-size: cover;
   border: 1px solid rgb(184, 184, 184);
   margin: 1rem;
   padding: 1rem;
-  border-radius: .5rem;
-  width: 20rem
+  border-radius: 0.5rem;
+  width: 20rem;
 }
-.form-control{
+.form-control {
   justify-content: center;
   display: flex;
   margin: 1rem;
   border: 1px solid rgb(184, 184, 184);
-  border-radius: .5rem;
+  border-radius: 0.5rem;
 }
-.form-field{
+.form-field {
   border: none;
   font-size: 1.25rem;
-  border-radius: .5rem;
-  padding:.5rem;
-  background-color: rgba(0,0,0,0);
-  color: white
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  background-color: rgba(0, 0, 0, 0);
+  color: white;
 }
-.form-field::placeholder{
+.form-field::placeholder {
   background-color: black;
   color: rgb(184, 184, 184);
   text-align: center;
 }
-.form-btn{
+.form-btn {
   text-align: center;
 }
 .btn {
   font-family: Arial, Helvetica, sans-serif;
   color: rgb(184, 184, 184);
   background-color: black;
-  border-radius: .5rem;
+  border-radius: 0.5rem;
   font-size: 1.25rem;
 }
 
@@ -110,19 +113,20 @@ body {
   border: 1px solid rgb(130, 211, 130);
   width: 20rem;
   padding: 1rem;
-  border-radius: .5rem;
+  border-radius: 0.5rem;
   color: rgb(130, 211, 130);
 }
 .success a {
   color: rgb(0, 204, 204);
-  font-weight: bold
+  font-weight: bold;
 }
 .error {
   text-align: center;
   border: 1px solid red;
   width: 20rem;
   padding: 1rem;
-  border-radius: .5rem;
+  border-radius: 0.5rem;
   color: red;
-
 }
+
+/* CONTACT STYLING =========================================== */
