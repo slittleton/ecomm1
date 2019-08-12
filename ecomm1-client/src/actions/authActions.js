@@ -13,8 +13,6 @@ const saveToken = token => {
 
 export const signUp = (name, email, password) => async dispatch => {
   let user = { name, email, password };
-  // console.log("USER", user);
-
   let data = await fetch(`${API}/signup`, {
     method: "POST",
     headers: {
@@ -25,7 +23,6 @@ export const signUp = (name, email, password) => async dispatch => {
   });
 
   data = await data.json();
-  console.log("SIGNUP DATA RECEIVED: ", data);
 
   if (data.token) {
     saveToken(data.token);
@@ -48,7 +45,6 @@ export const setErrorStatus = msg => async dispatch => {
 export const signIn = (email, password) => async dispatch => {
   const user = { email, password };
 
-  console.log("USER ACTION", user);
   let data = await fetch(`${API}/signin`, {
     method: "POST",
     headers: {
@@ -59,7 +55,6 @@ export const signIn = (email, password) => async dispatch => {
   });
 
   data = await data.json();
-  console.log("Received Data", data);
 
   if (data.token) {
     saveToken(data.token);
@@ -75,9 +70,9 @@ export const signIn = (email, password) => async dispatch => {
 
 export const signOut = () => async dispatch => {
   // delete JWT
-    localStorage.removeItem('jwt')
+  localStorage.removeItem("jwt");
 
-  // clear user info from redux store 
+  // clear user info from redux store
   dispatch({ type: SIGN_OUT_USER });
 };
 

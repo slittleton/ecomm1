@@ -40,7 +40,7 @@ exports.signIn = async (req, res, next) => {
     const validPassword = await bcrypt.compare(password, user.password);
     console.log(validPassword);
     if (!validPassword) {
-      return res.status(400).json({error: "Invalid email or password."});
+      return res.status(400).json({ error: "Invalid email or password." });
     }
     user.password = undefined;
 
@@ -48,6 +48,7 @@ exports.signIn = async (req, res, next) => {
     const token = await user.generateAuthToken();
     return res.json({ user, token });
   });
+
 };
 
 exports.checkAuth = async (req, res, next) => {
@@ -56,7 +57,6 @@ exports.checkAuth = async (req, res, next) => {
   try {
     const decoded = await jwt.verify(token, process.env.JWT_SECRET);
     if (decoded) {
-      // console.log('AUTH: ', decoded)
       req.auth = decoded;
     } else {
       return res.status(401).send("Unable to verify token");
