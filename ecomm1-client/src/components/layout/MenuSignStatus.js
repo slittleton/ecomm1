@@ -47,7 +47,7 @@ const MenuSignStatus = (props) => {
 };
 
 const mapStateToProps = state => {
-  console.log("MENU STATE", state.authReducer);
+  // console.log("MENU STATE", state.authReducer);
   return { user: state.authReducer };
 };
 

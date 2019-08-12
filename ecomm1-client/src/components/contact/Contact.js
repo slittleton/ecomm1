@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../layout/Layout";
-import { sendMessage } from "../../actions/contactAction";
+import {
+  sendMessage,
+  setMessageError,
+  setMessageData
+} from "../../actions/contactAction";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -9,17 +13,28 @@ const Contact = props => {
     name: "",
     email: "",
     subject: "",
-    messageText: "",
-    redirect: false
+    messageText: ""
   });
 
-  const { name, email, subject, messageText, redirect } = values;
+  const { name, email, subject, messageText } = values;
+
+  useEffect(() => {
+    if (props.contact.messageData) {
+      setTimeout(() => {
+        props.setMessageData(null);
+        setValues({ name: "", email: "", subject: "", messageText: "" });
+      }, 3000);
+    }
+  }, [props.contact.messageData]);
 
   const handleChange = name => e => {
     setValues({ ...values, [name]: e.target.value });
 
-    if (props.user.error) {
-      props.setErrorStatus(false);
+    if (props.contact.error) {
+      props.setMessageError(null);
+    }
+    if (props.contact.messageData) {
+      props.setMessageData(null);
     }
   };
   const handleSubmit = async e => {
@@ -28,13 +43,38 @@ const Contact = props => {
     await props.sendMessage(message);
   };
 
+  const showSuccess = () => {
+    return (
+      <div
+        className="container"
+        style={{ display: props.contact.messageData ? "" : "none" }}
+      >
+        <div className="success">
+          Success, Your message has been sent successfully
+        </div>
+      </div>
+    );
+  };
+  const showError = () => {
+    return (
+      <div
+        className="container"
+        style={{ display: props.contact.error ? "" : "none" }}
+      >
+        <div className="error">{props.contact.error}</div>
+      </div>
+    );
+  };
+
   return (
     <Layout title="Contact" description="Feel free to send us a message">
+      {showSuccess()}
+      {showError()}
       <div className="container">
         <form className="contact-form" onSubmit={handleSubmit}>
           <div className="form-control">
             <input
-              type="name"
+              type="text"
               name="name"
               value={name}
               onChange={handleChange("name")}
@@ -50,6 +90,7 @@ const Contact = props => {
               onChange={handleChange("email")}
               className="form-field"
               placeholder="Email"
+              required
             />
           </div>
           <div className="form-control">
@@ -86,12 +127,13 @@ const Contact = props => {
 };
 
 const mapStateToProps = state => {
+  console.log("contact state: ", state);
   return {
-    user: state.authReducer
+    contact: state.contactReducer
   };
 };
 
 export default connect(
   mapStateToProps,
-  { sendMessage }
+  { sendMessage, setMessageError, setMessageData }
 )(Contact);

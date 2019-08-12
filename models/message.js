@@ -1,36 +1,38 @@
 const mongoose = require('mongoose');
+const Joi = require("@hapi/joi");
 
 const messageSchema = new mongoose.Schema(
   {
     name: {
       type: String,
       trim: true,
-      required, true,
+      required: true,
       maxlength: 50,
     },
     email: {
       type: String,
       trim: true,
-      required, true,
+      required: true,
       maxlength: 50,
     },
     subject: {
       type: String,
       trim: true,
-      required, true,
+      required: true,
       maxlength: 50,
     },
     messageText: {
       type: String,
       trim: true,
-      required, true,
-    },
-  }{timestatmps: true}
-)
+      required: true
+    }
+  },{timestamps: true}
+);
+
 function validateMessage(category) {
   const schema = {
     name: Joi.string()
-      .min(5)
+      .min(1)
       .max(50)
       .required(),
     email: Joi.string()
@@ -38,11 +40,11 @@ function validateMessage(category) {
       .max(50)
       .required(),
     subject: Joi.string()
-      .min(5)
+      .min(1)
       .max(50)
       .required(),
     messageText: Joi.string()
-      .required(),
+      .required()
   };
   return Joi.validate(category, schema);
 }

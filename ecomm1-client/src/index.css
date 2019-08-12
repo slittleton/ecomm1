@@ -99,11 +99,14 @@ body {
   padding: 0.5rem;
   background-color: rgba(0, 0, 0, 0);
   color: white;
+  width: 100%
 }
 .form-field::placeholder {
   background-color: black;
   color: rgb(184, 184, 184);
   text-align: center;
+
+  width: 100%
 }
 .form-btn {
   text-align: center;
