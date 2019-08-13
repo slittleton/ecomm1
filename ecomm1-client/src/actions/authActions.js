@@ -5,11 +5,9 @@ import {
   SET_SIGNIN_STATUS,
   SIGN_OUT_USER
 } from "./actionTypes";
+import {saveToken} from './authMethods';
 const API = process.env.REACT_APP_API_URL;
 
-const saveToken = token => {
-  localStorage.setItem("jwt", JSON.stringify(token));
-};
 
 export const signUp = (name, email, password) => async dispatch => {
   let user = { name, email, password };
@@ -56,8 +54,10 @@ export const signIn = (email, password) => async dispatch => {
 
   data = await data.json();
 
+  console.log("SIGN IN", data);
+
   if (data.token) {
-    saveToken(data.token);
+    saveToken(data);
   }
   if (data.error) {
     dispatch({ type: AUTH_ERROR, payload: data.error });
@@ -75,6 +75,3 @@ export const signOut = () => async dispatch => {
   // clear user info from redux store
   dispatch({ type: SIGN_OUT_USER });
 };
-
-export const authenticate = async dispatch => () => {};
-export const isAuthenticated = async dispatch => () => {};

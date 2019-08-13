@@ -5,7 +5,6 @@ import {
   setMessageError,
   setMessageData
 } from "../../actions/contactAction";
-import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
 const Contact = props => {

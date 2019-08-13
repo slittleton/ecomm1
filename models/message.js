@@ -25,6 +25,10 @@ const messageSchema = new mongoose.Schema(
       type: String,
       trim: true,
       required: true
+    },
+    responded: {
+      type: Boolean,
+      default: false,
     }
   },{timestamps: true}
 );

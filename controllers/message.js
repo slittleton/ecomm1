@@ -12,7 +12,9 @@ exports.messageById = (req, res, callback, id) => {
 
 exports.postMessage = async (req, res) => {
   const { error } = validateMessage(req.body);
-  if (error) { return res.status(400).json({ error: error.details[0].message })};
+  if (error) {
+    return res.status(400).json({ error: error.details[0].message });
+  }
 
   const message = await new Message(req.body);
 
@@ -21,9 +23,7 @@ exports.postMessage = async (req, res) => {
       return res.status(400).json({ error: err });
     }
     res.json(data);
-
   });
-
 };
 
 exports.getMessages = async (req, res) => {
@@ -45,5 +45,18 @@ exports.deleteMessage = async (req, res) => {
       return res.status(400).json({ error: err });
     }
     res.send("message deleted");
+  });
+};
+
+exports.updateMessage = async (req, res) => {
+  let message = req.message;
+
+  message.responded = req.body.responded;
+
+  await message.save((err, data) => {
+    if (err) {
+      return res.status(400).json({ error: err });
+    }
+    res.json(data);
   });
 };

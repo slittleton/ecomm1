@@ -23,7 +23,7 @@ const Signin = props => {
     if (props.user.signInStatus) {
       setTimeout(() => {
         setValues({ ...values, redirect: true });
-      }, 3000);
+      }, 1500);
     }
   }, [props.user.signInStatus]);
 
