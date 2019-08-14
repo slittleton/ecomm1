@@ -31,7 +31,7 @@ body {
 }
 
 .nav-item {
-  background-color: rgba(255, 255, 255,0);
+  background-color: rgba(255, 255, 255, 0);
   padding: 0.5rem;
   list-style-type: none;
   margin-right: 1rem;
@@ -103,14 +103,14 @@ body {
   padding: 0.5rem;
   background-color: rgba(0, 0, 0, 0);
   color: white;
-  width: 100%
+  width: 100%;
 }
 .form-field::placeholder {
   background-color: black;
   color: rgb(184, 184, 184);
   text-align: center;
 
-  width: 100%
+  width: 100%;
 }
 .form-btn {
   text-align: center;
@@ -145,4 +145,82 @@ body {
   color: red;
 }
 
-/* CONTACT STYLING =========================================== */
+/* ADMIN MESSAGES STYLING =========================================== */
+.box {
+}
+
+.messages-container {
+  /* border: 1px solid red; */
+  background-color: rgb(66, 66, 66);
+  display: flex;
+  justify-content: center
+
+}
+.admin-title {
+  text-align: center;
+  padding: 0.5rem;
+}
+.messageslist {
+  /* border: 1px solid rgb(184, 184, 184); */
+  border-radius: .5rem;
+  padding: .5rem;
+  margin: 1rem;
+  background-color: black
+}
+.messages-box {
+  /* border: 1px solid rgb(184, 184, 184); */
+  padding: 1rem;
+  margin: 1rem;
+  border-radius: .5rem;
+  width: 40rem;
+  background-color: black;
+}
+.list-title {
+  font-weight: Bold;
+  margin-bottom: 0.5rem;
+}
+.list-item {
+  display: flex;
+  margin-bottom: 0.5rem;
+}
+.message-num {
+  padding: 0.5rem;
+}
+.message-link {
+  border: 1px solid rgb(184, 184, 184);
+  color: rgb(190, 190, 190);
+  border-radius: .5rem;
+  width: 15rem;
+}
+.message-link:hover {
+  cursor: pointer;
+}
+.selected-message {
+}
+.display-box{
+  margin: 1rem;
+  background-color: black
+}
+.message-view-title{
+  font-size: 1.25rem;
+  font-weight: bold
+}
+.message-text{
+  border-radius:.5rem;
+  padding: 1rem;
+}
+.subject-title {
+  padding:.2rem;
+}
+.display-box{
+
+  padding: .5rem;
+  border-radius: .5rem;
+  border: 1px solid gray;
+}
+.spacer{
+  display: flex;
+  justify-content: space-between;
+  padding:.5rem;
+  margin-top:2rem;
+}

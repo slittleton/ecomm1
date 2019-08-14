@@ -40,23 +40,22 @@ exports.getMessages = async (req, res) => {
 };
 
 exports.deleteMessage = async (req, res) => {
-  req.message.remove((err, deletedmessage) => {
-    if (err) {
-      return res.status(400).json({ error: err });
-    }
-    res.send("message deleted");
-  });
+
+  const message = await Message.findByIdAndRemove(req.params.messageId);
+  if(!message) return res.status(404).json({error: 'Unable To Delete Message'});
+
+  res.json({messageDeleted: 'Message Deleted'});
 };
 
 exports.updateMessage = async (req, res) => {
   let message = req.message;
 
-  message.responded = req.body.responded;
-
+  message.responded = true;
+  
   await message.save((err, data) => {
     if (err) {
       return res.status(400).json({ error: err });
     }
-    res.json(data);
+    res.json({messageStatus: "Archived"});
   });
 };

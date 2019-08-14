@@ -5,8 +5,7 @@ import { connect } from "react-redux";
 
 const AdminRoute = props => {
   const { component: Component, ...rest } = props;
-  console.log("ADMIN ROUTE", props);
-
+  
   const adminTest = () => {
     if (props.user) {
       return props.user.isAdmin;
