@@ -63,7 +63,10 @@ export const updateMessageStatus = (message) => async dispatch => {
 
   console.log(statusUpdate);
   if(statusUpdate.messageStatus){
-    getMessages()
+    dispatch({type: MESSAGE_ARCHIVED, payload: statusUpdate.messageStatus})
+  }
+  if(statusUpdate.error){
+    dispatch({type: MESSAGE_ERROR, payload: statusUpdate.error})
   }
 };
 

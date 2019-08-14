@@ -12,32 +12,47 @@ const AdminMessageDisplay = props => {
 
   const [msgError = null, setMsgError] = useState();
   const [delSuccess = null, setDelSuccess] = useState();
+  const [archiveSuccess = null, setArchiveSuccess] = useState();
 
   useEffect(() => {
-    if (msgError || delSuccess) {
+    if (msgError || delSuccess || archiveSuccess) {
       setMsgError(null);
       setDelSuccess(null);
+      setArchiveSuccess(null);
     }
-    if (props.messageError || props.messageDeleted) {
+    if (props.messageError || props.messageDeleted || props.messageArchived) {
       setTimeout(() => {
         setMsgError(true);
         setDelSuccess(true);
+        setArchiveSuccess(true)
         props.resetMessageStatus(null);
         props.getMessages();
         props.setSelectedMessage(null);
       }, 1500);
     }
-  }, [props.messageError, props.messageDeleted]);
+  }, [props.messageError, props.messageDeleted, props.messageArchived]);
 
   const showSuccess = () => {
-    return (
-      <div
-        className="container"
-        style={{ display: props.messageDeleted ? "" : "none" }}
-      >
-        <div className="success">Message Deleted</div>
-      </div>
-    );
+    if (props.messageDeleted) {
+      return (
+        <div
+          className="container"
+          style={{ display: props.messageDeleted ? "" : "none" }}
+        >
+          <div className="success">{props.messageDeleted}</div>
+        </div>
+      );
+    }
+    if (props.messageArchived) {
+      return (
+        <div
+          className="container"
+          style={{ display: props.messageArchived ? "" : "none" }}
+        >
+          <div className="success">{props.messageArchived}</div>
+        </div>
+      );
+    }
   };
 
   const showError = () => {
@@ -74,7 +89,6 @@ const AdminMessageDisplay = props => {
 };
 
 const mapStateToProps = state => {
-  console.log(state);
   return {
     messageError: state.contactReducer.error,
     messageDeleted: state.contactReducer.messageDeleted,
