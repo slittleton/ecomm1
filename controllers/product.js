@@ -154,7 +154,24 @@ exports.productsList = (req, res) => {
       res.json(products);
     });
 };
+exports.productsList = (req, res) => {
+  const order = req.query.order ? req.query.order : "asc";
+  const sortBy = req.query.sortBy ? req.query.sortBy : "_id";
+  // const limit = req.query.limit ? parseInt(req.query.limit) : 12;
 
+  Product.find()
+    // .select("-photo")
+    .populate("category")
+    .sort([[sortBy, order]])
+    .exec((err, products) => {
+      if (err) {
+        return res.status(400).json({
+          error: "Products not found"
+        });
+      }
+      res.json(products);
+    });
+};
 // SUBTRACT FROM QUANTITY ====================================================
 exports.decreaseQuantity = (req, res, callback) => {
   let bulkOps = req.body.order.products.map(item => {

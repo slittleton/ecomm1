@@ -13,3 +13,6 @@ export const MESSAGE_SUCCESS = 'MESSAGE_SUCCESS';
 export const MESSAGES_BUNDLE = 'MESSAGES_BUNDLE';
 export const MESSAGE_DELETED = 'MESSAGE_DELETED';
 export const MESSAGE_ARCHIVED = 'MESSAGE_ARCHIVED';
+
+// PRODUCT ACTION TYPES ==================================
+export const SET_PRODUCTS_BUNDLE = 'SET_PRODUCTS_BUNDLE';

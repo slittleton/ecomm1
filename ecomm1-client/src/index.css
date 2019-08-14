@@ -150,28 +150,24 @@ body {
 }
 
 .messages-container {
-  /* border: 1px solid red; */
-  background-color: rgb(66, 66, 66);
+  background-color: rgb(36, 36, 36);
   display: flex;
-  justify-content: center
-
+  justify-content: center;
 }
 .admin-title {
   text-align: center;
   padding: 0.5rem;
 }
 .messageslist {
-  /* border: 1px solid rgb(184, 184, 184); */
-  border-radius: .5rem;
-  padding: .5rem;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
   margin: 1rem;
-  background-color: black
+  background-color: black;
 }
 .messages-box {
-  /* border: 1px solid rgb(184, 184, 184); */
   padding: 1rem;
   margin: 1rem;
-  border-radius: .5rem;
+  border-radius: 0.5rem;
   width: 40rem;
   background-color: black;
 }
@@ -189,7 +185,7 @@ body {
 .message-link {
   border: 1px solid rgb(184, 184, 184);
   color: rgb(190, 190, 190);
-  border-radius: .5rem;
+  border-radius: 0.5rem;
   width: 15rem;
 }
 .message-link:hover {
@@ -197,30 +193,29 @@ body {
 }
 .selected-message {
 }
-.display-box{
+.display-box {
   margin: 1rem;
-  background-color: black
+  background-color: black;
 }
-.message-view-title{
+.message-view-title {
   font-size: 1.25rem;
-  font-weight: bold
+  font-weight: bold;
 }
-.message-text{
-  border-radius:.5rem;
+.message-text {
+  border-radius: 0.5rem;
   padding: 1rem;
 }
 .subject-title {
-  padding:.2rem;
+  padding: 0.2rem;
 }
-.display-box{
-
-  padding: .5rem;
-  border-radius: .5rem;
+.display-box {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
   border: 1px solid gray;
 }
-.spacer{
+.spacer {
   display: flex;
   justify-content: space-between;
-  padding:.5rem;
-  margin-top:2rem;
+  padding: 0.5rem;
+  margin-top: 2rem;
 }

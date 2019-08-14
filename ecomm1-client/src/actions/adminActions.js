@@ -19,7 +19,6 @@ export const getMessages = () => async dispatch => {
   }
 };
 export const deleteMessage = (id) => async dispatch => {
-  console.log(id)
   let token = authToken().token;
   try {
     let data = await fetch(`${API}/message/delete/${id}`, {
@@ -48,7 +47,6 @@ export const resetMessageStatus = (val) => async dispatch => {
 
 export const updateMessageStatus = (message) => async dispatch => {
   let token = authToken().token;
-  console.log(message)
 
   let statusUpdate = await fetch(`${API}/message/update/${message}`,{
     method: "PUT",
@@ -61,7 +59,6 @@ export const updateMessageStatus = (message) => async dispatch => {
   })
   statusUpdate = await statusUpdate.json()
 
-  console.log(statusUpdate);
   if(statusUpdate.messageStatus){
     dispatch({type: MESSAGE_ARCHIVED, payload: statusUpdate.messageStatus})
   }
@@ -70,7 +67,7 @@ export const updateMessageStatus = (message) => async dispatch => {
   }
 };
 
-export const getProducts = () => async dispatch => {};
+
 
 export const getOrders = () => async dispatch => {};
 
