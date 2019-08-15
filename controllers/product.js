@@ -160,7 +160,7 @@ exports.productsList = (req, res) => {
   // const limit = req.query.limit ? parseInt(req.query.limit) : 12;
 
   Product.find()
-    // .select("-photo")
+    .select("-photo")
     .populate("category")
     .sort([[sortBy, order]])
     .exec((err, products) => {

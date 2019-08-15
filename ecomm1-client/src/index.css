@@ -219,3 +219,58 @@ body {
   padding: 0.5rem;
   margin-top: 2rem;
 }
+
+/* PRODUCTS HOME ================================================ */
+.grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.grid-item {
+  border: 1px solid gray;
+  border-radius: .5rem;
+  margin: .5rem;
+  padding: 1rem;
+}
+.products-container{
+  display: flex;
+  justify-content: center;
+  border: 1px solid gray
+}
+.products{
+  display: flex;
+  margin: 1rem;
+  border: 1px solid gray;
+  padding: 1rem;
+}
+.product-filter{
+  justify-content: left;
+  border: 1px solid gray;
+  padding: 1rem;
+  border-radius: .5rem;
+}
+
+/* SEARCH BOX ===================================================== */
+.searchbox-container{
+  display: flex;
+  vertical-align: center;
+  align-items: center;
+  justify-content: center;
+  /* border: 1px solid red;; */
+}
+.search-form-field {
+
+  font-size: 1.25rem;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  background-color: rgba(0, 0, 0, 0);
+  color: white;
+  width: 100%;
+}
+.search-form-control{
+  justify-content: center;
+  display: flex;
+  margin: 1rem;
+  border: 1px solid rgb(184, 184, 184);
+  border-radius: 0.5rem;
+  width: 75%;
+}

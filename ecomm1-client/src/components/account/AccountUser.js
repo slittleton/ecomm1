@@ -5,8 +5,8 @@ import Layout from '../layout/Layout';
 
 const AccountUser = (props) => {
 
-  const { user: {_id, name, email, isAdmin }} = authToken();
-  const token = authToken().token
+  // const { user: {_id, name, email, isAdmin }} = authToken();
+  // const token = authToken().token
 
 
 
