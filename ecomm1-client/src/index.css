@@ -15,6 +15,10 @@ body {
   justify-content: center;
   display: flex;
 }
+.subtitle {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
 
 /* MENU ==================================================== */
 .menu {
@@ -226,7 +230,7 @@ body {
   grid-template-columns: 1fr 1fr 1fr;
 }
 .grid-item {
-  border: 1px solid gray;
+  /* border: 1px solid gray; */
   border-radius: .5rem;
   margin: .5rem;
   padding: 1rem;
@@ -273,4 +277,31 @@ body {
   border: 1px solid rgb(184, 184, 184);
   border-radius: 0.5rem;
   width: 75%;
+}
+
+/* CHECKBOX  */
+.product-filter{
+  margin:1
+}
+.checkbox-area {
+ margin: .5rem;
+}
+
+/* PHOTO STYLING =================================================== */
+.img-small {
+  height: 100px;
+  width: 100px
+}
+.img-large {
+  height: 300px;
+  width: 300px
+}
+.grid-item-text {
+  justify-content: center;
+  text-align: center;
+  padding: .3rem;
+  color: rgb(184, 184, 184);
+}
+.category-check {
+  list-style: none;
 }

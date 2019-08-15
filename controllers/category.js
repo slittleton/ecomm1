@@ -13,3 +13,16 @@ exports.createCategory = async (req, res) => {
     res.json(data);
   });
 };
+
+exports.getCategories = async( req, res) => {
+  Category.find()
+  .sort()
+  .exec((err, categories) => {
+    if (err) {
+      return res.status(400).json({
+        error: "categories not found"
+      });
+    }
+    res.json(categories);
+  });
+}

@@ -1,26 +1,59 @@
-import React, { useState } from "react";
+import React, { useState, Fragment, useEffect } from "react";
+import {
+  searchForProducts,
+  resetSearchStatus
+} from "../../actions/productActions";
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 
-const ProductSearch = () => {
-  const [searchTerm, setSearchTerm] = useState('');
+const ProductSearch = props => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchSuccess, setSearchSuccess] = useState(false);
+  const [searchFailure, setSearchFailure] = useState(false);
+
+  useEffect(() => {
+    setSearchFailure(false);
+    setSearchSuccess(false);
+
+    if (props.error) {
+      setSearchFailure(true);
+    }
+    if (props.searchSuccess) {
+      setSearchSuccess(true);
+    }
+  }, [props.error, props.searchSuccess]);
 
   const handleChange = name => e => {
     setSearchTerm(e.target.value);
-    console.log(searchTerm);
-
-    // if (props.contact.error) {
-    //   props.setMessageError(null);
-    // }
-    // if (props.contact.messageData) {
-    //   props.setMessageData(null);
-    // }
   };
   const handleSubmit = async e => {
     e.preventDefault();
-    console.log(searchTerm)
+    props.searchForProducts(searchTerm);
+  };
+
+  const navOnResult = () => {
+    if (searchSuccess) {
+      props.resetSearchStatus("success");
+      return <Redirect to="/searchresults" />;
+    }
+    if (searchFailure) {
+      setTimeout(() => {
+        props.resetSearchStatus("error");
+        return <Redirect to="/" />;
+      }, 1500);
+    }
+  };
+
+  const showError = () => {
+    return (
+      <div className="container" style={{ display: props.error ? "" : "none" }}>
+        <div className="error">{props.error}</div>
+      </div>
+    );
   };
 
   return (
-
+    <Fragment>
       <form className="searchbox-container" onSubmit={handleSubmit}>
         <div className="search-form-control">
           <input
@@ -32,14 +65,26 @@ const ProductSearch = () => {
             placeholder="Search For Products"
           />
         </div>
-
         <div className="search-btn">
           <button className="btn" type="submit">
             Search
           </button>
         </div>
       </form>
-
+      {showError()}
+      {navOnResult()}
+    </Fragment>
   );
 };
-export default ProductSearch;
+const mapStateToProps = state => {
+  return {
+    searchResults: state.productReducer.searchResults,
+    searchSuccess: state.productReducer.searchSuccess,
+    error: state.productReducer.error
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  { searchForProducts, resetSearchStatus }
+)(ProductSearch);

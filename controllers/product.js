@@ -1,6 +1,7 @@
 const { Product, validateProduct } = require("../models/product");
 const formidable = require("formidable");
 const fs = require("fs");
+const queryString = require('query-string')
 
 exports.productById = (req, res, callback, id) => {
   Product.findById(id)
@@ -116,23 +117,27 @@ exports.updateProduct = (req, res) => {
 
 // SEARCH PRODUCTS ============================================================
 exports.productsSearch = (req, res) => {
-  const query = {};
+  console.log(req.query.search);
+  let query = {}
 
   if (req.query.search) {
-    // search item titles
     query.name = { $regex: req.query.search, $options: "i" };
-  }
-  if (req.query.category && req.query.category !== "ALL") {
-    //search by category
-    query.category = req.query.category;
-  }
-
-  Product.find(query, (err, products) => {
-    if (err) {
-      return res.status(400).json({ error: err });
+    // assigne category value to query.category
+    if (req.query.category && req.query.category != "All") {
+      query.category = req.query.category;
     }
-    res.json(products);
-  }).select("-photo"); // do not send photo, use productPhoto() to get photo
+    // find the product based on query object with 2 properties
+    // search and category
+    Product.find(query, (err, products) => {
+      if (err) {
+        return res.status(400).json({
+          error: errorHandler(err)
+        });
+      }
+
+      res.json({products: products});
+    }).select("-photo");
+  }
 };
 
 // GET PRODUCTS ================================================================
@@ -154,24 +159,7 @@ exports.productsList = (req, res) => {
       res.json(products);
     });
 };
-exports.productsList = (req, res) => {
-  const order = req.query.order ? req.query.order : "asc";
-  const sortBy = req.query.sortBy ? req.query.sortBy : "_id";
-  // const limit = req.query.limit ? parseInt(req.query.limit) : 12;
 
-  Product.find()
-    .select("-photo")
-    .populate("category")
-    .sort([[sortBy, order]])
-    .exec((err, products) => {
-      if (err) {
-        return res.status(400).json({
-          error: "Products not found"
-        });
-      }
-      res.json(products);
-    });
-};
 // SUBTRACT FROM QUANTITY ====================================================
 exports.decreaseQuantity = (req, res, callback) => {
   let bulkOps = req.body.order.products.map(item => {

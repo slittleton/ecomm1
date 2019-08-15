@@ -8,6 +8,7 @@ import Home from "./components/home/Home";
 import Signin from "./components/login/Signin";
 import Signup from "./components/login/Signup";
 import Contact from "./components/contact/Contact";
+import SearchResults from "./components/product/SearchResults";
 import AccountAdmin from "./components/account/AccountAdmin";
 import AdminProducts from "./components/account/AdminProducts";
 import AdminCreate from "./components/account/AdminCreate";
@@ -23,6 +24,7 @@ function App() {
         <Route path="/signin" exact component={Signin} />
         <Route path="/signup" exact component={Signup} />
         <Route path="/contact" exact component={Contact} />
+        <Route path="/searchresults" exact component={SearchResults} />
 
         <PrivateRoute path="/account/user" exact component={AccountUser}/>
         <AdminRoute path="/account/admin" exact component={AccountAdmin}/>
