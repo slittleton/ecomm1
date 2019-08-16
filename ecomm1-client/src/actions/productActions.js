@@ -34,6 +34,8 @@ export const getCategories = () => async dispatch => {
 
 export const searchForProducts = (searchParam) => async dispatch => {
 
+
+
   const query = queryString.stringify({search:searchParam})
   console.log('QUERY', query);
 

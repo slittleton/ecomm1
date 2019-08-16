@@ -1,54 +1,43 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { getProducts, getCategories } from "../../actions/productActions";
 import Layout from "../layout/Layout";
 import ProductsGrid from "../product/ProductsGrid";
 import ProductSearch from "../product/ProductSearch";
+import CategorySideFilter from "../product/CategorySideFilter";
 
 const Home = props => {
-  const [filtered, setfiltered] = useState([]);
-  const [selectedCategories, setselectedCategories] = useState("");
-  const [priceRange, setPriceRange] = useState("");
+  const [filteredByCategory, setFilteredByCategory] = useState([]);
 
   useEffect(() => {
     props.getProducts();
     props.getCategories();
-  }, []);
+  }, [filteredByCategory]);
 
-  const defaultProducts = () =>
-    props.products ? (
-      <div className="product-grid">
-        {<ProductsGrid products={props.products} />}
-      </div>
-    ) : (
-      <div className="loading">LOADING...</div>
-    );
+  const viewProducts = () => {
+    if (filteredByCategory.length>0) {
+      return (
+        <div className="product-grid">
+          {<ProductsGrid products={filteredByCategory} />}
+        </div>
+      );
+    } else if(props.products){
+      return (
+        <div className="product-grid">
+          {<ProductsGrid products={props.products} />}
+        </div>
+      );
+    }
+    else {
+      return <div className="loading">LOADING...</div>;
+    }
+  }
 
-  const sideFilter = () => {
-    console.log("CATEGORIES", props.categories);
-    return (
-      <div className="product-filter">
-        <div className="subtitle">Refine By Category</div>
-        {props.categories
-          ? props.categories.map((category, index) => {
-              return (
-                <li key={category._id} className="list-item checkbox-area">
-                  <input
-                    type="checkBox"
-                    className="category-check"
-                    // value=""
-                    onChange={() => {}}
-                  />
-                  <label>{category.name}</label>
-                </li>
-              );
-            })
-          : null}
-      </div>
-    );
+  const sendCheckedList = list => {
+    let newList = props.products.filter(
+      (product) => list.includes(product.category._id))
+      setFilteredByCategory(newList)
   };
-
-  const filterProducts = () => {};
 
   return (
     <div className="home">
@@ -56,8 +45,11 @@ const Home = props => {
         <ProductSearch />
         <div className="products-container">
           <div className="products">
-            {sideFilter()}
-            {defaultProducts()}
+            <CategorySideFilter
+              categories={props.categories}
+              sendCheckedList={sendCheckedList}
+            />
+            {viewProducts()}
           </div>
         </div>
       </Layout>
