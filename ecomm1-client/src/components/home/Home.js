@@ -5,38 +5,82 @@ import Layout from "../layout/Layout";
 import ProductsGrid from "../product/ProductsGrid";
 import ProductSearch from "../product/ProductSearch";
 import CategorySideFilter from "../product/CategorySideFilter";
+import PriceRangeSideFilter from "../product/PriceRangeSideFilter";
 
 const Home = props => {
+  const [filtered, setFiltered] = useState([]);
   const [filteredByCategory, setFilteredByCategory] = useState([]);
+  const [priceRange, setPriceRange] = useState({});
 
   useEffect(() => {
     props.getProducts();
     props.getCategories();
   }, [filteredByCategory]);
 
+  // const viewProducts = () => {
+  //   if (filteredByCategory.length > 0) {
+  //     return (
+  //       <div className="product-grid">
+  //         {<ProductsGrid products={filteredByCategory} />}
+  //       </div>
+  //     );
+  //   } else if (props.products) {
+  //     return (
+  //       <div className="product-grid">
+  //         {<ProductsGrid products={props.products} />}
+  //       </div>
+  //     );
+  //   } else {
+  //     return <div className="loading">LOADING...</div>;
+  //   }
+  // };
   const viewProducts = () => {
-    if (filteredByCategory.length>0) {
+    if (filtered.length > 0) {
       return (
         <div className="product-grid">
-          {<ProductsGrid products={filteredByCategory} />}
+          {<ProductsGrid products={filtered} />}
         </div>
       );
-    } else if(props.products){
+    } else if (props.products) {
       return (
         <div className="product-grid">
           {<ProductsGrid products={props.products} />}
         </div>
       );
-    }
-    else {
+    } else {
       return <div className="loading">LOADING...</div>;
     }
-  }
+  };
+
+  const filterProducts = (prices, cats) => {
+    let results;
+
+    if (prices.minRange && prices.maxRange && cats.length > 0) {
+      // combine filters 
+    }
+    if (prices.minRange && prices.maxRange) {
+      // filter by price
+    }
+    if (cats.length > 0) {
+      // filter by categories
+    }
+
+    setFiltered(results);
+  };
 
   const sendCheckedList = list => {
-    let newList = props.products.filter(
-      (product) => list.includes(product.category._id))
-      setFilteredByCategory(newList)
+    let newList = props.products.filter(product =>
+      list.includes(product.category._id)
+    );
+    setFilteredByCategory(newList);
+    filterProducts(priceRange, newList);
+  };
+  const sendPriceRange = range => {
+    range.minRange = parseInt(range.minRange);
+    range.maxRange = parseInt(range.maxRange);
+    setPriceRange(range);
+
+    filterProducts({ range, filteredByCategory });
   };
 
   return (
@@ -45,10 +89,15 @@ const Home = props => {
         <ProductSearch />
         <div className="products-container">
           <div className="products">
-            <CategorySideFilter
-              categories={props.categories}
-              sendCheckedList={sendCheckedList}
-            />
+            <div className="sidebar">
+              <CategorySideFilter
+                categories={props.categories}
+                sendCheckedList={sendCheckedList}
+              />
+              <PriceRangeSideFilter sendPriceRange={sendPriceRange} />
+            </div>
+            <div>{JSON.stringify(filtered)}</div>
+
             {viewProducts()}
           </div>
         </div>
@@ -57,7 +106,7 @@ const Home = props => {
   );
 };
 const mapstateToProps = state => {
-  console.log(state);
+  console.log("STATE HOME", state);
   return {
     products: state.productReducer.productsBundle,
     categories: state.productReducer.categories

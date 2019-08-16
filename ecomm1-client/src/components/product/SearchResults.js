@@ -5,41 +5,51 @@ import Layout from "../layout/Layout";
 import ProductsGrid from "./ProductsGrid";
 import ProductSearch from "./ProductSearch";
 import CategorySideFilter from "../product/CategorySideFilter";
+import PriceRangeSideFilter from "../product/PriceRangeSideFilter";
 
 const SearchResults = props => {
-  const [filtered, setfiltered] = useState([]);
+  const [filtered, setFiltered] = useState({
+    categoryFilters: [],
+    priceFilters: {}
+  });
   const [filteredByCategory, setFilteredByCategory] = useState([]);
-  // const [selectedCategories, setselectedCategories] = useState('');
-  // const [priceRange, setPriceRange] = useState('');
+  const [priceRange, setPriceRange] = useState([]);
 
   useEffect(() => {
     props.getCategories();
   }, [filteredByCategory]);
 
   const searchedForProducts = () => {
-    if (filteredByCategory.length>0) {
+    if (filteredByCategory.length > 0) {
       return (
         <div className="product-grid">
           {<ProductsGrid products={filteredByCategory} />}
         </div>
       );
-    } else if(props.searchResults){
+    } else if (props.searchResults) {
       return (
         <div className="product-grid">
           {<ProductsGrid products={props.searchResults} />}
         </div>
       );
-    }
-    else {
+    } else {
       return <div className="loading">Please Retry Search</div>;
     }
-  }
+  };
 
   const sendCheckedList = list => {
     let newList = props.searchResults.filter(product =>
       list.includes(product.category)
     );
     setFilteredByCategory(newList);
+  };
+
+
+  const sendPriceRange = range => {
+    range.minRange = parseInt(range.minRange);
+    range.maxRange = parseInt(range.maxRange);
+    setPriceRange(range);
+    setFiltered();
   };
 
   return (
@@ -51,11 +61,16 @@ const SearchResults = props => {
         <ProductSearch />
         <div className="products-container">
           <div className="products">
-            {/* {sideFilter()} */}
-            <CategorySideFilter
-              categories={props.categories}
-              sendCheckedList={sendCheckedList}
-            />
+            <div className="sidebar">
+              <CategorySideFilter
+                categories={props.categories}
+                sendCheckedList={sendCheckedList}
+              />
+              <PriceRangeSideFilter
+                sendPriceRange= {sendPriceRange}
+              />
+            </div>
+
             {searchedForProducts()}
           </div>
         </div>

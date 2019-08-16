@@ -28,9 +28,9 @@ const MenuSignStatus = (props) => {
       return (
         <Fragment>
           <li className="nav-item">
-            <div className="nav-link sign-out" onClick={props.signOut}>
+            <button className="nav-link sign-out" onClick={props.signOut}>
               Sign Out
-            </div>
+            </button>
           </li>
           {children}
         </Fragment>
