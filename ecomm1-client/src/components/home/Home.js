@@ -21,23 +21,6 @@ const Home = props => {
     filterProducts();
   }, [filteredByCategory, priceRange]);
 
-  // const viewProducts = () => {
-  //   if (filteredByCategory.length > 0) {
-  //     return (
-  //       <div className="product-grid">
-  //         {<ProductsGrid products={filteredByCategory} />}
-  //       </div>
-  //     );
-  //   } else if (props.products) {
-  //     return (
-  //       <div className="product-grid">
-  //         {<ProductsGrid products={props.products} />}
-  //       </div>
-  //     );
-  //   } else {
-  //     return <div className="loading">LOADING...</div>;
-  //   }
-  // };
   const viewProducts = () => {
     if (filtered && filtered.length > 0) {
       console.log("FILTERED", filtered);
