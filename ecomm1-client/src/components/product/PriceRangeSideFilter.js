@@ -2,15 +2,18 @@ import React, { useState } from "react";
 
 const PriceRangeSideFilter = props => {
   const [range, setRange] = useState({
-    minRange: 0,
+    minRange: null,
     maxRange: null
   });
 
-  const handleChange = name => e => {
-    setRange({ ...range, [name]: e.target.value });
+  const handleChange =  name =>  async e => {
+    await setRange({ ...range, [name]: e.target.value });
   };
   const handleSubmit = async e => {
     e.preventDefault();
+    if(range.minRange === null){
+      range.minRange = 0
+    }
     props.sendPriceRange(range);
   };
 

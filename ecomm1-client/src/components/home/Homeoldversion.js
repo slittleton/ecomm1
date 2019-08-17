@@ -8,30 +8,26 @@ import CategorySideFilter from "../product/CategorySideFilter";
 import PriceRangeSideFilter from "../product/PriceRangeSideFilter";
 
 const Home = props => {
-
+  const [filtered, setFiltered] = useState([]);
   const [filteredByCategory, setFilteredByCategory] = useState([]);
   const [priceRange, setPriceRange] = useState({});
-  const [filters, setFilters] = useState([]);
 
   useEffect(() => {
     props.getProducts();
     props.getCategories();
   }, []);
 
+  useEffect(() => {
+    filterProducts();
+  }, [filteredByCategory, priceRange]);
 
-  // useEffect(() => {
-  //   console.log('CATEGORY LIST', filteredByCategory)
-  //   console.log('PRICE RANGE', priceRange)
-
-  // }, [priceRange, filteredByCategory ]);
-
- 
   const viewProducts = () => {
-    if (props.searchResults && props.searchResults.length > 0) {
-      console.log(props.searchResults);
+    console.log('filtered', filtered)
+    if (filtered && filtered.length > 0) {
+      
       return (
         <div className="product-grid">
-          {<ProductsGrid products={props.searchResults} />}
+          {<ProductsGrid products={filtered} />}
         </div>
       );
     } else if (props.products) {
@@ -45,9 +41,37 @@ const Home = props => {
     }
   };
 
+  const filterProducts = () => {
+    let results;
+
+    if (priceRange.maxRange && filteredByCategory.length > 0) {
+      results = filteredByCategory.filter(
+        product =>
+          product.price >= priceRange.minRange &&
+          product.price <= priceRange.maxRange
+      );
+    }
+
+    if (priceRange.maxRange && !filteredByCategory.length > 0) {
+      results = props.products.filter(
+        product =>
+          product.price >= priceRange.minRange &&
+          product.price <= priceRange.maxRange
+      );
+    }
+
+    if (filteredByCategory.length > 0 && !priceRange.minRange) {
+      results = filteredByCategory;
+    }
+
+    setFiltered(results);
+  };
+
   const sendCheckedList = async list => {
-    await setFilteredByCategory([...list]);
-    ;
+    let newList = props.products.filter(product =>
+      list.includes(product.category._id)
+    );
+    await setFilteredByCategory([...newList]);
   };
   const sendPriceRange = async range => {
     range.minRange = parseInt(range.minRange);
@@ -60,7 +84,7 @@ const Home = props => {
   return (
     <div className="home">
       <Layout title="HOME" description="Welcome to the art store">
-        <ProductSearch priceRange={priceRange} filteredByCategory={filteredByCategory}/>
+        <ProductSearch />
         <div className="products-container">
           <div className="products">
             <div className="sidebar">
@@ -78,10 +102,8 @@ const Home = props => {
   );
 };
 const mapstateToProps = state => {
-  console.log('HOME', state)
   return {
     products: state.productReducer.productsBundle,
-    searchResults: state.productReducer.searchResults,
     categories: state.productReducer.categories
   };
 };

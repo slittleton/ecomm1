@@ -17,7 +17,6 @@ const AdminCreate = (props) => {
             
           </div>
         </div>
-
       </Layout>
     </div>
   );

@@ -32,27 +32,34 @@ export const getCategories = () => async dispatch => {
   dispatch({type: SET_CATEGORIES, payload: data})
 };
 
-export const searchForProducts = (searchParam) => async dispatch => {
+export const searchForProducts = (searchCriteria) => async dispatch => {
+  console.log(searchCriteria)
+  const searchQuery = {
+    searchTerm: searchCriteria.searchTerm,
+    category: [...searchCriteria.filteredByCategory],
+    price: [searchCriteria.priceRange.minRange, searchCriteria.priceRange.maxRange]
+  }
 
+  console.log('Search Query', searchQuery)
+  const query = queryString.stringify(searchQuery)
 
-
-  const query = queryString.stringify({search:searchParam})
   console.log('QUERY', query);
 
   let response = await fetch(`${API}/products/search?${query}`, {
     method: "GET",
   });
   response = await response.json();
+  console.log('SERVER RESPONSE', response)
 
-  if(response.error){
-    // console.log(response.error)
-    dispatch({type: PRODUCT_ERROR, payload: response.error})
-  }
-  if(response.products){
-    // console.log(response.products)
-    dispatch({type: PRODUCT_SEARCH_RESULTS, payload: response.products})
-    dispatch({type: PRODUCT_SEARCH_SUCCESS, payload: true})
-  }
+  // if(response.error){
+  //   // console.log(response.error)
+  //   dispatch({type: PRODUCT_ERROR, payload: response.error})
+  // }
+  // if(response.products){
+  //   // console.log(response.products)
+  //   dispatch({type: PRODUCT_SEARCH_RESULTS, payload: response.products})
+  //   dispatch({type: PRODUCT_SEARCH_SUCCESS, payload: true})
+  // }
 };
 
 export const resetSearchStatus = (type) => async dispatch => {

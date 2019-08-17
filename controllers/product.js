@@ -1,7 +1,7 @@
 const { Product, validateProduct } = require("../models/product");
 const formidable = require("formidable");
 const fs = require("fs");
-const queryString = require('query-string')
+const queryString = require("query-string");
 
 exports.productById = (req, res, callback, id) => {
   Product.findById(id)
@@ -117,27 +117,59 @@ exports.updateProduct = (req, res) => {
 
 // SEARCH PRODUCTS ============================================================
 exports.productsSearch = (req, res) => {
-  console.log(req.query.search);
-  let query = {}
+  console.log(req.query.price);
 
-  if (req.query.search) {
-    query.name = { $regex: req.query.search, $options: "i" };
-    // assigne category value to query.category
-    if (req.query.category && req.query.category != "All") {
-      query.category = req.query.category;
-    }
-    // find the product based on query object with 2 properties
-    // search and category
-    Product.find(query, (err, products) => {
-      if (err) {
-        return res.status(400).json({
-          error: errorHandler(err)
-        });
-      }
+  let query = {};
 
-      res.json({products: products});
-    }).select("-photo");
+  if (req.query.searchTerm) {
+    query.name = { $regex: req.query.searchTerm, $options: "i" };
   }
+  if (req.query.category) {
+    query.category = req.query.category;
+  }
+
+  // TODO MONGOOSE QUERY BY PRICE RANGE
+  // if (req.query.price) {
+  //   query.price = {
+  //     $gte: parseInt(query.price[0]),
+  //     $lte: parseInt(query.price[1])
+  //   };
+  // }
+
+  console.log('QUERY', query)
+  // Product.find(query, (err, products) => {
+  //   if (err) {
+  //     return res.status(400).json({ error: errorHandler(err) });
+  //   }
+
+  //   console.log(products);
+
+  //   // res.json({products: products}).select("-photo")
+  //   res.json(query);
+  // });
+
+  res.json(query)
+
+
+
+  // if (req.query.search) {
+  //   query.name = { $regex: req.query.search, $options: "i" };
+  //   // assigne category value to query.category
+  //   if (req.query.category && req.query.category != "All") {
+  //     query.category = req.query.category;
+  //   }
+  //   // find the product based on query object with 2 properties
+  //   // search and category
+  //   Product.find(query, (err, products) => {
+  //     if (err) {
+  //       return res.status(400).json({
+  //         error: errorHandler(err)
+  //       });
+  //     }
+
+  //     res.json({products: products});
+  //   }).select("-photo");
+  // }
 };
 
 // GET PRODUCTS ================================================================

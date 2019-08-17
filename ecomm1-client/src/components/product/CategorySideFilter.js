@@ -16,7 +16,7 @@ const CategorySideFilter = props => {
       // if category already in state, remove from list of checkedOff
       listOfChecks.splice(checkedOff, 1);
     }
-    setChecked(listOfChecks);
+    await setChecked(listOfChecks);
     props.sendCheckedList(listOfChecks);
   };
 

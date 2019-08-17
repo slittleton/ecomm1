@@ -7,23 +7,30 @@ import ProductSearch from "./ProductSearch";
 import CategorySideFilter from "../product/CategorySideFilter";
 import PriceRangeSideFilter from "../product/PriceRangeSideFilter";
 
+
 const SearchResults = props => {
-  const [filtered, setFiltered] = useState({
-    categoryFilters: [],
-    priceFilters: {}
-  });
+  const [filtered, setFiltered] = useState([]);
   const [filteredByCategory, setFilteredByCategory] = useState([]);
   const [priceRange, setPriceRange] = useState([]);
 
   useEffect(() => {
     props.getCategories();
-  }, [filteredByCategory]);
+  }, [props.searchResults]);
+
+
+  useEffect(() => {
+    setFiltered(filteredByCategory)
+
+    filterByPrice()
+  }, [filteredByCategory, priceRange]);
+
+
 
   const searchedForProducts = () => {
-    if (filteredByCategory.length > 0) {
+    if (filtered && filtered.length > 0) {
       return (
         <div className="product-grid">
-          {<ProductsGrid products={filteredByCategory} />}
+          {<ProductsGrid products={filtered} />}
         </div>
       );
     } else if (props.searchResults) {
@@ -37,19 +44,33 @@ const SearchResults = props => {
     }
   };
 
-  const sendCheckedList = list => {
-    let newList = props.searchResults.filter(product =>
-      list.includes(product.category)
-    );
-    setFilteredByCategory(newList);
+  const sendCheckedList = async list => {
+    if(props.searchResults){
+      let newList = props.searchResults.filter(product =>
+        list.includes(product.category)
+      );
+      await setFilteredByCategory(newList);
+    }
   };
 
+  const filterByPrice = () => {
+    let priceFilterResults;
 
-  const sendPriceRange = range => {
+    if (priceRange.maxRange) {
+     priceFilterResults = props.searchResults.filter(
+        product =>
+          product.price >= priceRange.minRange &&
+          product.price <= priceRange.maxRange
+      );
+      setFiltered(priceFilterResults)
+  }}
+
+  const sendPriceRange = async range => {
     range.minRange = parseInt(range.minRange);
-    range.maxRange = parseInt(range.maxRange);
-    setPriceRange(range);
-    setFiltered();
+    if (range.maxRange) {
+      range.maxRange = parseInt(range.maxRange);
+    }
+    await setPriceRange(range);
   };
 
   return (
@@ -88,7 +109,4 @@ const mapstateToProps = state => {
   };
 };
 
-export default connect(
-  mapstateToProps,
-  { getProducts, getCategories }
-)(SearchResults);
+export default connect(mapstateToProps, { getProducts, getCategories })(SearchResults);

@@ -28,21 +28,30 @@ const ProductSearch = props => {
   };
   const handleSubmit = async e => {
     e.preventDefault();
-    props.searchForProducts(searchTerm);
+    // console.log("PRICES", props.priceRange);
+    // console.log("CATEGORIES", props.filteredByCategory);
+
+    let searchCriteria = {
+      searchTerm,
+      priceRange: props.priceRange,
+      filteredByCategory: props.filteredByCategory
+    };
+
+    props.searchForProducts(searchCriteria);
   };
 
-  const navOnResult = () => {
-    if (searchSuccess) {
-      props.resetSearchStatus("success");
-      return <Redirect to="/searchresults" />;
-    }
-    if (searchFailure) {
-      setTimeout(() => {
-        props.resetSearchStatus("error");
-        return <Redirect to="/" />;
-      }, 1500);
-    }
-  };
+  // const navOnResult = () => {
+  //   if (searchSuccess) {
+  //     props.resetSearchStatus("success");
+  //     return <Redirect to="/searchresults" />;
+  //   }
+  //   if (searchFailure) {
+  //     setTimeout(() => {
+  //       props.resetSearchStatus("error");
+  //       return <Redirect to="/" />;
+  //     }, 1500);
+  //   }
+  // };
 
   const showError = () => {
     return (
@@ -72,7 +81,7 @@ const ProductSearch = props => {
         </div>
       </form>
       {showError()}
-      {navOnResult()}
+      {/* {navOnResult()} */}
     </Fragment>
   );
 };
