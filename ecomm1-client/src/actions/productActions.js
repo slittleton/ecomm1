@@ -16,7 +16,7 @@ export const getProducts = () => async dispatch => {
   });
   data = await data.json();
 
-  console.log(data);
+  // console.log(data);
   dispatch({type: SET_PRODUCTS_BUNDLE, payload: data})
 };
 
@@ -28,7 +28,7 @@ export const getCategories = () => async dispatch => {
   });
   data = await data.json();
 
-  console.log(data);
+  // console.log(data);
   dispatch({type: SET_CATEGORIES, payload: data})
 };
 
@@ -45,11 +45,11 @@ export const searchForProducts = (searchParam) => async dispatch => {
   response = await response.json();
 
   if(response.error){
-    console.log(response.error)
+    // console.log(response.error)
     dispatch({type: PRODUCT_ERROR, payload: response.error})
   }
   if(response.products){
-    console.log(response.products)
+    // console.log(response.products)
     dispatch({type: PRODUCT_SEARCH_RESULTS, payload: response.products})
     dispatch({type: PRODUCT_SEARCH_SUCCESS, payload: true})
   }

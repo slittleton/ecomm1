@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 const PriceRangeSideFilter = props => {
   const [range, setRange] = useState({
-    minRange: null,
+    minRange: 0,
     maxRange: null
   });
 

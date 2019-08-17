@@ -15,7 +15,11 @@ const Home = props => {
   useEffect(() => {
     props.getProducts();
     props.getCategories();
-  }, [filteredByCategory]);
+  }, []);
+
+  useEffect(() => {
+    filterProducts();
+  }, [filteredByCategory, priceRange]);
 
   // const viewProducts = () => {
   //   if (filteredByCategory.length > 0) {
@@ -35,7 +39,8 @@ const Home = props => {
   //   }
   // };
   const viewProducts = () => {
-    if (filtered.length > 0) {
+    if (filtered && filtered.length > 0) {
+      console.log("FILTERED", filtered);
       return (
         <div className="product-grid">
           {<ProductsGrid products={filtered} />}
@@ -52,35 +57,44 @@ const Home = props => {
     }
   };
 
-  const filterProducts = (prices, cats) => {
+  const filterProducts = () => {
     let results;
 
-    if (prices.minRange && prices.maxRange && cats.length > 0) {
-      // combine filters 
+    if (priceRange.minRange && filteredByCategory.length > 0) {
+      results = filteredByCategory.filter(
+        product =>
+          product.price >= priceRange.minRange &&
+          product.price <= priceRange.maxRange
+      );
     }
-    if (prices.minRange && prices.maxRange) {
-      // filter by price
+
+    if (priceRange.minRange && !filteredByCategory.length > 0) {
+      results = props.products.filter(
+        product =>
+          product.price >= priceRange.minRange &&
+          product.price <= priceRange.maxRange
+      );
     }
-    if (cats.length > 0) {
-      // filter by categories
+
+    if (filteredByCategory.length > 0 && !priceRange.minRange) {
+      results = filteredByCategory;
     }
 
     setFiltered(results);
   };
 
-  const sendCheckedList = list => {
+  const sendCheckedList = async list => {
     let newList = props.products.filter(product =>
       list.includes(product.category._id)
     );
-    setFilteredByCategory(newList);
-    filterProducts(priceRange, newList);
+    await setFilteredByCategory([...newList]);
   };
-  const sendPriceRange = range => {
+  const sendPriceRange = async range => {
     range.minRange = parseInt(range.minRange);
-    range.maxRange = parseInt(range.maxRange);
-    setPriceRange(range);
-
-    filterProducts({ range, filteredByCategory });
+    if (range.maxRange) {
+      range.maxRange = parseInt(range.maxRange);
+    }
+    await setPriceRange(range);
   };
 
   return (
@@ -96,8 +110,6 @@ const Home = props => {
               />
               <PriceRangeSideFilter sendPriceRange={sendPriceRange} />
             </div>
-            <div>{JSON.stringify(filtered)}</div>
-
             {viewProducts()}
           </div>
         </div>
@@ -106,7 +118,7 @@ const Home = props => {
   );
 };
 const mapstateToProps = state => {
-  console.log("STATE HOME", state);
+  // console.log("STATE HOME", state);
   return {
     products: state.productReducer.productsBundle,
     categories: state.productReducer.categories
