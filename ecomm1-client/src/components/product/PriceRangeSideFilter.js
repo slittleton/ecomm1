@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const PriceRangeSideFilter = props => {
   const [range, setRange] = useState({
@@ -6,20 +6,19 @@ const PriceRangeSideFilter = props => {
     maxRange: null
   });
 
-  const handleChange =  name =>  async e => {
+  const handleChange = name => async e => {
     await setRange({ ...range, [name]: e.target.value });
   };
-  const handleSubmit = async e => {
-    e.preventDefault();
-    if(range.minRange === null){
-      range.minRange = 0
+  useEffect(() => {
+    if (range.minRange === null) {
+      range.minRange = 0;
     }
     props.sendPriceRange(range);
-  };
+  }, [range]);
 
   return (
     <div className="price-range">
-      <form action="" className="price-range-form" onSubmit={handleSubmit}>
+      <form action="" className="price-range-form">
         <div className="price-title">Price Range</div>
         <div className="price-fields">
           <div>
@@ -42,9 +41,6 @@ const PriceRangeSideFilter = props => {
             />
           </div>
         </div>
-        <button className="price-range-btn" type="submit">
-          GO
-        </button>
       </form>
     </div>
   );

@@ -19,11 +19,11 @@ const Home = props => {
   }, []);
 
 
-  // useEffect(() => {
-  //   console.log('CATEGORY LIST', filteredByCategory)
-  //   console.log('PRICE RANGE', priceRange)
+  useEffect(() => {
+    console.log('CATEGORY LIST', filteredByCategory)
+    console.log('PRICE RANGE', priceRange)
 
-  // }, [priceRange, filteredByCategory ]);
+  }, [priceRange, filteredByCategory ]);
 
  
   const viewProducts = () => {

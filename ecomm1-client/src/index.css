@@ -347,6 +347,8 @@ body {
 }
 .price-title{
   padding: 0 0 1rem 0;
+  font-size:1.25rem;
+  font-weight: bold;
 }
 .price-range-btn {
   border-radius: .5rem;
