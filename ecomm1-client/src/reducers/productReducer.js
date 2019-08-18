@@ -1,4 +1,10 @@
-import { SET_PRODUCTS_BUNDLE, SET_CATEGORIES, PRODUCT_SEARCH_RESULTS, PRODUCT_ERROR, PRODUCT_SEARCH_SUCCESS } from "../actions/actionTypes";
+import {
+  SET_PRODUCTS_BUNDLE,
+  SET_CATEGORIES,
+  PRODUCT_SEARCH_RESULTS,
+  PRODUCT_ERROR,
+  PRODUCT_SEARCH_SUCCESS
+} from "../actions/actionTypes";
 
 const INITIAL_STATE = {
   productsBundle: null,
@@ -6,7 +12,7 @@ const INITIAL_STATE = {
   categories: null,
   error: null,
   searchSuccess: null,
-  searchResults: null,
+  searchResults: null
 };
 
 export default (state = INITIAL_STATE, action) => {
