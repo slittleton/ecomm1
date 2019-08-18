@@ -1,7 +1,8 @@
 import React, { useState, Fragment, useEffect } from "react";
 import {
   searchForProducts,
-  resetSearchStatus
+  resetSearchStatus,
+  getProducts
 } from "../../actions/productActions";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
@@ -28,8 +29,6 @@ const ProductSearch = props => {
   };
   const handleSubmit = async e => {
     e.preventDefault();
-    // console.log("PRICES", props.priceRange);
-    // console.log("CATEGORIES", props.filteredByCategory);
 
     let searchCriteria = {
       searchTerm,
@@ -40,18 +39,14 @@ const ProductSearch = props => {
     props.searchForProducts(searchCriteria);
   };
 
-  // const navOnResult = () => {
-  //   if (searchSuccess) {
-  //     props.resetSearchStatus("success");
-  //     return <Redirect to="/searchresults" />;
-  //   }
-  //   if (searchFailure) {
-  //     setTimeout(() => {
-  //       props.resetSearchStatus("error");
-  //       return <Redirect to="/" />;
-  //     }, 1500);
-  //   }
-  // };
+  const resetErrorMessage = () => {
+    if (searchFailure) {
+          setTimeout(() => {
+            props.resetSearchStatus("error");
+            props.getProducts()
+          }, 3500);
+        }
+  }
 
   const showError = () => {
     return (
@@ -81,7 +76,7 @@ const ProductSearch = props => {
         </div>
       </form>
       {showError()}
-      {/* {navOnResult()} */}
+      {resetErrorMessage()}
     </Fragment>
   );
 };
@@ -95,5 +90,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { searchForProducts, resetSearchStatus }
+  { searchForProducts, resetSearchStatus, getProducts }
 )(ProductSearch);

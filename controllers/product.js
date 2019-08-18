@@ -137,10 +137,9 @@ exports.productsSearch = (req, res) => {
   Product.find(query, (err, products) => {
     if (err) {
       return res.status(400).json({
-        error: errorHandler(err)
+        error: err
       });
     }
-
     res.json({ products: products });
   }).select("-photo");
 };
