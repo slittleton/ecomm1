@@ -94,10 +94,7 @@ export const createCategory = value => async dispatch => {
 
   createdCategory = await createdCategory.json();
 
-  console.log("CREATED CATEGORY", createdCategory);
-
   if (createdCategory._id) {
-    
     dispatch({ type: ADMIN_ACTION_SUCCESS, payload: {categoryCreated:createdCategory} });
   }
   if (createdCategory.error) {
@@ -113,6 +110,12 @@ export const createCategory = value => async dispatch => {
       dispatch({ type: ADMIN_ERROR, payload: createdCategory.error });
     }
   }
+};
+// CREATE PRODUCT ================================================================
+export const createProduct = (values) => async dispatch => {
+
+    console.log(values);
+
 };
 
 // SET ADMIN ERROR ================================================================
@@ -130,6 +133,6 @@ export const resetAdminActionStatus = status => async dispatch => {
 export const getOrders = () => async dispatch => {};
 export const updateOrder = () => async dispatch => {};
 
-export const createProduct = () => async dispatch => {};
+
 
 export const updateUserInfo = () => async dispatch => {};

@@ -5,9 +5,13 @@ import AdminMenu from "../layout/AdminMenu";
 import { getCategories } from "../../actions/productActions";
 import {
   createCategory,
+  createProduct,
   setAdminActionError,
   resetAdminActionStatus
 } from "../../actions/adminActions";
+
+import AdminCreateCategory from "./AdminCreateCategory";
+import AdminCreateProduct from "./AdminCreateProduct";
 
 const AdminCreate = props => {
   const [values, setValues] = useState({
@@ -51,20 +55,24 @@ const AdminCreate = props => {
     }
 
     if (props.adminActionError) {
-  
       setValues({ ...values, error: true });
     }
   }, [props.adminActionError]);
 
   const handleChange = name => async e => {
-    if(error && name==="newCategory"){
-      setValues({ ...values, error: false })
-      props.resetAdminActionStatus(null)
+    // resets error message for create category when user start typing in new category field
+    if (error && name === "newCategory") {
+      setValues({ ...values, error: false });
+      props.resetAdminActionStatus(null);
     }
+
     await setValues({ ...values, [name]: e.target.value });
   };
 
-  const handleSubmit = () => {};
+  const handleSubmit = e => {
+    e.preventDefault();
+    console.log(values);
+  };
 
   const createCategory = () => {
     if (
@@ -79,30 +87,31 @@ const AdminCreate = props => {
   };
 
   const showError = () => {
-
     return (
       <div className="container" style={{ display: error ? "" : "none" }}>
         <div className="error">{props.adminActionError}</div>
       </div>
     );
   };
+
   const showSuccess = () => {
     if (success) {
       setTimeout(() => {
-        setValues({ ...values,     name: "",
-        category: "",
-        photo: "",
-        price: "",
-        quantity: "",
-        description: "",
-        error: false,
-        success: false,
-        formData: "",
-        newCategory: ""});
-        props.resetAdminActionStatus(null)
+        setValues({
+          ...values,
+          name: "",
+          category: "",
+          photo: "",
+          price: "",
+          quantity: "",
+          description: "",
+          error: false,
+          success: false,
+          formData: "",
+          newCategory: ""
+        });
+        props.resetAdminActionStatus(null);
       }, 1500);
-
-      
 
       if (props.adminActionStatus.categoryCreated) {
         return (
@@ -117,6 +126,7 @@ const AdminCreate = props => {
           </div>
         );
       }
+
       if (props.adminActionStatus.productCreated) {
         return (
           <div
@@ -132,6 +142,7 @@ const AdminCreate = props => {
       }
     }
   };
+
   return (
     <div className="">
       <Layout
@@ -145,113 +156,17 @@ const AdminCreate = props => {
         {showSuccess()}
         <div className="container create">
           <div className="color-box ">
-            <div className="container top-margin">
-              <div className="box " style={{ width: "35rem" }}>
-                <div className="title">Create Category</div>
-                <div
-                  className="create-form "
-                  style={{ margin: "0 1.5rem 0 1.5rem" }}
-                >
-                  <div className="form-control-create">
-                    <input
-                      type="text"
-                      className="form-field-create"
-                      name="newCategory"
-                      value={newCategory}
-                      onChange={handleChange("newCategory")}
-                      placeholder="New Category Name"
-                    />
-                  </div>
-                  <button className="btn btn-margin" onClick={createCategory}>
-                    Submit
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className="container bottom-margin">
-              <div className="box" style={{ width: "35rem" }}>
-                <div className="title">Create Product</div>
-                <div className="container">
-                  <form onSubmit={handleSubmit} className="create-form">
-                    <div className="form-control-create">
-                      <input
-                        type="text"
-                        className="form-field-create"
-                        name="name"
-                        value={name}
-                        onChange={handleChange("name")}
-                        placeholder="Product Name"
-                      />
-                    </div>
-                    <div className="form-control-create">
-                      <select
-                        className="select-field"
-                        onChange={handleChange("category")}
-                      >
-                        <option>Select Category</option>
-                        {props.categories &&
-                          props.categories.map((category, index) => {
-                            return (
-                              <option key={category._id} value={category._id}>
-                                {category.name}
-                              </option>
-                            );
-                          })}
-                      </select>
-                    </div>
-                    <div className="form-control-create input-file">
-                      <label htmlFor="photo" className="file-label">
-                        Photo:{" "}
-                      </label>
-                      <input
-                        type="file"
-                        className="file-field"
-                        id={"file-field"}
-                        name="photo"
-                        value={photo}
-                        onChange={handleChange("photo")}
-                        accept="image/*"
-                      />
-                    </div>
-                    <div className="form-control-create">
-                      <input
-                        type="number"
-                        className="form-field-create"
-                        name="price"
-                        value={price}
-                        onChange={handleChange("price")}
-                        placeholder="Product Price"
-                      />
-                    </div>
-                    <div className="form-control-create">
-                      <input
-                        type="number"
-                        className="form-field-create"
-                        name="quantity"
-                        value={quantity}
-                        onChange={handleChange("quantity")}
-                        placeholder="Product Quantity"
-                      />
-                    </div>
-                    <div className="form-control">
-                      <textarea
-                        rows="8"
-                        cols="50"
-                        type="text"
-                        name="description"
-                        value={description}
-                        onChange={handleChange("description")}
-                        className="form-field-create"
-                        placeholder="Please enter a description"
-                      />
-                    </div>
-                    <button className="btn btn-margin" type="submit">
-                      Submit
-                    </button>
-                  </form>
-                </div>
-              </div>
-            </div>
+            <AdminCreateCategory
+              newCategory={newCategory}
+              handleChange={handleChange}
+              createCategory={createCategory}
+            />
+            <AdminCreateProduct
+              values={values}
+              handleSubmit={handleSubmit}
+              handleChange={handleChange}
+              reduxCategories={props.categories}
+            />
           </div>
         </div>
       </Layout>
@@ -271,5 +186,11 @@ const mapStateToProps = state => {
 };
 export default connect(
   mapStateToProps,
-  { getCategories, createCategory, setAdminActionError, resetAdminActionStatus }
+  {
+    getCategories,
+    createCategory,
+    createProduct,
+    setAdminActionError,
+    resetAdminActionStatus
+  }
 )(AdminCreate);
