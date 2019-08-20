@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 const CategorySideFilter = props => {
-  // console.log("CATEGORIES", props.categories);
   const [checked, setChecked] = useState([]);
 
   const handleCheck = id => async () => {

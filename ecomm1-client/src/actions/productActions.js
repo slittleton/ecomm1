@@ -6,15 +6,16 @@ import {
   PRODUCT_SEARCH_SUCCESS
 } from "./actionTypes";
 import queryString from "query-string";
+
 const API = process.env.REACT_APP_API_URL;
 
+// GET PRODUCTS ======================================================
 export const getProducts = () => async dispatch => {
   let data = await fetch(`${API}/products`, {
     method: "GET"
   });
   data = await data.json();
 
-  // console.log(data);
   dispatch({ type: SET_PRODUCTS_BUNDLE, payload: data });
 };
 
@@ -25,13 +26,12 @@ export const getCategories = () => async dispatch => {
   });
   data = await data.json();
 
-  // console.log(data);
   dispatch({ type: SET_CATEGORIES, payload: data });
 };
 
+// SEARCH FOR PRODUCTS =====================================================
 export const searchForProducts = searchCriteria => async dispatch => {
-
-// ensure price range is a number
+  // ensure price range is a number
   if (
     searchCriteria.priceRange.minRange === "" ||
     isNaN(searchCriteria.priceRange.minRange)
@@ -42,12 +42,11 @@ export const searchForProducts = searchCriteria => async dispatch => {
     searchCriteria.priceRange.minRange >= 0 &&
     (searchCriteria.priceRange.maxRange === null ||
       searchCriteria.priceRange.maxRange === "" ||
-      isNaN(searchCriteria.priceRange.maxRange) 
-      )
+      isNaN(searchCriteria.priceRange.maxRange))
   ) {
     searchCriteria.priceRange.maxRange = 999999999;
   }
-// Create search query object
+  // Create search query object
   const searchQuery = {
     searchTerm: searchCriteria.searchTerm,
     category: [...searchCriteria.filteredByCategory],
@@ -58,29 +57,30 @@ export const searchForProducts = searchCriteria => async dispatch => {
   };
 
   const query = queryString.stringify(searchQuery);
-// Make API Call
+  // Make API Call
   let response = await fetch(`${API}/products/search?${query}`, {
     method: "GET"
   });
   response = await response.json();
-  // console.log("SERVER RESPONSE", response);
 
-  if(response.error){
-    // console.log(response.error)
-    dispatch({type: PRODUCT_ERROR, payload: response.error})
+  if (response.error) {
+    dispatch({ type: PRODUCT_ERROR, payload: response.error });
   }
 
-  if(response.products){
-    if(response.products.length === 0){
-      dispatch({type: PRODUCT_ERROR, payload: "Sorry, No Products Fitting The Search Criteria Were Found, Please Try Another Search"})
+  if (response.products) {
+    if (response.products.length === 0) {
+      dispatch({
+        type: PRODUCT_ERROR,
+        payload:
+          "Sorry, No Products Fitting The Search Criteria Were Found, Please Try Another Search"
+      });
       dispatch({ type: SET_PRODUCTS_BUNDLE, payload: [] });
     }
-    // console.log(response.products)
-    dispatch({type: PRODUCT_SEARCH_RESULTS, payload: response.products})
-    dispatch({type: PRODUCT_SEARCH_SUCCESS, payload: true})
+    dispatch({ type: PRODUCT_SEARCH_RESULTS, payload: response.products });
+    dispatch({ type: PRODUCT_SEARCH_SUCCESS, payload: true });
   }
 };
-
+// RESET SEARCH STATUS ============================================================
 export const resetSearchStatus = type => async dispatch => {
   if (type === "error") {
     dispatch({ type: PRODUCT_ERROR, payload: null });
@@ -90,7 +90,7 @@ export const resetSearchStatus = type => async dispatch => {
   }
 };
 
-export const filterByCategory = () => async dispatch => {};
-export const filterByPrice = () => async dispatch => {};
 
-export const addToCart = () => async dispatch => {};
+// export const addToCart = () => async dispatch => {};
+// export const addToCart = () => async dispatch => {};
+// export const addToCart = () => async dispatch => {};

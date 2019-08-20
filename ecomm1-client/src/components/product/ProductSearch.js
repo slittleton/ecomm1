@@ -5,7 +5,6 @@ import {
   getProducts
 } from "../../actions/productActions";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
 
 const ProductSearch = props => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -41,12 +40,12 @@ const ProductSearch = props => {
 
   const resetErrorMessage = () => {
     if (searchFailure) {
-          setTimeout(() => {
-            props.resetSearchStatus("error");
-            props.getProducts()
-          }, 3500);
-        }
-  }
+      setTimeout(() => {
+        props.resetSearchStatus("error");
+        props.getProducts();
+      }, 3500);
+    }
+  };
 
   const showError = () => {
     return (

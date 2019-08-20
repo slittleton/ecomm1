@@ -8,7 +8,6 @@ import CategorySideFilter from "../product/CategorySideFilter";
 import PriceRangeSideFilter from "../product/PriceRangeSideFilter";
 
 const Home = props => {
-
   const [filteredByCategory, setFilteredByCategory] = useState([]);
   const [priceRange, setPriceRange] = useState({});
   const [filters, setFilters] = useState([]);
@@ -17,18 +16,9 @@ const Home = props => {
     props.getProducts();
     props.getCategories();
   }, []);
-
-
-  useEffect(() => {
-    console.log('CATEGORY LIST', filteredByCategory)
-    console.log('PRICE RANGE', priceRange)
-
-  }, [priceRange, filteredByCategory ]);
-
  
   const viewProducts = () => {
     if (props.searchResults && props.searchResults.length > 0) {
-      console.log(props.searchResults);
       return (
         <div className="product-grid">
           {<ProductsGrid products={props.searchResults} />}
