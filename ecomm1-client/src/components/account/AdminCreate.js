@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import Layout from "../layout/Layout";
 import { connect } from "react-redux";
 import AdminMenu from "../layout/AdminMenu";
-import { getCategories } from "../../actions/productActions";
+import { getCategories, getProducts } from "../../actions/productActions";
 import {
   createCategory,
   createProduct,
   setAdminActionError,
-  resetAdminActionStatus
+  resetAdminActionStatus,
 } from "../../actions/adminActions";
 
 import AdminCreateCategory from "./AdminCreateCategory";
@@ -38,6 +38,12 @@ const AdminCreate = props => {
     formData,
     newCategory
   } = values;
+  
+  useEffect(() => {
+    props.getCategories();
+    props.getProducts()
+    setValues({ ...values, formData: new FormData() });
+  }, []);
 
   useEffect(() => {
     if (success) {
@@ -66,12 +72,21 @@ const AdminCreate = props => {
       props.resetAdminActionStatus(null);
     }
 
-    await setValues({ ...values, [name]: e.target.value });
+    let val;
+    if (name === "photo") {
+      val = e.target.files[0];
+    } else {
+      val = e.target.value;
+    }
+    console.log('VAL',val);
+    await setValues({ ...values, [name]: val})
+    formData.set(name, val);
+    createProduct(formData)
   };
 
   const handleSubmit = e => {
     e.preventDefault();
-    console.log(values);
+    props.createProduct(formData);
   };
 
   const createCategory = () => {
@@ -111,7 +126,7 @@ const AdminCreate = props => {
           newCategory: ""
         });
         props.resetAdminActionStatus(null);
-      }, 1500);
+      }, 3500);
 
       if (props.adminActionStatus.categoryCreated) {
         return (
@@ -134,7 +149,7 @@ const AdminCreate = props => {
             style={{ display: props.adminActionStatus ? "" : "none" }}
           >
             <div className="success">
-              Category: {props.adminActionStatus.productCreated.name} has been
+              Product: {props.adminActionStatus.productCreated.name} has been
               created successfully
             </div>
           </div>
@@ -188,6 +203,7 @@ export default connect(
   mapStateToProps,
   {
     getCategories,
+    getProducts,
     createCategory,
     createProduct,
     setAdminActionError,

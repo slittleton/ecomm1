@@ -95,7 +95,10 @@ export const createCategory = value => async dispatch => {
   createdCategory = await createdCategory.json();
 
   if (createdCategory._id) {
-    dispatch({ type: ADMIN_ACTION_SUCCESS, payload: {categoryCreated:createdCategory} });
+    dispatch({
+      type: ADMIN_ACTION_SUCCESS,
+      payload: { categoryCreated: createdCategory }
+    });
   }
   if (createdCategory.error) {
     if (createdCategory.error.name === "MongoError") {
@@ -112,9 +115,30 @@ export const createCategory = value => async dispatch => {
   }
 };
 // CREATE PRODUCT ================================================================
-export const createProduct = (values) => async dispatch => {
+export const createProduct = product => async dispatch => {
 
-    console.log(values);
+  let token = authToken().token;
+
+  let createdProduct = await fetch(`${API}/product/create`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      Authorization: token
+    },
+    body: product
+  });
+
+  createdProduct = await createdProduct.json();
+  
+
+  console.log("CREATED PRODUCT", createdProduct)
+  if(createdProduct._id){
+    console.log("ID")
+    dispatch({type: ADMIN_ACTION_SUCCESS, payload: {productCreated:createdProduct}})
+  }
+  if(createdProduct.error){
+    dispatch({type: ADMIN_ERROR, payload: createdProduct.error})
+  }
 
 };
 
@@ -132,7 +156,5 @@ export const resetAdminActionStatus = status => async dispatch => {
 
 export const getOrders = () => async dispatch => {};
 export const updateOrder = () => async dispatch => {};
-
-
 
 export const updateUserInfo = () => async dispatch => {};

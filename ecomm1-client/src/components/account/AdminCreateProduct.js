@@ -34,8 +34,12 @@ const AdminCreateProduct = ({values, handleSubmit, handleChange, reduxCategories
                           })}
                       </select>
                     </div>
-                    <div className="form-control-create input-file">
-                      <label htmlFor="photo" className="file-label">
+                    <div 
+                    className="form-control-create input-file"
+                    >
+                      <label htmlFor="photo" 
+                      className="file-label"
+                      >
                         Photo:{" "}
                       </label>
                       <input
@@ -43,7 +47,6 @@ const AdminCreateProduct = ({values, handleSubmit, handleChange, reduxCategories
                         className="file-field"
                         id={"file-field"}
                         name="photo"
-                        value={photo}
                         onChange={handleChange("photo")}
                         accept="image/*"
                       />

@@ -2,7 +2,6 @@ const { Product, validateProduct } = require("../models/product");
 const formidable = require("formidable");
 const fs = require("fs");
 
-
 exports.productById = (req, res, callback, id) => {
   Product.findById(id)
     .populate("category")
@@ -34,18 +33,19 @@ exports.createProduct = async (req, res) => {
   const form = await new formidable.IncomingForm();
   form.keepExtensions = true;
 
-  //####TODO FIX JOI VALIDATION - CURRENTLY NOT WORKING ON  form or product
-  // const {error } = validateProduct(form);
-  // if(error){return res.status(400).send(error.details[0].message)}
-
   form.parse(req, async (err, fields, files) => {
     if (err) {
       return res.status(400).json({ error: "image could not be uploaded" });
     }
 
-    const { name, category, description, price, quantity, sold } = fields;
+    const { error } = validateProduct(fields);
+    if (error) {
+      return res.status(400).json({ error: error.details[0].message });
+    }
 
-    if (!name || !category || !description || !price || !quantity || !sold) {
+    const { name, category, description, price, quantity } = fields;
+
+    if (!name || !category || !description || !price || !quantity) {
       return res.status(400).json({ error: "all fields are required" });
     }
 
