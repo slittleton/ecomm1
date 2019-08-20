@@ -1,5 +1,6 @@
 import {
   SET_PRODUCTS_BUNDLE,
+  SET_PRODUCT,
   SET_CATEGORIES,
   PRODUCT_SEARCH_RESULTS,
   PRODUCT_ERROR,
@@ -21,6 +22,11 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         productsBundle: action.payload
+      };
+    case SET_PRODUCT:
+      return {
+        ...state,
+        product: action.payload
       };
     case SET_CATEGORIES:
       return {

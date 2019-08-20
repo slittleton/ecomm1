@@ -1,6 +1,7 @@
 import {
   SET_PRODUCTS_BUNDLE,
   SET_CATEGORIES,
+  SET_PRODUCT,
   PRODUCT_ERROR,
   PRODUCT_SEARCH_RESULTS,
   PRODUCT_SEARCH_SUCCESS
@@ -9,7 +10,7 @@ import queryString from "query-string";
 
 const API = process.env.REACT_APP_API_URL;
 
-// GET PRODUCTS ======================================================
+// GET PRODUCTS ==============================================================
 export const getProducts = () => async dispatch => {
   let data = await fetch(`${API}/products`, {
     method: "GET"
@@ -19,7 +20,18 @@ export const getProducts = () => async dispatch => {
   dispatch({ type: SET_PRODUCTS_BUNDLE, payload: data });
 };
 
-export const getProduct = () => async dispatch => {};
+//GET PRODUCT ================================================================
+export const getProduct = (id) => async dispatch => {
+  let data = await fetch(`${API}/product/${id}`, {
+    method: "GET"
+  });
+  data = await data.json();
+
+  console.log('PRODUCT', data)
+  dispatch({ type: SET_PRODUCT, payload: data });
+};
+
+// GET CATEGORIES ============================================================
 export const getCategories = () => async dispatch => {
   let data = await fetch(`${API}/categories`, {
     method: "GET"
@@ -29,7 +41,7 @@ export const getCategories = () => async dispatch => {
   dispatch({ type: SET_CATEGORIES, payload: data });
 };
 
-// SEARCH FOR PRODUCTS =====================================================
+// SEARCH FOR PRODUCTS =======================================================
 export const searchForProducts = searchCriteria => async dispatch => {
   // ensure price range is a number
   if (
@@ -80,7 +92,7 @@ export const searchForProducts = searchCriteria => async dispatch => {
     dispatch({ type: PRODUCT_SEARCH_SUCCESS, payload: true });
   }
 };
-// RESET SEARCH STATUS ============================================================
+// RESET SEARCH STATUS =======================================================
 export const resetSearchStatus = type => async dispatch => {
   if (type === "error") {
     dispatch({ type: PRODUCT_ERROR, payload: null });

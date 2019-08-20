@@ -6,7 +6,7 @@ const Cart = (props) => {
 
   return(
     <div className="cart">
-      <Layout title="Cart" description={`Welcome ${props.user.name}`}>
+      <Layout title="Cart" description={`Welcome To Your Cart`}>
         
       </Layout>
     </div>

@@ -14,7 +14,7 @@ const Menu = () => {
           </Link>
         </li>
         <li className="nav-item">
-          <Link className="nav-link" to="/cart">
+          <Link className="nav-link" to="/account/user/cart">
             Cart
           </Link>
         </li>

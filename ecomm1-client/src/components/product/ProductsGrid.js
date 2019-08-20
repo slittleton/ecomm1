@@ -9,7 +9,7 @@ const ProductsGrid = props => {
       {products.map(product => {
         return (
           <div className="grid-item " key={product._id}>
-            <Link style={{ textDecoration: "none" }} to="/">
+            <Link style={{ textDecoration: "none" }} to={`/productview/${product._id}`}>
               <ProductPhoto product={product} imageStyling="img-small" />
               <div className="grid-item-text">{product.name}</div>
               <div className="grid-item-text">

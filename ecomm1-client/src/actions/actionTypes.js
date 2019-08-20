@@ -20,6 +20,7 @@ export const SET_CATEGORIES = 'SET_CATEGORIES';
 export const PRODUCT_ERROR = 'PRODUCT_ERROR';
 export const PRODUCT_SEARCH_RESULTS = 'PRODUCT_SEARCH_RESULTS';
 export const PRODUCT_SEARCH_SUCCESS = 'PRODUCT_SEARCH_SUCCESS';
+export const SET_PRODUCT = 'SET_PRODUCT';
 
 // ADMIN ACTION TYPES ======================================
 export const ADMIN_ERROR = 'ADMIN_ERROR';
