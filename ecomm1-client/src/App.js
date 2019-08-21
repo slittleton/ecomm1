@@ -28,9 +28,10 @@ function App() {
         <Route path="/contact" exact component={Contact} />
         <Route path="/searchresults" exact component={SearchResults} />
         <Route path="/productview/:id" exact component={ProductView} />
-
+        <Route path="/cart" exact component={Cart}/>
+        
         <PrivateRoute path="/account/user" exact component={AccountUser}/>
-        <PrivateRoute path="/account/cart" exact component={Cart}/>
+        
         <AdminRoute path="/account/admin" exact component={AccountAdmin}/>
         <AdminRoute path="/account/admin/products" exact component={AdminProducts}/>
         <AdminRoute path="/account/admin/create" exact component={AdminCreate}/>

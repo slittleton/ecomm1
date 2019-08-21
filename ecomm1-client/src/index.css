@@ -52,6 +52,9 @@ body {
 .medium-pad{
   padding: 1rem;
 }
+.small-pad{
+  padding: 1rem;
+}
 .center {
   justify-content: center;
   justify-items: center;
@@ -343,7 +346,7 @@ body {
 }
 .product-filter {
   justify-content: left;
-  border: 1px solid gray;
+  /* border: 1px solid gray; */
   padding: 1rem;
   border-radius: 0.5rem;
 }
@@ -402,7 +405,7 @@ body {
 
 /* PRICE FILTER STYLING =============================================*/
 .price-range {
-  border: 1px solid gray;
+  /* border: 1px solid gray; */
   padding: 1rem;
   justify-content: center;
   align-content: center;

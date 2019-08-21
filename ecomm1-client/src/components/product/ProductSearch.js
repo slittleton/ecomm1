@@ -25,6 +25,7 @@ const ProductSearch = props => {
 
   const handleChange = name => e => {
     setSearchTerm(e.target.value);
+    props.setSearch(e.target.value)
   };
   const handleSubmit = async e => {
     e.preventDefault();

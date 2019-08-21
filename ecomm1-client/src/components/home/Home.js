@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { getProducts, getCategories } from "../../actions/productActions";
+import { getProducts, getCategories, searchForProducts } from "../../actions/productActions";
 import Layout from "../layout/Layout";
 import ProductsGrid from "../product/ProductsGrid";
 import ProductSearch from "../product/ProductSearch";
@@ -10,6 +10,7 @@ import PriceRangeSideFilter from "../product/PriceRangeSideFilter";
 const Home = props => {
   const [filteredByCategory, setFilteredByCategory] = useState([]);
   const [priceRange, setPriceRange] = useState({});
+  const [searchTerm, setsearchTerm] = useState("");
   const [filters, setFilters] = useState([]);
 
   useEffect(() => {
@@ -39,6 +40,10 @@ const Home = props => {
     await setFilteredByCategory([...list]);
     ;
   };
+  const setSearch = async val => {
+    await setsearchTerm(val);
+    ;
+  };
   const sendPriceRange = async range => {
     range.minRange = parseInt(range.minRange);
     if (range.maxRange) {
@@ -46,19 +51,29 @@ const Home = props => {
     }
     await setPriceRange(range);
   };
+  const handlefilter = () => {
+    let searchCriteria = {
+      searchTerm,
+      priceRange: priceRange,
+      filteredByCategory: filteredByCategory
+    };
+    props.searchForProducts(searchCriteria);
+  }
 
   return (
     <div className="home">
       <Layout title="HOME" description="Welcome to the art store">
-        <ProductSearch priceRange={priceRange} filteredByCategory={filteredByCategory}/>
+        <ProductSearch priceRange={priceRange} filteredByCategory={filteredByCategory} setSearch={setSearch}/>
         <div className="products-container">
           <div className="products">
-            <div className="sidebar">
+            <div className="sidebar box small-pad">
+              
               <CategorySideFilter
                 categories={props.categories}
                 sendCheckedList={sendCheckedList}
               />
               <PriceRangeSideFilter sendPriceRange={sendPriceRange} />
+              <div className="container"><button className="btn small-margin" onClick={handlefilter}>Apply</button></div>
             </div>
             {viewProducts()}
           </div>
@@ -78,5 +93,5 @@ const mapstateToProps = state => {
 
 export default connect(
   mapstateToProps,
-  { getProducts, getCategories }
+  { getProducts, getCategories, searchForProducts }
 )(Home);
