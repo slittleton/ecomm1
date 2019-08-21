@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import Layout from "../layout/Layout";
 import { connect } from "react-redux";
 import { getCartItems } from "../../actions/cartActions";
+import { Link } from "react-router-dom";
+import Checkout from "./Checkout";
+import ProductPhoto from "../product/ProductPhoto";
 
 const Cart = props => {
   const [checkoutStatus, setCheckoutStatus] = useState(false);
@@ -14,19 +17,27 @@ const Cart = props => {
     if (props.cart) {
       return (
         <div className="cart-items-view">
-          {props.cart.map(item => {
+          {props.cart.map((item, index) => {
             return (
-              <div className="box small-pad" key={item.product._id}>
-                <div className="subtitle">Item: {item.product.name}</div>
-                <div className="subtitle">Price: ${item.product.price.toFixed(2)}</div>
-                <div>
-                <div className="subtitle">Quantity 
-
-                  <button className="btn">{`<`}</button>
-                  {item.count}
-                  <button className="btn">{`>`}</button>
+              <div className="box small-pad spacer" key={item.product._id}>
+                <div className="checkout-item ">
+                  <div className="tiny-pad small-font">{`(${index + 1})`}</div>
+                  <ProductPhoto
+                    product={item.product}
+                    imageStyling="img-thumb margin-right-small"
+                  />
+                  <div className="margin-left-small">
+                    <div className="">Item: {item.product.name}</div>
+                    <div className="">
+                      Price: ${item.product.price.toFixed(2)}
+                    </div>
+                    <div>{`Quantity ${item.count} `}</div>
+                    <button className="">Remove Item</button>
                   </div>
+                  
                 </div>
+
+               
               </div>
             );
           })}
@@ -40,30 +51,29 @@ const Cart = props => {
   };
 
   const cartTotal = () => {
-    if(props.cart){
+    if (props.cart) {
       let prices = [];
-      props.cart.forEach((item)=>{
-        prices.push(item.product.price)
-      })
-      return (prices.reduce((acc, curVal)=> acc+curVal)).toFixed(2)
+      props.cart.forEach(item => {
+        prices.push(item.product.price);
+      });
+      return prices.reduce((acc, curVal) => acc + curVal).toFixed(2);
     }
-  }
-  const beginCheckout = () => {
-    // check for auth token
-
-    // if no auth token then ask user to sign in
-  }
+  };
 
   return (
     <div className="cart">
       <Layout title="Cart" description={`Welcome To Your Cart`}>
-        <div className="box">{cartItemsView()}</div>
-        <div className="title">
-          Total: ${cartTotal()}
-          <button className="btn center" onClick={beginCheckout}>Begin Checkout</button>
+        <div className="cart-layout box">
+          <div className="cart-items">
+            <div className="box">
+              {cartItemsView()}
+              <div className="title">Total: ${cartTotal()}</div>
+            </div>
+          </div>
+          <div className="checkout">
+            <Checkout />
+          </div>
         </div>
-        
-
       </Layout>
     </div>
   );
