@@ -40,13 +40,13 @@ const AdminProductForm = ({values, handleSubmit, handleChange, reduxCategories, 
                     className="form-control-create input-file"
                     >
                       <label htmlFor="photo" 
-                      className="file-label"
+                      className="center small-pad"
                       >
                         Photo:{" "}
                       </label>
                       <input
                         type="file"
-                        className="file-field"
+                        className="center small-pad"
                         id={"file-field"}
                         name="photo"
                         onChange={handleChange("photo")}

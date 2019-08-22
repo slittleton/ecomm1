@@ -156,7 +156,33 @@ export const resetAdminActionStatus = status => async dispatch => {
 
 
 // UPDATE PRODUCT
-export const updateProduct = (product) => async dispatch => {};
+export const updateProduct = (product, _id) => async dispatch => {
+  console.log('ACTIONS', _id)
+  let token = authToken().token;
+
+  let updatedProduct = await fetch(`${API}/product/update/${_id}`, {
+    method: "PUT",
+    headers: {
+      Accept: "application/json",
+      Authorization: token
+    },
+    body: product
+  });
+
+  updatedProduct = await updatedProduct.json();
+  
+
+  console.log("CREATED PRODUCT", updatedProduct)
+
+  if(updatedProduct){
+    console.log("ID")
+    dispatch({type: ADMIN_ACTION_SUCCESS, payload: updatedProduct.message})
+  }
+  if(updatedProduct.error){
+    dispatch({type: ADMIN_ERROR, payload: updatedProduct.error})
+  }
+
+};
 
 
 export const getOrders = () => async dispatch => {};

@@ -96,6 +96,7 @@ exports.updateProduct = (req, res) => {
     let product = req.product; // original product info
     //product properties reassigned to properites from update (ie fields)
     product = Object.assign(product, fields);
+  
 
     if (files.photo) {
       if (files.photo.size > 1000000) {
@@ -110,7 +111,7 @@ exports.updateProduct = (req, res) => {
       if (err) {
         return res.status(400).json({ error: err });
       }
-      res.json({ message: "Update Successful" });
+      res.json({ message: "Product Updated Successfully" });
     });
   });
 };

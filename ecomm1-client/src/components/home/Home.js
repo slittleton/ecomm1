@@ -83,7 +83,6 @@ const Home = props => {
   );
 };
 const mapstateToProps = state => {
-  console.log('HOME', state)
   return {
     products: state.productReducer.productsBundle,
     searchResults: state.productReducer.searchResults,
