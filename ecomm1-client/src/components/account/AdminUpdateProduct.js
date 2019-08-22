@@ -1,14 +1,15 @@
 import React from 'react';
 
-const AdminCreateProduct = ({values, handleSubmit, handleChange, reduxCategories}) => {
+const AdminUpdateProduct = ({values, handleSubmit, handleChange, reduxCategories}) => {
     const{name, photo, price, quantity, description} = values
   return(
     <div className="container bottom-margin">
               <div className="box" style={{ width: "35rem" }}>
-                <div className="title">Create Product</div>
+                <div className="title">Update Product</div>
                 <div className="container">
                   <form onSubmit={handleSubmit} className="create-form">
                     <div className="form-control-create">
+                     <div className="center small-pad">Name:</div>
                       <input
                         type="text"
                         className="form-field-create"
@@ -19,6 +20,7 @@ const AdminCreateProduct = ({values, handleSubmit, handleChange, reduxCategories
                       />
                     </div>
                     <div className="form-control-create">
+                    <div className="center small-pad">Category:</div>
                       <select
                         className="select-field"
                         onChange={handleChange("category")}
@@ -52,6 +54,7 @@ const AdminCreateProduct = ({values, handleSubmit, handleChange, reduxCategories
                       />
                     </div>
                     <div className="form-control-create">
+                    <div className="center small-pad">Price:</div>
                       <input
                         type="number"
                         className="form-field-create"
@@ -62,6 +65,7 @@ const AdminCreateProduct = ({values, handleSubmit, handleChange, reduxCategories
                       />
                     </div>
                     <div className="form-control-create">
+                    <div className="center small-pad">Quantity:</div>
                       <input
                         type="number"
                         className="form-field-create"
@@ -71,8 +75,9 @@ const AdminCreateProduct = ({values, handleSubmit, handleChange, reduxCategories
                         placeholder="Product Quantity"
                       />
                     </div>
-                    <div className="form-control">
-                      <textarea
+                    <div className="form-control" style={{border: 'none'}}>
+                    <div className="center small-pad">Description:</div>
+                     <div className="box"> <textarea
                         rows="8"
                         cols="50"
                         type="text"
@@ -81,7 +86,7 @@ const AdminCreateProduct = ({values, handleSubmit, handleChange, reduxCategories
                         onChange={handleChange("description")}
                         className="form-field-create"
                         placeholder="Please enter a description"
-                      />
+                      /></div>
                     </div>
                     <button className="btn btn-margin" type="submit">
                       Submit
@@ -92,4 +97,4 @@ const AdminCreateProduct = ({values, handleSubmit, handleChange, reduxCategories
             </div>
   )
 }
-export default AdminCreateProduct;
+export default AdminUpdateProduct;

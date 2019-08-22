@@ -154,6 +154,11 @@ export const resetAdminActionStatus = status => async dispatch => {
   dispatch({ type: ADMIN_ACTION_SUCCESS, payload: status });
 };
 
+
+// UPDATE PRODUCT
+export const updateProduct = (product) => async dispatch => {};
+
+
 export const getOrders = () => async dispatch => {};
 export const updateOrder = () => async dispatch => {};
 

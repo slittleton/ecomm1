@@ -11,7 +11,7 @@ import {
 } from "../../actions/adminActions";
 
 import AdminCreateCategory from "./AdminCreateCategory";
-import AdminCreateProduct from "./AdminCreateProduct";
+import AdminProductForm from "./AdminProductForm";
 
 const AdminCreate = props => {
   const [values, setValues] = useState({
@@ -81,7 +81,7 @@ const AdminCreate = props => {
     console.log('VAL',val);
     await setValues({ ...values, [name]: val})
     formData.set(name, val);
-    createProduct(formData)
+  
   };
 
   const handleSubmit = e => {
@@ -176,11 +176,12 @@ const AdminCreate = props => {
               handleChange={handleChange}
               createCategory={createCategory}
             />
-            <AdminCreateProduct
+            <AdminProductForm
               values={values}
               handleSubmit={handleSubmit}
               handleChange={handleChange}
               reduxCategories={props.categories}
+              title="Create Product"
             />
           </div>
         </div>
