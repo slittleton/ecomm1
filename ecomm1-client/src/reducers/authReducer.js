@@ -3,7 +3,9 @@ import {
   SIGN_IN_USER,
   SIGN_OUT_USER,
   SET_SIGNIN_STATUS,
-  AUTH_ERROR
+  AUTH_ERROR,
+  USER_SETTINGS_SUCCESS,
+  USER_SETTINGS_ERROR
 } from "../actions/actionTypes";
 
 const INITIAL_STATE = {
@@ -11,9 +13,11 @@ const INITIAL_STATE = {
   isAdmin: true,
   userId: "5d4f55a44955e7384898f522",
   userEmail: "admin@email.com",
-  userName: 'admin',
+  userName: "admin",
   userAddress: null,
-  error: null
+  error: null,
+  userSettingsSuccess: null,
+  userSettingsError: null
 };
 let user = null;
 
@@ -61,6 +65,16 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         error: action.payload
+      };
+    case USER_SETTINGS_SUCCESS:
+      return {
+        ...state,
+        userSettingsSuccess: action.payload
+      };
+    case USER_SETTINGS_ERROR:
+      return {
+        ...state,
+        userSettingsError: action.payload
       };
     default:
       return state;

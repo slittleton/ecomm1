@@ -1,9 +1,43 @@
-import React from "react";
+import React,{useState, useEffect} from "react";
+import {connect}from 'react-redux';
+import {updateUserInfo} from '../../actions/userActions';
 
-const AddressForm = ({ handleChange, address }) => {
+const AddressForm = (props) => {
+  const [address, setAddress] = useState({
+    name: "",
+    street: "",
+    city: "",
+    state: "",
+    zipcode: "",
+  })
+  const {name, street, city, state, zipcode } = address;
+
+  useEffect(() => {
+    const { userAddress } = props.user;
+
+    if (userAddress) {
+      setAddress({
+        ...address,
+        name: userAddress.name,
+        street: userAddress.street,
+        city: userAddress.city,
+        state: userAddress.state,
+        zipcode: userAddress.zipcode
+      });
+    }
+  }, [props.user]);
+
+  const handleChange = val => async e => {
+    await setAddress({ ...address, [val]: e.target.value });
+  };
+  const handleSubmitAddress = e => {
+    e.preventDefault();
+
+    props.updateUserInfo({address}, props.user.userId)
+  };
+
   return (
-    <div className="create-form box">
-      {/* {JSON.stringify(address)} */}
+    <form className="create-form box" onSubmit={handleSubmitAddress} style={{ width: "40rem" }}>
       <div className="subtitle center top-margin">Address</div>
       <div className="form-control-create">
         <div className="center small-pad">Name:</div>
@@ -11,7 +45,7 @@ const AddressForm = ({ handleChange, address }) => {
           type="text"
           className="form-field-create"
           name="name"
-          value={address.name}
+          value={name}
           onChange={handleChange("name")}
         />
       </div>
@@ -21,7 +55,7 @@ const AddressForm = ({ handleChange, address }) => {
           type="text"
           className="form-field-create"
           name="street"
-          value={address.street}
+          value={street}
           onChange={handleChange("street")}
         />
       </div>
@@ -31,7 +65,7 @@ const AddressForm = ({ handleChange, address }) => {
           type="text"
           className="form-field-create"
           name="city"
-          value={address.city}
+          value={city}
           onChange={handleChange("city")}
         />
       </div>
@@ -41,21 +75,34 @@ const AddressForm = ({ handleChange, address }) => {
           type="text"
           className="form-field-create"
           name="state"
-          value={address.state}
+          value={state}
           onChange={handleChange("state")}
         />
       </div>
       <div className="form-control-create">
         <div className="center small-pad">Zipcode:</div>
         <input
-          type="text"
+          type="number"
           className="form-field-create"
           name="zipcode"
-          value={address.zipcode}
+          value={zipcode}
           onChange={handleChange("zipcode")}
         />
       </div>
-    </div>
+      <button className="btn btn-margin" type="submit">
+        Update Address
+      </button>
+    </form>
   );
 };
-export default AddressForm;
+
+const mapStateToProps = state => {
+  console.log('ADDRESS STATE', state)
+  return {
+    user: state.authReducer,
+    actionStatus: state.adminReducer.actionStatus,
+    error: state.adminReducer.error
+  }
+}
+
+export default connect(mapStateToProps,{updateUserInfo})(AddressForm);

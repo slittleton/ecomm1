@@ -13,7 +13,7 @@ import AccountAdmin from "./components/account/AccountAdmin";
 import AdminProducts from "./components/account/AdminProducts";
 import AdminCreate from "./components/account/AdminCreate";
 import AdminMessages from "./components/account/AdminMessages";
-import AdminSettings from "./components/account/AdminSettings";
+import UserSettings from "./components/account/UserSettings";
 import AccountUser from "./components/account/AccountUser";
 import ProductView from "./components/product/ProductView";
 import Cart from "./components/cart/Cart";
@@ -30,13 +30,13 @@ function App() {
         <Route path="/productview/:id" exact component={ProductView} />
         <Route path="/cart" exact component={Cart}/>
         
-        <PrivateRoute path="/account/user" exact component={AccountUser}/>
+        <PrivateRoute path="/account/user" exact component={UserSettings}/>
         
         <AdminRoute path="/account/admin" exact component={AccountAdmin}/>
         <AdminRoute path="/account/admin/products" exact component={AdminProducts}/>
         <AdminRoute path="/account/admin/create" exact component={AdminCreate}/>
         <AdminRoute path="/account/admin/messages" exact component={AdminMessages}/>
-        <AdminRoute path="/account/admin/settings" exact component={AdminSettings}/>
+        <AdminRoute path="/account/admin/settings" exact component={UserSettings}/>
       </Switch>
     </BrowserRouter>
   );

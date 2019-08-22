@@ -19,18 +19,16 @@ export const getProducts = () => async dispatch => {
 
   dispatch({ type: SET_PRODUCTS_BUNDLE, payload: data });
 };
-
 //GET PRODUCT ================================================================
-export const getProduct = (id) => async dispatch => {
+export const getProduct = id => async dispatch => {
   let data = await fetch(`${API}/product/${id}`, {
     method: "GET"
   });
   data = await data.json();
 
-  console.log('PRODUCT', data)
+  console.log("PRODUCT", data);
   dispatch({ type: SET_PRODUCT, payload: data });
 };
-
 // GET CATEGORIES ============================================================
 export const getCategories = () => async dispatch => {
   let data = await fetch(`${API}/categories`, {
@@ -40,7 +38,6 @@ export const getCategories = () => async dispatch => {
 
   dispatch({ type: SET_CATEGORIES, payload: data });
 };
-
 // SEARCH FOR PRODUCTS =======================================================
 export const searchForProducts = searchCriteria => async dispatch => {
   // ensure price range is a number
@@ -101,7 +98,6 @@ export const resetSearchStatus = type => async dispatch => {
     dispatch({ type: PRODUCT_SEARCH_SUCCESS, payload: null });
   }
 };
-
 
 // export const addToCart = () => async dispatch => {};
 // export const addToCart = () => async dispatch => {};

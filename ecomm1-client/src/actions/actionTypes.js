@@ -32,3 +32,8 @@ export const DEL_FROM_CART = "DEL_FROM_CART";
 export const EMPTY_CART = "EMPTY_CART";
 export const CART_ERROR = "CART_ERROR";
 
+// USER ACTION TYPES ========================================
+export const UPDATE_USER_INFO = "UPDATE_USER_INFO";
+export const USER_SETTINGS_ERROR = "USER_SETTINGS_ERROR";
+export const USER_SETTINGS_SUCCESS = "USER_SETTINGS_SUCCESS";
+

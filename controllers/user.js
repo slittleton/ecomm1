@@ -14,36 +14,41 @@ exports.userById = (req, res, callback) => {
   });
 };
 
+
+// UPDATE USER PROFILE ====================================================
+exports.updateUser = async (req, res) => {
+
+
+  console.log(req.body);
+
+  // if (req.body.password) {
+  //   // if password changed then hash and save new password
+  //   const hashPass = await User.hashPassword(req.body.password);
+  //   req.body.password = hashPass;
+  // }
+  // User.findOneAndUpdate(
+  //   { _id: req.profile._id },
+  //   { $set: req.body },
+  //   { new: true },
+  //   (err, user) => {
+  //     if (err) {
+  //       return res
+  //         .status(400)
+  //         .json({ error: "user does not have authorization" });
+  //     }
+  //     user.password = undefined;
+  //     user.salt = undefined;
+  //     res.json(user);
+  //   }
+  // );
+};
+
+
 // GET USER ==============================================================
 exports.getUser = (req, res) => {
   const { name, email, history, isAdmin, _id } = req.profile;
   const user = { name, email, history, isAdmin, _id };
   res.json(user);
-};
-
-// UPDATE USER PROFILE ====================================================
-exports.updateUser = async (req, res) => {
-  if (req.body.password) {
-    // if password changed then hash and save new password
-    const hashPass = await User.hashPassword(req.body.password);
-    req.body.password = hashPass;
-  }
-
-  User.findOneAndUpdate(
-    { _id: req.profile._id },
-    { $set: req.body },
-    { new: true },
-    (err, user) => {
-      if (err) {
-        return res
-          .status(400)
-          .json({ error: "user does not have authorization" });
-      }
-      user.password = undefined;
-      user.salt = undefined;
-      res.json(user);
-    }
-  );
 };
 
 // GET USER ORDER HISTORY =========================================

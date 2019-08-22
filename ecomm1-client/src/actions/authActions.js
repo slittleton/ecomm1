@@ -5,9 +5,8 @@ import {
   SET_SIGNIN_STATUS,
   SIGN_OUT_USER
 } from "./actionTypes";
-import {saveToken} from './authMethods';
+import { saveToken } from "./authMethods";
 const API = process.env.REACT_APP_API_URL;
-
 
 export const signUp = (name, email, password) => async dispatch => {
   let user = { name, email, password };
@@ -39,7 +38,6 @@ export const setSignInStatus = boo => async dispatch => {
 export const setErrorStatus = msg => async dispatch => {
   dispatch({ type: AUTH_ERROR, payload: msg });
 };
-
 export const signIn = (email, password) => async dispatch => {
   const user = { email, password };
 
@@ -67,7 +65,6 @@ export const signIn = (email, password) => async dispatch => {
     dispatch({ type: SIGN_IN_USER, payload: data.user });
   }
 };
-
 export const signOut = () => async dispatch => {
   // delete JWT
   localStorage.removeItem("jwt");

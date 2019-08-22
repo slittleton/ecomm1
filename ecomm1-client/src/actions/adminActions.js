@@ -26,6 +26,7 @@ export const getMessages = () => async dispatch => {
     console.log(error);
   }
 };
+
 // DELETE MESSAGE ======================================================
 export const deleteMessage = id => async dispatch => {
   let token = authToken().token;
@@ -48,6 +49,7 @@ export const deleteMessage = id => async dispatch => {
     console.log(error);
   }
 };
+
 // RESET MESSAGE STATUS ================================================
 export const resetMessageStatus = val => async dispatch => {
   dispatch({ type: MESSAGE_DELETED, payload: val });
@@ -113,6 +115,7 @@ export const createCategory = value => async dispatch => {
     }
   }
 };
+
 // CREATE PRODUCT ================================================================
 export const createProduct = product => async dispatch => {
   let token = authToken().token;
@@ -145,6 +148,7 @@ export const setAdminActionError = status => async dispatch => {
     dispatch({ type: ADMIN_ERROR, payload: status.error });
   }
 };
+
 // RESET ADMIN ACTION STATUS =====================================================
 export const resetAdminActionStatus = status => async dispatch => {
   dispatch({ type: ADMIN_ERROR, payload: status });
