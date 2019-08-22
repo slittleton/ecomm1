@@ -4,13 +4,13 @@ import { connect } from "react-redux";
 import { getProducts, getCategories } from "../../actions/productActions";
 import {
   updateProduct,
-  resetAdminActionStatus
+  resetAdminActionStatus,
+  deleteProduct
 } from "../../actions/adminActions";
 import AdminMenu from "../layout/AdminMenu";
 import AdminProductForm from "./AdminProductForm";
 
 const AdminProducts = props => {
-  const [productToUpdate, setProductToUpdate] = useState(null);
   const [values, setValues] = useState({
     name: "",
     category: "",
@@ -21,7 +21,8 @@ const AdminProducts = props => {
     error: false,
     success: false,
     formData: "",
-    _id: ""
+    _id: "",
+    makeSure: false
   });
 
   const {
@@ -34,7 +35,8 @@ const AdminProducts = props => {
     error,
     success,
     formData,
-    _id
+    _id,
+    makeSure
   } = values;
 
   useEffect(() => {
@@ -42,7 +44,6 @@ const AdminProducts = props => {
     props.getCategories();
     setValues({ ...values, formData: new FormData() });
   }, [props.actionStatus]);
-
   useEffect(() => {
     if (success) {
       setValues({ ...values, success: false });
@@ -52,7 +53,6 @@ const AdminProducts = props => {
     }
     props.getCategories();
   }, [props.actionStatus]);
-
   useEffect(() => {
     if (error) {
       setValues({ ...values, error: false });
@@ -92,7 +92,12 @@ const AdminProducts = props => {
                   >
                     Update
                   </button>
-                  <button className="small-btn">Delete</button>
+                  <button
+                    className="small-btn"
+                    onClick={setDelProduct(product._id)}
+                  >
+                    Delete
+                  </button>
                 </div>
               </div>
             );
@@ -117,7 +122,7 @@ const AdminProducts = props => {
     props.updateProduct(formData, _id);
   };
   const selectedProduct = () => {
-    if (_id !== "" && _id !== null) {
+    if (name !== "" && name !== null) {
       return (
         <div>
           <AdminProductForm
@@ -131,7 +136,6 @@ const AdminProducts = props => {
       );
     }
   };
-
   const showError = () => {
     return (
       <div className="container" style={{ display: error ? "" : "none" }}>
@@ -139,7 +143,6 @@ const AdminProducts = props => {
       </div>
     );
   };
-
   const showSuccess = () => {
     if (success) {
       setTimeout(() => {
@@ -154,7 +157,8 @@ const AdminProducts = props => {
           error: false,
           success: false,
           formData: new FormData(),
-          newCategory: ""
+          _id: "",
+          makeSure: false
         });
         props.resetAdminActionStatus(null);
       }, 3500);
@@ -171,6 +175,54 @@ const AdminProducts = props => {
       }
     }
   };
+  const setDelProduct = id => () => {
+    setValues({ ...values, _id: id, makeSure: true });
+  };
+  const clearDelMessage = ()=>{
+    setValues({
+      ...values,
+      name: "",
+      category: "",
+      photo: "",
+      price: "",
+      quantity: "",
+      description: "",
+      error: false,
+      success: false,
+      formData: new FormData,
+      _id: "",
+      makeSure: false
+    });
+  }
+  const makeSureDel = () => {
+    return (
+      <div
+        className="container center"
+        style={{ display: makeSure ? "" : "none" }}
+      >
+        <div className="info">
+          <div>ARE YOU SURE YOU WANT TO DELETE THIS PRODUCT?</div>
+          <div className="small-pad"> PRODUCT ID: {_id}</div>
+          <div>
+            <button
+              className="btn small-pad"
+              onClick={() => props.deleteProduct(_id)}
+              style={{ color: "orange" }}
+            >
+              Yes Delete
+            </button>
+            <button
+              className="btn small-pad"
+              onClick={clearDelMessage}
+              style={{ color: "orange" }}
+            >
+              No, Don't Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <div className="">
@@ -183,12 +235,14 @@ const AdminProducts = props => {
       >
         {showSuccess()}
         {showError()}
-        <div className="products">
+        <div className="products center">
           <div className="products-box box">
             <h3 className="admin-title">Products List</h3>
             {productList()}
           </div>
-          <div>{selectedProduct()}</div>
+          <div>
+          {makeSureDel()} {selectedProduct()} 
+          </div>
         </div>
       </Layout>
     </div>
@@ -208,5 +262,11 @@ const mapStateToProps = state => {
 };
 export default connect(
   mapStateToProps,
-  { getProducts, getCategories, updateProduct, resetAdminActionStatus }
+  {
+    getProducts,
+    getCategories,
+    updateProduct,
+    resetAdminActionStatus,
+    deleteProduct
+  }
 )(AdminProducts);

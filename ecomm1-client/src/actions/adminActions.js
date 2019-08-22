@@ -81,7 +81,6 @@ export const updateMessageStatus = message => async dispatch => {
 export const createCategory = value => async dispatch => {
   let token = authToken().token;
 
-  console.log("VALUE", value);
   let createdCategory = await fetch(`${API}/category/create`, {
     method: "POST",
     headers: {
@@ -116,7 +115,6 @@ export const createCategory = value => async dispatch => {
 };
 // CREATE PRODUCT ================================================================
 export const createProduct = product => async dispatch => {
-
   let token = authToken().token;
 
   let createdProduct = await fetch(`${API}/product/create`, {
@@ -129,17 +127,16 @@ export const createProduct = product => async dispatch => {
   });
 
   createdProduct = await createdProduct.json();
-  
 
-  console.log("CREATED PRODUCT", createdProduct)
-  if(createdProduct._id){
-    console.log("ID")
-    dispatch({type: ADMIN_ACTION_SUCCESS, payload: {productCreated:createdProduct}})
+  if (createdProduct._id) {
+    dispatch({
+      type: ADMIN_ACTION_SUCCESS,
+      payload: { productCreated: createdProduct }
+    });
   }
-  if(createdProduct.error){
-    dispatch({type: ADMIN_ERROR, payload: createdProduct.error})
+  if (createdProduct.error) {
+    dispatch({ type: ADMIN_ERROR, payload: createdProduct.error });
   }
-
 };
 
 // SET ADMIN ERROR ================================================================
@@ -154,10 +151,8 @@ export const resetAdminActionStatus = status => async dispatch => {
   dispatch({ type: ADMIN_ACTION_SUCCESS, payload: status });
 };
 
-
-// UPDATE PRODUCT
+// UPDATE PRODUCT =====================================================
 export const updateProduct = (product, _id) => async dispatch => {
-  console.log('ACTIONS', _id)
   let token = authToken().token;
 
   let updatedProduct = await fetch(`${API}/product/update/${_id}`, {
@@ -170,22 +165,40 @@ export const updateProduct = (product, _id) => async dispatch => {
   });
 
   updatedProduct = await updatedProduct.json();
-  
 
-  console.log("CREATED PRODUCT", updatedProduct)
-
-  if(updatedProduct){
-    console.log("ID")
-    dispatch({type: ADMIN_ACTION_SUCCESS, payload: updatedProduct.message})
+  if (updatedProduct) {
+    dispatch({ type: ADMIN_ACTION_SUCCESS, payload: updatedProduct.message });
   }
-  if(updatedProduct.error){
-    dispatch({type: ADMIN_ERROR, payload: updatedProduct.error})
+  if (updatedProduct.error) {
+    dispatch({ type: ADMIN_ERROR, payload: updatedProduct.error });
   }
-
 };
 
+// DELETE PRODUCT =====================================================
+export const deleteProduct = id => async dispatch => {
+  let token = authToken().token;
+  try {
+    let data = await fetch(`${API}/product/delete/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: token
+      }
+    });
+    data = await data.json();
+
+    if (data.message) {
+      dispatch({ type: ADMIN_ACTION_SUCCESS, payload: data.message });
+    }
+    if (data.error) {
+      dispatch({ type: ADMIN_ERROR, payload: data.error });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const getOrders = () => async dispatch => {};
 export const updateOrder = () => async dispatch => {};
+export const deleteOrder = () => async dispatch => {};
 
 export const updateUserInfo = () => async dispatch => {};
