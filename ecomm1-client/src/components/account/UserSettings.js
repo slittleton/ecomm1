@@ -22,7 +22,6 @@ const UserSettings = props => {
   const { userName, email, newpassword, oldpassword } = values;
   const { name, street, city, state, zipcode } = address;
 
-
   useEffect(() => {
     const { userAddress } = props.user;
     if (props.user.userAddress) {
@@ -74,10 +73,12 @@ const UserSettings = props => {
       >
         {JSON.stringify(props.user)}
         <div className="settings container box">
-          <div className="box small-pad">
+          <div className="box">
             <div className="title">Current User Information</div>
-            <div className="tiny-pad">Username: {userName}</div>
-            <div className="tiny-pad">Email: {email}</div>
+            <div className="box">
+              <div className="tiny-pad">Username: {userName}</div>
+              <div className="tiny-pad">Email: {email}</div>
+            </div>
             <div className="tiny-pad box">
               Address:{" "}
               {street !== "" ? (
@@ -92,11 +93,12 @@ const UserSettings = props => {
                 <div className="tiny-pad">Address Not Found</div>
               )}
             </div>
-
-            <div className="tiny-pad">USER ORDER HISTORY</div>
-            <div className="tiny-pad">USER ORDER HISTORY</div>
-            <div className="tiny-pad">USER ORDER HISTORY</div>
-            <div className="tiny-pad">USER ORDER HISTORY</div>
+            <div className="box">
+              <div className="tiny-pad">USER ORDER HISTORY</div>
+              <div className="tiny-pad">USER ORDER HISTORY</div>
+              <div className="tiny-pad">USER ORDER HISTORY</div>
+              <div className="tiny-pad">USER ORDER HISTORY</div>
+            </div>
           </div>
 
           <div className="">

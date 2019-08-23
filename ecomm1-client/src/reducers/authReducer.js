@@ -5,7 +5,8 @@ import {
   SET_SIGNIN_STATUS,
   AUTH_ERROR,
   USER_SETTINGS_SUCCESS,
-  USER_SETTINGS_ERROR
+  USER_SETTINGS_ERROR,
+  SET_USER_DATA
 } from "../actions/actionTypes";
 
 const INITIAL_STATE = {
@@ -36,6 +37,18 @@ export default (state = INITIAL_STATE, action) => {
       };
 
     case SIGN_IN_USER:
+      user = action.payload;
+      return {
+        ...state,
+        isAdmin: user.isAdmin,
+        userId: user._id,
+        userName: user.name,
+        userEmail: user.email,
+        userAddress: user.address? user.address : null,
+        userHistory: user.history? user.history : null,
+        signInStatus: true
+      };
+    case SET_USER_DATA:
       user = action.payload;
       return {
         ...state,

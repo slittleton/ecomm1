@@ -3,7 +3,8 @@ import { connect } from "react-redux";
 import {
   updateUserInfo,
   setUserSettingsError,
-  setUserSettingsSuccess
+  setUserSettingsSuccess,
+  getUserInfo
 } from "../../actions/userActions";
 
 const AddressForm = props => {
@@ -23,18 +24,16 @@ const AddressForm = props => {
 
   useEffect(() => {
     const { userAddress } = props.user;
-    console.log("USE EFFECT", props.user);
-
-    // if (userAddress) {
-    //   setAddress({
-    //     ...address,
-    //     name: userAddress.name,
-    //     street: userAddress.street,
-    //     city: userAddress.city,
-    //     state: userAddress.state,
-    //     zipcode: userAddress.zipcode
-    //   });
-    // }
+    if (userAddress) {
+      setAddress({
+        ...address,
+        name: userAddress.name,
+        street: userAddress.street,
+        city: userAddress.city,
+        state: userAddress.state,
+        zipcode: userAddress.zipcode
+      });
+    }
   }, []);
 
   useEffect(() => {
@@ -57,6 +56,7 @@ const AddressForm = props => {
       setValidation({ ...validation, success: true });
       setTimeout(() => {
         setValidation({ ...validation, success: false });
+        props.getUserInfo();
       }, 3000);
     }
   }, [props.user.userSettingsSuccess]);
@@ -183,5 +183,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { updateUserInfo, setUserSettingsError, setUserSettingsSuccess }
+  { updateUserInfo, setUserSettingsError, setUserSettingsSuccess, getUserInfo }
 )(AddressForm);

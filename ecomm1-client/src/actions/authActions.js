@@ -38,6 +38,7 @@ export const setSignInStatus = boo => async dispatch => {
 export const setErrorStatus = msg => async dispatch => {
   dispatch({ type: AUTH_ERROR, payload: msg });
 };
+
 export const signIn = (email, password) => async dispatch => {
   const user = { email, password };
 
