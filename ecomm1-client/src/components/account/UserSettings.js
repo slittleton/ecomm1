@@ -3,32 +3,30 @@ import Layout from "../layout/Layout";
 import { connect } from "react-redux";
 import AdminMenu from "../layout/AdminMenu";
 import AddressForm from "./AddressForm";
-import {updateUserInfo, getUserOrders} from '../../actions/userActions';
+import { updateUserInfo, getUserOrders } from "../../actions/userActions";
 
 const UserSettings = props => {
   const [values, setValues] = useState({
     userName: "",
     email: "",
-    newpassword:"",
-    oldpassword:"",
+    newpassword: "",
+    oldpassword: ""
+  });
+  const [address, setAddress] = useState({
     name: "",
     street: "",
     city: "",
     state: "",
-    zipcode: "",
+    zipcode: ""
   });
-  const { userName, email, name, street, city, state, zipcode, newpassword,oldpassword } = values;
-  const address = { name, street, city, state, zipcode };
+  const { userName, email, newpassword, oldpassword } = values;
+  const { name, street, city, state, zipcode } = address;
+
 
   useEffect(() => {
-    const { userName, userEmail, userAddress } = props.user;
-    setValues({
-      ...values,
-      userName: userName,
-      email: userEmail
-    });
-    if (userAddress) {
-      setValues({
+    const { userAddress } = props.user;
+    if (props.user.userAddress) {
+      setAddress({
         ...values,
         name: userAddress.name,
         street: userAddress.street,
@@ -37,14 +35,25 @@ const UserSettings = props => {
         zipcode: userAddress.zipcode
       });
     }
+  }, [props.user.userAddress]);
+
+  useEffect(() => {
+    const { userName, userEmail } = props.user;
+    if (props.user) {
+      setValues({
+        ...values,
+        userName: userName,
+        email: userEmail
+      });
+    }
   }, [props.user]);
 
-  const handleSubmitUser = (e) => {
+  const handleSubmitUser = e => {
     e.preventDefault();
 
     console.log(values);
   };
-  const handleSubmitPassword = (e) => {
+  const handleSubmitPassword = e => {
     e.preventDefault();
 
     console.log(values);
@@ -63,24 +72,32 @@ const UserSettings = props => {
         }`}
         accountMenu={<AdminMenu />}
       >
+        {JSON.stringify(props.user)}
         <div className="settings container box">
           <div className="box small-pad">
             <div className="title">Current User Information</div>
-            <div className="tiny-pad">Name: {props.user.userName}</div>
-            <div className="tiny-pad">Email: {props.user.userEmail}</div>
-            <div className="tiny-pad">
+            <div className="tiny-pad">Username: {userName}</div>
+            <div className="tiny-pad">Email: {email}</div>
+            <div className="tiny-pad box">
               Address:{" "}
-              {props.user.userAddress
-                ? props.user.userAddress
-                : "No Address On File"}
+              {street !== "" ? (
+                <div>
+                  <div className="tiny-pad">Name: {name}</div>
+                  <div className="tiny-pad">Street: {street}</div>
+                  <div className="tiny-pad">City: {city}</div>
+                  <div className="tiny-pad">State: {state}</div>
+                  <div className="tiny-pad">Zipcode: {zipcode}</div>
+                </div>
+              ) : (
+                <div className="tiny-pad">Address Not Found</div>
+              )}
             </div>
-            {/*=============== TODO GET ORDER HISTORY =========================== */}
+
             <div className="tiny-pad">USER ORDER HISTORY</div>
             <div className="tiny-pad">USER ORDER HISTORY</div>
             <div className="tiny-pad">USER ORDER HISTORY</div>
             <div className="tiny-pad">USER ORDER HISTORY</div>
           </div>
-
 
           <div className="">
             <div className="title">Update User Information</div>
@@ -115,10 +132,8 @@ const UserSettings = props => {
               </button>
             </form>
 
-
-
             <form onSubmit={handleSubmitPassword} className="create-form">
-            <div className="box">
+              <div className="box">
                 <div className="subtitle center top-margin">
                   Update Password
                 </div>
@@ -148,8 +163,6 @@ const UserSettings = props => {
               </button>
             </form>
 
-
-
             <AddressForm />
           </div>
         </div>
@@ -159,7 +172,7 @@ const UserSettings = props => {
 };
 
 const mapStateToProps = state => {
-  console.log("ADMIN SETTINGS", state);
+  // console.log("ADMIN SETTINGS", state);
   return {
     user: state.authReducer,
     actionStatus: state.adminReducer.actionStatus,
@@ -168,5 +181,5 @@ const mapStateToProps = state => {
 };
 export default connect(
   mapStateToProps,
-  {updateUserInfo, getUserOrders}
+  { updateUserInfo, getUserOrders }
 )(UserSettings);

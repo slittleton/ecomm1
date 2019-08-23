@@ -7,24 +7,31 @@ export const updateUserInfo = (info, _id) => async dispatch => {
 
   let token = authToken().token;
 
-  let updatedUser = await fetch(`${API}/user/update/${_id}`, {
+  let updatedUser = await fetch(`${API}/user/update`, {
     method: "PUT",
     headers: {
       Accept: "application/json",
+      "Content-Type": "application/json",
       Authorization: token
     },
-    body: info
+    body: JSON.stringify(info)
   });
 
   updatedUser = await updatedUser.json();
 
   console.log(updatedUser);
 
-  // if (updatedUser) {
-  //   dispatch({ type: USER_SETTINGS_SUCCESS, payload: updatedUser.message });
-  // }
-  // if (updatedUser.error) {
-  //   dispatch({ type: USER_SETTINGS_ERROR, payload: updatedUser.error });
-  // }
+  if (updatedUser) {
+    dispatch({ type: USER_SETTINGS_SUCCESS, payload: updatedUser.message });
+  }
+  if (updatedUser.error) {
+    dispatch({ type: USER_SETTINGS_ERROR, payload: updatedUser.error });
+  }
 };
+export const setUserSettingsError = errorMsg => async dispatch => {
+  dispatch({ type: USER_SETTINGS_ERROR, payload: errorMsg })
+}
+export const setUserSettingsSuccess = successMsg => async dispatch => {
+  dispatch({ type: USER_SETTINGS_SUCCESS, payload: successMsg })
+}
 export const getUserOrders = id => async dispatch => {};

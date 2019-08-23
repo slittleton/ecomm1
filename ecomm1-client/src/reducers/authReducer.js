@@ -15,6 +15,7 @@ const INITIAL_STATE = {
   userEmail: "admin@email.com",
   userName: "admin",
   userAddress: null,
+  userHistory: null,
   error: null,
   userSettingsSuccess: null,
   userSettingsError: null
@@ -42,6 +43,8 @@ export default (state = INITIAL_STATE, action) => {
         userId: user._id,
         userName: user.name,
         userEmail: user.email,
+        userAddress: user.address? user.address : null,
+        userHistory: user.history? user.history : null,
         signInStatus: true
       };
     case SIGN_OUT_USER:

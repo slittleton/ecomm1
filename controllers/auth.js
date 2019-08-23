@@ -53,7 +53,7 @@ exports.signIn = async (req, res, next) => {
 
 exports.checkAuth = async (req, res, next) => {
   const token = await req.header("Authorization");
-
+  // console.log("CHECK AUTH")
   try {
     const decoded = await jwt.verify(token, process.env.JWT_SECRET);
     if (decoded) {

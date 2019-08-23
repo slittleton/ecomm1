@@ -2,7 +2,7 @@ const { Product, validateProduct } = require("../models/product");
 const formidable = require("formidable");
 const fs = require("fs");
 
-exports.productById = (req, res, callback, id) => {
+exports.productById = (req, res, next, id) => {
   Product.findById(id)
     .populate("category")
     .exec((err, product) => {
@@ -10,7 +10,7 @@ exports.productById = (req, res, callback, id) => {
         return res.status(400).json({ error: "product not found" });
       }
       req.product = product;
-      callback();
+      next();
     });
 };
 
@@ -166,7 +166,7 @@ exports.productsList = (req, res) => {
 };
 
 // SUBTRACT FROM QUANTITY ====================================================
-exports.decreaseQuantity = (req, res, callback) => {
+exports.decreaseQuantity = (req, res, next) => {
   let bulkOps = req.body.order.products.map(item => {
     return {
       updateOne: {
@@ -179,6 +179,6 @@ exports.decreaseQuantity = (req, res, callback) => {
     if (error) {
       return res.status(400).json({ error: "Could not update product" });
     }
-    callback();
+    next();
   });
 };

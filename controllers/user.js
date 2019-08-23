@@ -1,53 +1,43 @@
-const {User, validateUser} = require("../models/user");
+const { User, validateUser } = require("../models/user");
 
 // GET USER BY ID =========================================================
-exports.userById = (req, res, callback) => {
+exports.userById = (req, res, next) => {
   const _id = req.auth._id;
+
   User.findById(_id).exec((err, user) => {
     if (err || !user) {
       return res.status(400).json({ error: "user not found" });
     }
-    user.password = undefined;
     req.profile = user;
 
-    callback();
+    next();
   });
 };
-
 
 // UPDATE USER PROFILE ====================================================
 exports.updateUser = async (req, res) => {
 
+  if (req.body.password) {
+    // if password changed then hash and save new password
+    const hashPass = await User.hashPassword(req.body.password);
+    req.body.password = hashPass;
+  }
 
-  console.log(req.body);
+  let user = req.profile;
+  user = Object.assign(user, req.body);
 
-  // if (req.body.password) {
-  //   // if password changed then hash and save new password
-  //   const hashPass = await User.hashPassword(req.body.password);
-  //   req.body.password = hashPass;
-  // }
-  // User.findOneAndUpdate(
-  //   { _id: req.profile._id },
-  //   { $set: req.body },
-  //   { new: true },
-  //   (err, user) => {
-  //     if (err) {
-  //       return res
-  //         .status(400)
-  //         .json({ error: "user does not have authorization" });
-  //     }
-  //     user.password = undefined;
-  //     user.salt = undefined;
-  //     res.json(user);
-  //   }
-  // );
+  user.save((err, data) => {
+    if (err) {
+      return res.status(400).json({ error: err });
+    }
+    res.json({ message: "User Updated Successfully" });
+  });
 };
-
 
 // GET USER ==============================================================
 exports.getUser = (req, res) => {
-  const { name, email, history, isAdmin, _id } = req.profile;
-  const user = { name, email, history, isAdmin, _id };
+  const { name, email, history, isAdmin, _id, address } = req.profile;
+  const user = { name, email, history, isAdmin, _id, address };
   res.json(user);
 };
 
@@ -65,7 +55,7 @@ exports.userOrders = (req, res) => {
 };
 
 // ADD ORDER TO USER ORDERS ======================================
-exports.addToUserOrderHistory = (req, res, callback) => {
+exports.addToUserOrderHistory = (req, res, next) => {
   let history = [];
 
   req.body.order.products.forEach(order => {
