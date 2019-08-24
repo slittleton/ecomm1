@@ -12,8 +12,9 @@ const Checkout = props => {
   const checkoutInfo = () => {
     if (props.auth.userAddress) {
       return <div>
+        <div className="center subtitle medium-margin">Current Address</div>
         <AddressForm />
-        {paymentOptions}
+        {paymentOptions()}
       </div>;
     } else {
       return (
@@ -34,8 +35,8 @@ const Checkout = props => {
       {props.auth.signInStatus ? (
         <div>{checkoutInfo()}</div>
       ) : (
-        <div>
-          <Link to="/signin">Sign In</Link>
+        <div className="subtitle medium-margin">
+          Please <Link to="/signin">Sign In</Link> To Complete Checkout
         </div>
       )}
     </div>

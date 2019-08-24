@@ -88,6 +88,13 @@ body {
 .darkgray-back{
   background-color: rgb(29, 29, 29)
 }
+.black-back{
+  background-color: black
+}
+.gray-text {
+  color: rgb(196, 196, 196)
+}
+
 /* MENU ==================================================== */
 .menu {
   margin-top: 1rem;
@@ -225,6 +232,12 @@ body {
   background-color: black;
   border-radius: 0.5rem;
   font-size: 1.25rem;
+}
+.cart-btn {
+  background-color: black;
+  color: rgb(196, 196, 196);
+  border-radius: .5rem;
+  cursor: pointer;
 }
 .btn:hover{
   cursor: pointer;

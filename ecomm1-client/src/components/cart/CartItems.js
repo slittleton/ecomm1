@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { getCartItems } from "../../actions/cartActions";
+import { getCartItems, delFromCart } from "../../actions/cartActions";
 import ProductPhoto from "../product/ProductPhoto";
+import CartItemQuantity from './CartItemQuantity';
 
 const CartItems = props => {
+
   useEffect(() => {
     props.getCartItems();
   }, []);
@@ -17,6 +19,10 @@ const CartItems = props => {
       return prices.reduce((acc, curVal) => acc + curVal).toFixed(2);
     }
   };
+  const delCartItem = id => () => {
+    props.delFromCart(id);
+  };
+
 
   if (props.cart) {
     return (
@@ -37,7 +43,13 @@ const CartItems = props => {
                     Price: ${item.product.price.toFixed(2)}
                   </div>
                   <div>{`Quantity ${item.count} `}</div>
-                  <button className="">Remove Item</button>
+                  <CartItemQuantity count={item.count} id={item.product._id}/>
+                  <button
+                    className="cart-btn"
+                    onClick={delCartItem(item.product._id)}
+                  >
+                    Remove Item
+                  </button>
                 </div>
               </div>
             </div>
@@ -60,5 +72,5 @@ const mapStateToProps = state => {
 };
 export default connect(
   mapStateToProps,
-  { getCartItems }
+  { getCartItems, delFromCart }
 )(CartItems);
