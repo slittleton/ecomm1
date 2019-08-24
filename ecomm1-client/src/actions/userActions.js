@@ -8,6 +8,8 @@ const API = process.env.REACT_APP_API_URL;
 
 // UPDATE USER INFO ==================================================
 export const updateUserInfo = (info, _id) => async dispatch => {
+  console.log(info);
+
   let token = authToken().token;
 
   let updatedUser = await fetch(`${API}/user/update`, {
@@ -21,18 +23,28 @@ export const updateUserInfo = (info, _id) => async dispatch => {
   });
 
   updatedUser = await updatedUser.json();
+  console.log("updatedUser: ", updatedUser);
 
   if (updatedUser.addressUpdated) {
-    dispatch({ type: USER_SETTINGS_SUCCESS, payload: updatedUser.addressUpdated.message });
+    dispatch({
+      type: USER_SETTINGS_SUCCESS,
+      payload: updatedUser.addressUpdated.message
+    });
   }
-  if (updatedUser.error) {
-    dispatch({ type: USER_SETTINGS_ERROR, payload: updatedUser.error });
+  if (updatedUser.userInfo) {
+    dispatch({
+      type: USER_SETTINGS_SUCCESS,
+      payload: updatedUser.userInfo.message
+    });
   }
   if (updatedUser.passwordUpdate) {
     dispatch({
       type: USER_SETTINGS_SUCCESS,
       payload: updatedUser.passwordUpdate.message
     });
+  }
+  if (updatedUser.error) {
+    dispatch({ type: USER_SETTINGS_ERROR, payload: updatedUser.error });
   }
 };
 // SET ERROR MESSAGE ==================================================

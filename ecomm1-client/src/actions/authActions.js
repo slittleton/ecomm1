@@ -8,6 +8,7 @@ import {
 import { saveToken } from "./authMethods";
 const API = process.env.REACT_APP_API_URL;
 
+// SIGN UP ==========================================================
 export const signUp = (name, email, password) => async dispatch => {
   let user = { name, email, password };
   let data = await fetch(`${API}/signup`, {
@@ -32,13 +33,17 @@ export const signUp = (name, email, password) => async dispatch => {
     dispatch({ type: SIGN_UP_USER, payload: data.user });
   }
 };
+
+// SIGN IN STATUS ===================================================
 export const setSignInStatus = boo => async dispatch => {
   dispatch({ type: SET_SIGNIN_STATUS, payload: boo });
 };
+
 export const setErrorStatus = msg => async dispatch => {
   dispatch({ type: AUTH_ERROR, payload: msg });
 };
 
+// SIGN IN ==========================================================
 export const signIn = (email, password) => async dispatch => {
   const user = { email, password };
 
@@ -66,6 +71,8 @@ export const signIn = (email, password) => async dispatch => {
     dispatch({ type: SIGN_IN_USER, payload: data.user });
   }
 };
+
+// SIGN OUT ==========================================================
 export const signOut = () => async dispatch => {
   // delete JWT
   localStorage.removeItem("jwt");

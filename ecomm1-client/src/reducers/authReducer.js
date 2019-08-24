@@ -53,13 +53,13 @@ export default (state = INITIAL_STATE, action) => {
       console.log(user)
       return {
         ...state,
-        // isAdmin: user.isAdmin,
-        // userId: user._id,
-        // userName: user.name,
-        // userEmail: user.email,
-        // userAddress: user.address? user.address : null,
-        // userHistory: user.history? user.history : null,
-        // signInStatus: true
+        isAdmin: user.isAdmin,
+        userId: user._id,
+        userName: user.name,
+        userEmail: user.email,
+        userAddress: user.address? user.address : null,
+        userHistory: user.history? user.history : null,
+        signInStatus: true
       };
     case SIGN_OUT_USER:
       return {

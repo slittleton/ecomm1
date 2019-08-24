@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import {
   updateUserInfo,
-  setUserSettingsError,
-  setUserSettingsSuccess,
   getUserInfo
 } from "../../actions/userActions";
 
@@ -22,8 +20,13 @@ const UpdateUserNameEmail = props => {
     });
   }, [props.user]);
 
-  const handleSubmitUser = () => {};
-  const handleChange = () => {};
+  const handleSubmitUser = e => {
+    e.preventDefault();
+    props.updateUserInfo({ name: userName, email: email }, props.user.userId);
+  };
+  const handleChange = val => async e => {
+    await setUserInfo({ ...userInfo, [val]: e.target.value });
+  };
 
   return (
     <form onSubmit={handleSubmitUser} className="create-form">
@@ -57,7 +60,6 @@ const UpdateUserNameEmail = props => {
   );
 };
 const mapStateToProps = state => {
-  // console.log("USERINFO EMAIL", state);
   return {
     user: state.authReducer,
     error: state.authReducer.userSettingsError,
@@ -66,5 +68,5 @@ const mapStateToProps = state => {
 };
 export default connect(
   mapStateToProps,
-  { updateUserInfo, setUserSettingsError, setUserSettingsSuccess, getUserInfo }
+  { updateUserInfo, getUserInfo }
 )(UpdateUserNameEmail);

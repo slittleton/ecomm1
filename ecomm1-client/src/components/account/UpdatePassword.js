@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import {
   updateUserInfo,
-  setUserSettingsError,
-  setUserSettingsSuccess,
-  getUserInfo
+  getUserInfo,
+  setUserSettingsError
 } from "../../actions/userActions";
 
 const UpdatePassword = props => {
@@ -66,7 +65,6 @@ const UpdatePassword = props => {
   );
 };
 const mapStateToProps = state => {
-  // console.log("USERINFO EMAIL", state);
   return {
     user: state.authReducer,
     error: state.authReducer.userSettingsError,
@@ -75,5 +73,5 @@ const mapStateToProps = state => {
 };
 export default connect(
   mapStateToProps,
-  { updateUserInfo, setUserSettingsError, setUserSettingsSuccess, getUserInfo }
+  { updateUserInfo, setUserSettingsError, getUserInfo }
 )(UpdatePassword);

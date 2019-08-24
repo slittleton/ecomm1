@@ -6,6 +6,7 @@ import AddressForm from "./AddressForm";
 import { updateUserInfo, getUserOrders } from "../../actions/userActions";
 import UpdateUserNameEmail from "./UpdateUserNameEmail";
 import UpdatePassword from "./UpdatePassword";
+import UserActionMessage from "./UserActionMessage";
 
 const UserSettings = props => {
   const [values, setValues] = useState({
@@ -49,21 +50,6 @@ const UserSettings = props => {
     }
   }, [props.user]);
 
-  const handleSubmitUser = e => {
-    e.preventDefault();
-
-    console.log(values);
-  };
-  const handleSubmitPassword = e => {
-    e.preventDefault();
-
-    console.log(values);
-  };
-
-  const handleChange = val => async e => {
-    await setValues({ ...values, [val]: e.target.value });
-  };
-
   return (
     <div className="">
       <Layout
@@ -73,7 +59,7 @@ const UserSettings = props => {
         }`}
         accountMenu={<AdminMenu />}
       >
-        {JSON.stringify(props.user)}
+
         <div className="settings container ">
           <div className="box darkgray-back">
             <div className="title">Current User Information</div>
@@ -82,7 +68,7 @@ const UserSettings = props => {
               <div className="tiny-pad">Email: {email}</div>
             </div>
             <div className="tiny-pad box">
-              Address:{" "}
+              Address:
               {street !== "" ? (
                 <div>
                   <div className="tiny-pad">Name: {name}</div>
@@ -102,6 +88,7 @@ const UserSettings = props => {
 
           <div className="">
             <div className="title">Update User Information</div>
+            <UserActionMessage/>
             <UpdateUserNameEmail />
             <UpdatePassword />
             <AddressForm />
@@ -113,7 +100,6 @@ const UserSettings = props => {
 };
 
 const mapStateToProps = state => {
-  // console.log("ADMIN SETTINGS", state);
   return {
     user: state.authReducer,
     actionStatus: state.adminReducer.actionStatus,
