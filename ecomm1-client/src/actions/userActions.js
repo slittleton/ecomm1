@@ -1,7 +1,10 @@
-import { USER_SETTINGS_SUCCESS, USER_SETTINGS_ERROR, SET_USER_DATA } from "./actionTypes";
+import {
+  USER_SETTINGS_SUCCESS,
+  USER_SETTINGS_ERROR,
+  SET_USER_DATA
+} from "./actionTypes";
 import { saveToken, authToken } from "./authMethods";
 const API = process.env.REACT_APP_API_URL;
-
 
 // UPDATE USER INFO ==================================================
 export const updateUserInfo = (info, _id) => async dispatch => {
@@ -19,23 +22,27 @@ export const updateUserInfo = (info, _id) => async dispatch => {
 
   updatedUser = await updatedUser.json();
 
-  console.log(updatedUser);
-
-  if (updatedUser) {
-    dispatch({ type: USER_SETTINGS_SUCCESS, payload: updatedUser.message });
+  if (updatedUser.addressUpdated) {
+    dispatch({ type: USER_SETTINGS_SUCCESS, payload: updatedUser.addressUpdated.message });
   }
   if (updatedUser.error) {
     dispatch({ type: USER_SETTINGS_ERROR, payload: updatedUser.error });
   }
+  if (updatedUser.passwordUpdate) {
+    dispatch({
+      type: USER_SETTINGS_SUCCESS,
+      payload: updatedUser.passwordUpdate.message
+    });
+  }
 };
 // SET ERROR MESSAGE ==================================================
 export const setUserSettingsError = errorMsg => async dispatch => {
-  dispatch({ type: USER_SETTINGS_ERROR, payload: errorMsg })
-}
+  dispatch({ type: USER_SETTINGS_ERROR, payload: errorMsg });
+};
 // SET SUCCESS MESSAGE
 export const setUserSettingsSuccess = successMsg => async dispatch => {
-  dispatch({ type: USER_SETTINGS_SUCCESS, payload: successMsg })
-}
+  dispatch({ type: USER_SETTINGS_SUCCESS, payload: successMsg });
+};
 // GET USER INFO ======================================================
 
 export const getUserInfo = id => async dispatch => {
@@ -51,12 +58,10 @@ export const getUserInfo = id => async dispatch => {
   });
 
   userInfo = await userInfo.json();
-  console.log("USER INFO", userInfo)
+  console.log("USER INFO", userInfo);
 
   dispatch({ type: SET_USER_DATA, payload: userInfo });
 };
-
-
 
 export const getUserOrders = id => async dispatch => {};
 // export const getUserOrders = id => async dispatch => {};

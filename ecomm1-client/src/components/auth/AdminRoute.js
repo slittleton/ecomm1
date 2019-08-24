@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 
 const AdminRoute = props => {
   const { component: Component, ...rest } = props;
-  
+
   const adminTest = () => {
     if (props.user) {
       return props.user.isAdmin;
@@ -16,7 +16,9 @@ const AdminRoute = props => {
       {...rest}
       render={props =>
         authToken() && authToken().user.isAdmin && adminTest() ? (
-          <Component {...props} />
+          <div>
+            <Component {...props} />
+          </div>
         ) : (
           <Redirect
             to={{ pathname: "/signin", state: { from: props.location } }}
@@ -28,6 +30,7 @@ const AdminRoute = props => {
 };
 
 const mapStateToProps = state => {
+  console.log("ADMIN ROUTE", state);
   return {
     user: state.authReducer
   };

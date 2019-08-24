@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import AdminMenu from "../layout/AdminMenu";
 import AddressForm from "./AddressForm";
 import { updateUserInfo, getUserOrders } from "../../actions/userActions";
+import UpdateUserNameEmail from "./UpdateUserNameEmail";
+import UpdatePassword from "./UpdatePassword";
 
 const UserSettings = props => {
   const [values, setValues] = useState({
@@ -72,8 +74,8 @@ const UserSettings = props => {
         accountMenu={<AdminMenu />}
       >
         {JSON.stringify(props.user)}
-        <div className="settings container box">
-          <div className="box">
+        <div className="settings container ">
+          <div className="box darkgray-back">
             <div className="title">Current User Information</div>
             <div className="box">
               <div className="tiny-pad">Username: {userName}</div>
@@ -95,76 +97,13 @@ const UserSettings = props => {
             </div>
             <div className="box">
               <div className="tiny-pad">USER ORDER HISTORY</div>
-              <div className="tiny-pad">USER ORDER HISTORY</div>
-              <div className="tiny-pad">USER ORDER HISTORY</div>
-              <div className="tiny-pad">USER ORDER HISTORY</div>
             </div>
           </div>
 
           <div className="">
             <div className="title">Update User Information</div>
-            <form onSubmit={handleSubmitUser} className="create-form">
-              <div className="box">
-                <div className="subtitle center top-margin">
-                  Username and Email
-                </div>
-                <div className="form-control-create">
-                  <div className="center small-pad">Username:</div>
-                  <input
-                    type="text"
-                    className="form-field-create"
-                    name="userName"
-                    value={userName}
-                    onChange={handleChange("userName")}
-                  />
-                </div>
-                <div className="form-control-create">
-                  <div className="center small-pad">Email:</div>
-                  <input
-                    type="text"
-                    className="form-field-create"
-                    name="email"
-                    value={email}
-                    onChange={handleChange("email")}
-                  />
-                </div>
-              </div>
-              <button className="btn btn-margin" type="submit">
-                Update Username and/or Email
-              </button>
-            </form>
-
-            <form onSubmit={handleSubmitPassword} className="create-form">
-              <div className="box">
-                <div className="subtitle center top-margin">
-                  Update Password
-                </div>
-                <div className="form-control-create">
-                  <div className="center small-pad">Old Password:</div>
-                  <input
-                    type="text"
-                    className="form-field-create"
-                    name="oldpassword"
-                    value={oldpassword}
-                    onChange={handleChange("oldpassword")}
-                  />
-                </div>
-                <div className="form-control-create">
-                  <div className="center small-pad">New Password:</div>
-                  <input
-                    type="text"
-                    className="form-field-create"
-                    name="newpassword"
-                    value={newpassword}
-                    onChange={handleChange("newpassword")}
-                  />
-                </div>
-              </div>
-              <button className="btn btn-margin" type="submit">
-                Update Password
-              </button>
-            </form>
-
+            <UpdateUserNameEmail />
+            <UpdatePassword />
             <AddressForm />
           </div>
         </div>

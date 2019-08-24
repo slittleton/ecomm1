@@ -1,4 +1,6 @@
 const { User, validateUser } = require("../models/user");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 // GET USER BY ID =========================================================
 exports.userById = (req, res, next) => {
@@ -16,22 +18,56 @@ exports.userById = (req, res, next) => {
 
 // UPDATE USER PROFILE ====================================================
 exports.updateUser = async (req, res) => {
-
+  //////////// UPDATE PASSWORD //////////////
   if (req.body.password) {
-    // if password changed then hash and save new password
-    const hashPass = await User.hashPassword(req.body.password);
-    req.body.password = hashPass;
+    const { _id } = req.auth;
+    await User.findOne({ _id }, async (err, user) => {
+      if (err || !user) {
+        return res.status(400).json({
+          error: "User with that email does not exist. Please signup"
+        });
+      }
+
+      const validPassword = await bcrypt.compare(
+        req.body.password.oldPassword,
+        user.password
+      );
+      console.log("VALID", validPassword);
+      if (!validPassword) {
+        return res.status(400).json({ error: "Invalid email or password." });
+      }
+      user.password = undefined;
+
+      // if password changed then hash and save new password
+      const hashPass = await User.hashPassword(req.body.password.newPassword);
+
+      user.password = hashPass;
+      console.log("USER", user);
+      await user.save();
+      user.password = undefined;
+
+      return res.json({
+        passwordUpdate: { message: "Password Successfully Updated" }
+      });
+    });
+  } else {
+    /////////// UPDATE USER INFO/////////////
+    let user = req.profile;
+    user = Object.assign(user, req.body);
+
+    user.save((err, data) => {
+      if (err) {
+        return res.status(400).json({ error: err });
+      }
+      if (req.body.address) {
+        res.json({
+          addressUpdated: { message: "User Address Updated Successfully" }
+        });
+      } else {
+        res.json({ userInfo: { message: "User Info Updated Successfully" } });
+      }
+    });
   }
-
-  let user = req.profile;
-  user = Object.assign(user, req.body);
-
-  user.save((err, data) => {
-    if (err) {
-      return res.status(400).json({ error: err });
-    }
-    res.json({ message: "User Updated Successfully" });
-  });
 };
 
 // GET USER ==============================================================

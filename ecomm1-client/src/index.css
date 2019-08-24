@@ -82,6 +82,9 @@ body {
 .gray-back{
   background-color: gray
 }
+.darkgray-back{
+  background-color: rgb(29, 29, 29)
+}
 /* MENU ==================================================== */
 .menu {
   margin-top: 1rem;
