@@ -2,7 +2,7 @@ import React from "react";
 const API = process.env.REACT_APP_API_URL;
 
 const ProductPhoto = ({ product, imageStyling }) => (
-  <div className="container photo">
+  <div className="photo">
     <img
       src={`${API}/product/photo/${product._id}`}
       alt={product.name}

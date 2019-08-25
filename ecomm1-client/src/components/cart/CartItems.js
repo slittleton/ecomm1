@@ -2,10 +2,9 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { getCartItems, delFromCart } from "../../actions/cartActions";
 import ProductPhoto from "../product/ProductPhoto";
-import CartItemQuantity from './CartItemQuantity';
+import CartItemQuantity from "./CartItemQuantity";
 
 const CartItems = props => {
-
   useEffect(() => {
     props.getCartItems();
   }, []);
@@ -14,7 +13,8 @@ const CartItems = props => {
     if (props.cart) {
       let prices = [];
       props.cart.forEach(item => {
-        prices.push(item.product.price);
+        let cost = parseInt(item.count) * parseInt(item.product.price);
+        prices.push(cost);
       });
       return prices.reduce((acc, curVal) => acc + curVal).toFixed(2);
     }
@@ -22,7 +22,6 @@ const CartItems = props => {
   const delCartItem = id => () => {
     props.delFromCart(id);
   };
-
 
   if (props.cart) {
     return (
@@ -33,17 +32,24 @@ const CartItems = props => {
             <div className="box small-pad spacer" key={item.product._id}>
               <div className="checkout-item ">
                 <div className="tiny-pad small-font">{`(${index + 1})`}</div>
+
+                <div className="margin-left-small">
                 <ProductPhoto
                   product={item.product}
                   imageStyling="img-thumb margin-right-small"
                 />
-                <div className="margin-left-small">
                   <div className="">Item: {item.product.name}</div>
                   <div className="">
                     Price: ${item.product.price.toFixed(2)}
                   </div>
-                  <div>{`Quantity ${item.count} `}</div>
-                  <CartItemQuantity count={item.count} id={item.product._id}/>
+                  <div className="container">
+                    Quantity:{" "}
+                    <CartItemQuantity
+                      count={item.count}
+                      id={item.product._id}
+                    />
+                  </div>
+
                   <button
                     className="cart-btn"
                     onClick={delCartItem(item.product._id)}

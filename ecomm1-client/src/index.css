@@ -213,6 +213,14 @@ body {
   color: white;
   width: 100%;
 }
+.small-form-field-create {
+  text-align: left;
+  border: none;
+  padding-left: 0.5rem;
+  background-color: rgba(0, 0, 0, 0);
+  color: rgb(184, 184, 184);
+  width: 100%;
+}
 .form-field-create::placeholder {
   text-align: left;
   background-color: black;

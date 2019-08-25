@@ -6,20 +6,20 @@ import {
   CART_ERROR
 } from "./actionTypes";
 
+// GET CART ITEMS ==============================================
 export const getCartItems = () => async dispatch => {
   if (localStorage.getItem("cart")) {
     let cart = JSON.parse(localStorage.getItem("cart"));
     dispatch({ type: SET_CART_ITEMS, payload: cart });
   }
 };
-
+// ADD TO CART ==============================================
 export const addToCart = product => async dispatch => {
   let cart = [];
 
   if (localStorage.getItem("cart")) {
     cart = JSON.parse(localStorage.getItem("cart"));
   }
-
   // Check to see if product is already in cart
   let cartIds = [];
   if (cart.length > 0) {
@@ -27,7 +27,6 @@ export const addToCart = product => async dispatch => {
       cartIds.push(item.product._id);
     });
   }
-
   // set info message that item already in cart
   if (cartIds.includes(product._id)) {
     dispatch({ type: CART_ERROR, payload: "Item Already In Cart" });
@@ -38,12 +37,24 @@ export const addToCart = product => async dispatch => {
     dispatch({ type: SET_CART_ITEMS, payload: cart });
   }
 };
-
+// ADJUST ITEM QUANTITY ========================================
 export const adjustCount = (quantity, id) => async dispatch => {
+  let cart = [];
 
-  console.log('QUANTITY', quantity, id)
+  if (localStorage.getItem("cart")) {
+    cart = JSON.parse(localStorage.getItem("cart"));
+  }
+  cart.forEach(item => {
+    if (item.product._id === id) {
+      item.count = quantity;
+    }
+  });
+  localStorage.setItem("cart", JSON.stringify(cart));
+
+  dispatch({ type: SET_CART_ITEMS, payload: cart });
 };
 
+// DELETE ITEM FROM CART =====================================
 export const delFromCart = id => async dispatch => {
   let cart = [];
   if (localStorage.getItem("cart")) {
@@ -56,7 +67,8 @@ export const delFromCart = id => async dispatch => {
   dispatch({ type: SET_CART_ITEMS, payload: cart });
 };
 
+// DELETE ALL ITEMS FROM CART ================================
 export const emptyCart = () => async dispatch => {
-  localStorage.removeItem("cart")
+  localStorage.removeItem("cart");
   dispatch({ type: SET_CART_ITEMS, payload: null });
 };

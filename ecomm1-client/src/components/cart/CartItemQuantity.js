@@ -5,25 +5,26 @@ import {adjustCount} from '../../actions/cartActions';
 const CartItemQuantity = (props) => {
 
   const [quantity, setQuantity] = useState('');
-  const {count, id} = props.count;
+  const {count, id} = props;
 
   useEffect(()=>{
     // Set Initial Quantity based on ItemCount from state
     setQuantity(count)
   },[count])
 
-  const handleChange = () => async e => {
-    await setQuantity(e.target.value);
-    props.adjustCount(quantity, id)
+  const handleChange = value => {
+    setQuantity(value);
+    props.adjustCount(value, id)
   }
 
   return(
     <input
     type="number"
-    className="form-field-create"
+    className="small-form-field-create"
+    style={{width: '100%', border: 'none', fontSize: '1rem'}}
     name="quantity"
     value={quantity}
-    onChange={handleChange("quantity")}
+    onChange={e=>handleChange(e.target.value)}
   />
   )
 
