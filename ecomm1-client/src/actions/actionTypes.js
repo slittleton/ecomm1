@@ -41,3 +41,4 @@ export const SET_USER_DATA = "SET_USER_DATA";
 
 // ORDER ACTION TYPES ======================================
 export const SET_BRAINTREE_TOKEN = "SET_BRAINTREE_TOKEN";
+export const SET_PAYMENT_RESPONSE = "SET_PAYMENT_RESPONSE";

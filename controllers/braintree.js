@@ -21,6 +21,8 @@ exports.generateToken = (req, res) => {
 };
 
 exports.processPayment = (req, res) => {
+  console.log("BODY", req.body)
+
   let nonceFromTheClient = req.body.paymentMethodNonce;
   let amountFromTheClient = req.body.amount;
 

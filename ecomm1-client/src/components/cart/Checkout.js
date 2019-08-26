@@ -3,7 +3,7 @@ import { authToken } from "../../actions/authMethods";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import AddressForm from "../account/AddressForm";
-import { getBraintreeClientToken } from "../../actions/paymentActions";
+import { getBraintreeClientToken, processPayment } from "../../actions/paymentActions";
 import DropIn from "braintree-web-drop-in-react";
 
 const Checkout = props => {
@@ -32,7 +32,7 @@ const Checkout = props => {
         <div>
           <div className="center subtitle medium-margin">Current Address</div>
           <AddressForm />
-          {paymentOptions()}
+          {/* {paymentOptions()} */}
         </div>
       );
     } else {
@@ -50,7 +50,7 @@ const Checkout = props => {
   const paymentOptions = () => {
     if (clientToken && props.cart && props.cart.length > 0) {
       return (
-        <div className="box center">
+        <div className="box center" style={{ backgroundColor: "white" }}>
           <DropIn
             options={{
               authorization: clientToken,
@@ -62,8 +62,8 @@ const Checkout = props => {
           />
           <div className="medium-pad">
             <button
-              className="btn"
-              style={{ backgroundColor: "green", color: "black" }}
+              className="btn tiny-pad"
+              style={{ backgroundColor: "rgb(15, 212, 0)", color: "black" }}
               onClick={buyItems}
             >
               Complete Payment
@@ -76,7 +76,38 @@ const Checkout = props => {
     }
   };
 
-  const buyItems = () => {};
+  const buyItems = () => {
+    let nonce;
+    let getNonce = values.instance
+      .requestPaymentMethod()
+      .then(info => {
+        console.log("NONCE INFO", info);
+        nonce = info.nonce;
+        console.log("Nonce", nonce)
+        const total = cartTotal();
+
+        const paymentData = {
+          paymentMethodNonce: nonce,
+          amount: total
+        }
+        props.processPayment(paymentData)
+
+      })
+      .catch(error => {
+        console.log("Dropin Error", error);
+      });
+  };
+
+  const cartTotal = () => {
+    if (props.cart) {
+      let prices = [];
+      props.cart.forEach(item => {
+        let cost = parseInt(item.count) * parseInt(item.product.price);
+        prices.push(cost);
+      });
+      return prices.reduce((acc, curVal) => acc + curVal).toFixed(2);
+    }
+  };
 
   return (
     <div className="checkout box">
@@ -103,5 +134,5 @@ const mapStateToProps = state => {
 };
 export default connect(
   mapStateToProps,
-  { getBraintreeClientToken }
+  { getBraintreeClientToken, processPayment }
 )(Checkout);
