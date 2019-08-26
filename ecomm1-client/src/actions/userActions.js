@@ -47,16 +47,18 @@ export const updateUserInfo = (info, _id) => async dispatch => {
     dispatch({ type: USER_SETTINGS_ERROR, payload: updatedUser.error });
   }
 };
+
 // SET ERROR MESSAGE ==================================================
 export const setUserSettingsError = errorMsg => async dispatch => {
   dispatch({ type: USER_SETTINGS_ERROR, payload: errorMsg });
 };
+
 // SET SUCCESS MESSAGE
 export const setUserSettingsSuccess = successMsg => async dispatch => {
   dispatch({ type: USER_SETTINGS_SUCCESS, payload: successMsg });
 };
-// GET USER INFO ======================================================
 
+// GET USER INFO ======================================================
 export const getUserInfo = id => async dispatch => {
   let token = authToken().token;
 

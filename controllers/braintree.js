@@ -1,3 +1,8 @@
+
+const User = require('../models/user');
+const braintree = require('braintree');
+require('dotenv').config();
+
 const gateway = braintree.connect({
   environment: braintree.Environment.Sandbox,
   merchantId: process.env.BRAINTREE_MERCHANT_ID,
@@ -8,9 +13,9 @@ const gateway = braintree.connect({
 exports.generateToken = (req, res) => {
   gateway.clientToken.generate({}, function(err, response) {
     if (err) {
-      res.status(500).send(err);
+      res.status(500).json({error:err});
     } else {
-      res.send(response);
+      res.json({response});
     }
   });
 };

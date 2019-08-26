@@ -201,8 +201,6 @@ export const deleteProduct = id => async dispatch => {
   }
 };
 
-export const getOrders = () => async dispatch => {};
-export const updateOrder = () => async dispatch => {};
-export const deleteOrder = () => async dispatch => {};
 
-export const updateUserInfo = () => async dispatch => {};
+
+

@@ -4,6 +4,7 @@ import contactReducer from './contactReducer';
 import productReducer from './productReducer';
 import adminReducer from './adminReducer';
 import cartReducer from './cartReducer';
+import orderReducer from './orderReducer';
 
 
 export default combineReducers ({
@@ -12,4 +13,5 @@ export default combineReducers ({
   productReducer: productReducer,
   adminReducer: adminReducer,
   cartReducer: cartReducer,
+  orderReducer: orderReducer,
 })

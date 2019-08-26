@@ -38,3 +38,6 @@ export const USER_SETTINGS_ERROR = "USER_SETTINGS_ERROR";
 export const USER_SETTINGS_SUCCESS = "USER_SETTINGS_SUCCESS";
 export const SET_USER_DATA = "SET_USER_DATA";
 
+
+// ORDER ACTION TYPES ======================================
+export const SET_BRAINTREE_TOKEN = "SET_BRAINTREE_TOKEN";

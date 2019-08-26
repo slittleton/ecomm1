@@ -6,6 +6,9 @@ import {
   CART_ERROR
 } from "./actionTypes";
 
+import { authToken, saveToken } from "./authMethods";
+const API = process.env.REACT_APP_API_URL;
+
 // GET CART ITEMS ==============================================
 export const getCartItems = () => async dispatch => {
   if (localStorage.getItem("cart")) {
@@ -72,3 +75,5 @@ export const emptyCart = () => async dispatch => {
   localStorage.removeItem("cart");
   dispatch({ type: SET_CART_ITEMS, payload: null });
 };
+
+
