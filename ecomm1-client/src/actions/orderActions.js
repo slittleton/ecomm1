@@ -5,7 +5,9 @@ import {
   EMPTY_CART,
   CART_ERROR,
   USER_SETTINGS_ERROR,
-  USER_SETTINGS_SUCCESS
+  USER_SETTINGS_SUCCESS,
+  SET_BRAINTREE_TOKEN,
+  SET_PAYMENT_RESPONSE
 } from "./actionTypes";
 
 import { authToken, saveToken } from "./authMethods";
@@ -29,8 +31,12 @@ export const createOrder = (orderInfo, orderTotal) => async dispatch => {
 
   // IF SUCCESS CLEAR CART 
   if(orderData.data){
+ 
     dispatch({ type: EMPTY_CART });
     dispatch({ type: USER_SETTINGS_SUCCESS, payload: "Order Made Successfully" });
+    dispatch({ type: SET_PAYMENT_RESPONSE, payload: null})
+    dispatch({ type: SET_BRAINTREE_TOKEN, payload: null})
+       localStorage.removeItem("cart");
   }
 
   // ELSE SET ERROR MESSAGE

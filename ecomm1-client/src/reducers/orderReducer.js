@@ -3,8 +3,7 @@ import {SET_BRAINTREE_TOKEN, SET_PAYMENT_RESPONSE, SET_ORDERS_BUNDLE, SET_ORDER_
 const INITIAL_STATE = {
   braintreeToken: null,
   paymentResponse: null,
-  ordersBundle: null,
-  orderCreationStatus: null
+  ordersBundle: null
 };
 
 export default(state = INITIAL_STATE, action) =>{
@@ -22,12 +21,7 @@ export default(state = INITIAL_STATE, action) =>{
     case SET_ORDERS_BUNDLE:
       return{
         ...state,
-        paymentResponse: action.payload
-      };
-    case SET_ORDER_CREATION_STATUS:
-      return{
-        ...state,
-        paymentResponse: action.payload
+        ordersBundle: action.payload
       };
     default: return state;
   }
