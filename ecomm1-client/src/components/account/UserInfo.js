@@ -8,6 +8,7 @@ const UserInfo = props => {
     if (props.history && props.history.length > 0) {
       return (
         <div>
+          <div className="title">Order History</div>
           {props.history.map((order, index) => {
             return (
               <div key={index} className="tiny-pad">

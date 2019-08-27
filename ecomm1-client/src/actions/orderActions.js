@@ -1,13 +1,10 @@
 import {
-  SET_CART_ITEMS,
-  ADD_TO_CART,
-  DEL_FROM_CART,
   EMPTY_CART,
-  CART_ERROR,
   USER_SETTINGS_ERROR,
   USER_SETTINGS_SUCCESS,
   SET_BRAINTREE_TOKEN,
-  SET_PAYMENT_RESPONSE
+  SET_PAYMENT_RESPONSE,
+  SET_ORDERS_BUNDLE
 } from "./actionTypes";
 
 import { authToken, saveToken } from "./authMethods";
@@ -46,7 +43,22 @@ export const createOrder = (orderInfo, orderTotal) => async dispatch => {
   }
 };
 
-export const getOrders = () => async dispatch => {};
+export const getOrders = () => async dispatch => {
+  let token = authToken().token;
+  try {
+    let data = await fetch(`${API}/orders`, {
+      method: "GET",
+      headers: {
+        Authorization: token
+      }
+    });
+    data = await data.json();
+    console.log("ORDERS", data)
+    dispatch({ type: SET_ORDERS_BUNDLE, payload: data });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const updateOrder = () => async dispatch => {};
 export const deleteOrder = () => async dispatch => {};

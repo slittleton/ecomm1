@@ -15,6 +15,9 @@ body {
   justify-content: center;
   display: flex;
 }
+.flx {
+  display: flex;
+}
 .title {
   text-align: center;
   font-size: 1.75rem;
@@ -88,6 +91,9 @@ body {
 .darkgray-back{
   background-color: rgb(29, 29, 29)
 }
+.mediumgray-back{
+  background-color: rgb(56, 56, 56)
+}
 .black-back{
   background-color: black
 }
@@ -97,6 +103,7 @@ body {
 .medium-pad-top {
   padding-top: .5rem
 }
+
 /* MENU ==================================================== */
 .menu {
   margin-top: 1rem;

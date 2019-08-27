@@ -7,7 +7,7 @@ const {
   userOrders,
   addToUserOrderHistory
 } = require("../controllers/user");
-const { orderById, createOrder } = require("../controllers/order");
+const { orderById, createOrder, getOrdersList } = require("../controllers/order");
 
 router.post(
   "/order/create",
@@ -18,7 +18,7 @@ router.post(
   createOrder
 );
 router.get("/orders", checkAuth, checkAdmin, 
-// getOrdersList
+getOrdersList
 )
 router.get("/orders/user", checkAuth, userOrders);
 

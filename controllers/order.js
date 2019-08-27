@@ -15,8 +15,6 @@ exports.orderById = (req, res, callback, id) => {
 
 // CREATE ORDER =====================================================
 exports.createOrder = async (req,res, next) => {
-  // console.log('CREATE ORDER', req.body.order)
-  // console.log("PRODUCTS ORDERED", req.body.order.userOrder.products);
 
 let newOrder = {
   products:req.body.order.userOrder.products,
@@ -25,8 +23,6 @@ let newOrder = {
   user: req.body.order.user._id
 }
   const order = await new Order(newOrder);
-
-  // console.log("ORDER", order)
 
   order.save((error, data) => {
     if (error) {
@@ -43,7 +39,7 @@ let newOrder = {
 }
 
 // GET LIST OF ORDERS ===============================================
-exports.listOrders =(req,res) => {
+exports.getOrdersList =(req,res) => {
   Order.find()
     .populate('user', "_id name address")
     .sort('-created')
@@ -51,7 +47,6 @@ exports.listOrders =(req,res) => {
       if(err){return res.status(400).json({error: errorHandler(error)})};
       res.json((orders))
     })
-
 }
 
 // ORDER STATUS VALUES ==============================================
