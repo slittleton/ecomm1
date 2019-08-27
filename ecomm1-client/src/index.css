@@ -94,7 +94,9 @@ body {
 .gray-text {
   color: rgb(196, 196, 196)
 }
-
+.medium-pad-top {
+  padding-top: .5rem
+}
 /* MENU ==================================================== */
 .menu {
   margin-top: 1rem;

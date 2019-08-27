@@ -7,6 +7,7 @@ import { updateUserInfo, getUserOrders } from "../../actions/userActions";
 import UpdateUserNameEmail from "./UpdateUserNameEmail";
 import UpdatePassword from "./UpdatePassword";
 import UserActionMessage from "./UserActionMessage";
+import UserInfo from "./UserInfo";
 
 const UserSettings = props => {
   const [values, setValues] = useState({
@@ -22,6 +23,8 @@ const UserSettings = props => {
     state: "",
     zipcode: ""
   });
+  const [history, setHistory] = useState("");
+
   const { userName, email, newpassword, oldpassword } = values;
   const { name, street, city, state, zipcode } = address;
 
@@ -50,6 +53,13 @@ const UserSettings = props => {
     }
   }, [props.user]);
 
+  useEffect(() => {
+    const { userHistory } = props.user;
+    if (props.user.userHistory) {
+      setHistory(userHistory);
+    }
+  }, [props.user.userHistory]);
+
   return (
     <div className="">
       <Layout
@@ -59,36 +69,15 @@ const UserSettings = props => {
         }`}
         accountMenu={<AdminMenu />}
       >
-
         <div className="settings container ">
-          <div className="box darkgray-back">
-            <div className="title">Current User Information</div>
-            <div className="box">
-              <div className="tiny-pad">Username: {userName}</div>
-              <div className="tiny-pad">Email: {email}</div>
-            </div>
-            <div className="tiny-pad box">
-              Address:
-              {street !== "" ? (
-                <div>
-                  <div className="tiny-pad">Name: {name}</div>
-                  <div className="tiny-pad">Street: {street}</div>
-                  <div className="tiny-pad">City: {city}</div>
-                  <div className="tiny-pad">State: {state}</div>
-                  <div className="tiny-pad">Zipcode: {zipcode}</div>
-                </div>
-              ) : (
-                <div className="tiny-pad">Address Not Found</div>
-              )}
-            </div>
-            <div className="box">
-              <div className="tiny-pad">USER ORDER HISTORY</div>
-            </div>
-          </div>
-
+          <UserInfo
+            history={history}
+            user={{ userName, email }}
+            address={{ name, street, city, state, zipcode }}
+          />
           <div className="">
             <div className="title">Update User Information</div>
-            <UserActionMessage/>
+            <UserActionMessage />
             <UpdateUserNameEmail />
             <UpdatePassword />
             <AddressForm />

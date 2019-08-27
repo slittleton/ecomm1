@@ -40,11 +40,7 @@ const Checkout = props => {
     if (props.paymentResponse) {
       if (props.paymentResponse.success) {
         props.setUserSettingsSuccess("Payment Successful");
-        console.log("SEND CREATE ORDER", props.cart, props.paymentResponse.transaction.amount)
         props.createOrder(props.cart, props.paymentResponse.transaction.amount);
-
-        // if order created successfully, clear cart
-        // clear cart
       }
       if (props.paymentResponse.error) {
         props.setUserSettingsError(
@@ -58,16 +54,18 @@ const Checkout = props => {
     if (props.auth.userAddress) {
       return (
         <div>
-          <div className="center subtitle medium-margin">Current Address</div>
+          <div className="center subtitle medium-margin">You Can Change Your Address Here</div>
+          <div className="center subtitle medium-margin">Or Proceed With Checkout Below</div>
           <AddressForm />
-          {/* {paymentOptions()} */}
+          {paymentOptions()}
         </div>
       );
     } else {
       return (
         <div>
+          <div className="title">To Proceed With Checkout</div>
           <div className="title">
-            Please Enter Address To Proceed with Checkout
+            Make Sure To Add An Address To Your Account
           </div>
           <AddressForm />
         </div>
@@ -100,7 +98,7 @@ const Checkout = props => {
         </div>
       );
     } else {
-      return <div>LOADING... {JSON.stringify(props.orderReducer)}</div>;
+      return <div className="title center box small-pad">Currently There Are No Items In Your Cart To Purchase</div>;
     }
   };
 
@@ -139,7 +137,6 @@ const Checkout = props => {
         <div>
           {checkoutInfo()}
           <UserActionMessage />
-          {paymentOptions()}
         </div>
       ) : (
         <div className="subtitle medium-margin">

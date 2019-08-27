@@ -14,7 +14,7 @@ exports.orderById = (req, res, callback, id) => {
 }
 
 // CREATE ORDER =====================================================
-exports.createOrder = async (req,res) => {
+exports.createOrder = async (req,res, next) => {
   // console.log('CREATE ORDER', req.body.order)
   // console.log("PRODUCTS ORDERED", req.body.order.userOrder.products);
 
@@ -39,6 +39,7 @@ let newOrder = {
     res.json({data});
   });
 
+  
 }
 
 // GET LIST OF ORDERS ===============================================

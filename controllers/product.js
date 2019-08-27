@@ -169,6 +169,7 @@ exports.productsList = (req, res) => {
 
 // SUBTRACT FROM QUANTITY ====================================================
 exports.decreaseQuantity = (req, res, next) => {
+  console.log('DECREASE QUANTITY')
   let bulkOps = req.body.order.products.map(item => {
     return {
       updateOne: {

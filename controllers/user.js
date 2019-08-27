@@ -115,8 +115,8 @@ exports.addToUserOrderHistory = (req, res, next) => {
   let user = req.profile;
 
   user.history = [...user.history, userOrder];
-  // user.history = [];
-  // req.profile = user;
+  // user.history = []; // Clear user history
+
 
   req.body.order = {userOrder, user}
 
