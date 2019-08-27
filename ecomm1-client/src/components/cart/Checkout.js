@@ -3,8 +3,18 @@ import { authToken } from "../../actions/authMethods";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import AddressForm from "../account/AddressForm";
-import { getBraintreeClientToken, processPayment } from "../../actions/paymentActions";
+import {
+  getBraintreeClientToken,
+  processPayment
+} from "../../actions/paymentActions";
 import DropIn from "braintree-web-drop-in-react";
+import UserActionMessage from "../account/UserActionMessage";
+import {
+  setUserSettingsError,
+  setUserSettingsSuccess
+} from "../../actions/userActions";
+import { createOrder } from "../../actions/orderActions";
+import { emptyCart } from "../../actions/cartActions";
 
 const Checkout = props => {
   const [values, setValues] = useState({
@@ -25,6 +35,24 @@ const Checkout = props => {
       setValues({ ...values, clientToken: props.braintreeToken.clientToken });
     }
   }, [props.braintreeToken]);
+
+  useEffect(() => {
+    if (props.paymentResponse) {
+      if (props.paymentResponse.success) {
+        props.setUserSettingsSuccess("Payment Successful");
+        console.log("SEND CREATE ORDER", props.cart, props.paymentResponse.transaction.amount)
+        props.createOrder(props.cart, props.paymentResponse.transaction.amount);
+
+        // if order created successfully, clear cart
+        // clear cart
+      }
+      if (props.paymentResponse.error) {
+        props.setUserSettingsError(
+          "Payment Error, please try again or contact customer service"
+        );
+      }
+    }
+  }, [props.paymentResponse]);
 
   const checkoutInfo = () => {
     if (props.auth.userAddress) {
@@ -72,7 +100,7 @@ const Checkout = props => {
         </div>
       );
     } else {
-      return <div>NOT HELLO {JSON.stringify(props.orderReducer)}</div>;
+      return <div>LOADING... {JSON.stringify(props.orderReducer)}</div>;
     }
   };
 
@@ -81,20 +109,16 @@ const Checkout = props => {
     let getNonce = values.instance
       .requestPaymentMethod()
       .then(info => {
-        console.log("NONCE INFO", info);
         nonce = info.nonce;
-        console.log("Nonce", nonce)
         const total = cartTotal();
-
         const paymentData = {
           paymentMethodNonce: nonce,
           amount: total
-        }
-        props.processPayment(paymentData)
-
+        };
+        props.processPayment(paymentData);
       })
       .catch(error => {
-        console.log("Dropin Error", error);
+        props.setUserSettingsError(error.message);
       });
   };
 
@@ -114,6 +138,7 @@ const Checkout = props => {
       {props.auth.signInStatus ? (
         <div>
           {checkoutInfo()}
+          <UserActionMessage />
           {paymentOptions()}
         </div>
       ) : (
@@ -129,10 +154,18 @@ const mapStateToProps = state => {
   return {
     cart: state.cartReducer.cartItems,
     auth: state.authReducer,
-    braintreeToken: state.orderReducer.braintreeToken
+    braintreeToken: state.orderReducer.braintreeToken,
+    paymentResponse: state.orderReducer.paymentResponse
   };
 };
 export default connect(
   mapStateToProps,
-  { getBraintreeClientToken, processPayment }
+  {
+    getBraintreeClientToken,
+    processPayment,
+    setUserSettingsError,
+    setUserSettingsSuccess,
+    createOrder,
+    emptyCart
+  }
 )(Checkout);

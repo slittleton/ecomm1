@@ -1,8 +1,10 @@
-import {SET_BRAINTREE_TOKEN, SET_PAYMENT_RESPONSE} from "../actions/actionTypes";
+import {SET_BRAINTREE_TOKEN, SET_PAYMENT_RESPONSE, SET_ORDERS_BUNDLE, SET_ORDER_CREATION_STATUS} from "../actions/actionTypes";
 
 const INITIAL_STATE = {
   braintreeToken: null,
   paymentResponse: null,
+  ordersBundle: null,
+  orderCreationStatus: null
 };
 
 export default(state = INITIAL_STATE, action) =>{
@@ -13,6 +15,16 @@ export default(state = INITIAL_STATE, action) =>{
         braintreeToken: action.payload
       };
     case SET_PAYMENT_RESPONSE:
+      return{
+        ...state,
+        paymentResponse: action.payload
+      };
+    case SET_ORDERS_BUNDLE:
+      return{
+        ...state,
+        paymentResponse: action.payload
+      };
+    case SET_ORDER_CREATION_STATUS:
       return{
         ...state,
         paymentResponse: action.payload

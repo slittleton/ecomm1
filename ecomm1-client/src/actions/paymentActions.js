@@ -5,7 +5,8 @@ import {
   EMPTY_CART,
   CART_ERROR,
   SET_BRAINTREE_TOKEN,
-  SET_PAYMENT_RESPONSE
+  SET_PAYMENT_RESPONSE,
+  USER_SETTINGS_ERROR
 } from "./actionTypes";
 
 import { authToken, saveToken } from "./authMethods";
@@ -14,7 +15,7 @@ const API = process.env.REACT_APP_API_URL;
 // GET BRAINTREE CLIENT TOKEN ========================================
 
 export const getBraintreeClientToken = userId => async dispatch => {
- console.log('BRAINTREE ID',userId)
+
   let token = authToken().token;
   try {
     let clientToken = await fetch(`${API}/braintree/getToken/${userId}`, {
@@ -25,10 +26,7 @@ export const getBraintreeClientToken = userId => async dispatch => {
         Authorization: token
       }
     });
-
     clientToken = await clientToken.json();
-
-    console.log("BRAINTREE TOKEN", clientToken);
     dispatch({ type: SET_BRAINTREE_TOKEN, payload: clientToken.response });
   } catch (error) {
     console.log(error);
@@ -36,9 +34,7 @@ export const getBraintreeClientToken = userId => async dispatch => {
 };
 
 // PROCESS PAYMENT =================================================
-export const processPayment = (paymentData) => async dispatch => {
-
-  console.log('PROCESS PAYMENT', paymentData)
+export const processPayment = paymentData => async dispatch => {
   let token = authToken().token;
   try {
     let data = await fetch(`${API}/braintree/payment`, {
@@ -50,12 +46,10 @@ export const processPayment = (paymentData) => async dispatch => {
       },
       body: JSON.stringify(paymentData)
     });
-
     data = await data.json();
 
-    console.log("BRAINTREE PAYMENT", data);
     dispatch({ type: SET_PAYMENT_RESPONSE, payload: data });
   } catch (error) {
-    console.log(error);
+    dispatch({ type:  USER_SETTINGS_ERROR, payload:  error });
   }
 };

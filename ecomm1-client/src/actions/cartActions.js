@@ -36,7 +36,6 @@ export const addToCart = product => async dispatch => {
   } else {
     cart.push({ product, count: 1 });
     localStorage.setItem("cart", JSON.stringify(cart));
-    console.log("ACTION CART", cart);
     dispatch({ type: SET_CART_ITEMS, payload: cart });
   }
 };
@@ -47,14 +46,19 @@ export const adjustCount = (quantity, id) => async dispatch => {
   if (localStorage.getItem("cart")) {
     cart = JSON.parse(localStorage.getItem("cart"));
   }
-  cart.forEach(item => {
-    if (item.product._id === id) {
-      item.count = quantity;
-    }
-  });
-  localStorage.setItem("cart", JSON.stringify(cart));
+  if(cart.length> 0){
+    cart.forEach(item => {
+      if (item.product._id === id) {
+        item.count = quantity;
+      }
+    });
+    localStorage.setItem("cart", JSON.stringify(cart));
+  
+    dispatch({ type: SET_CART_ITEMS, payload: cart });
+  } else{
+    dispatch({ type: EMPTY_CART });
+  }
 
-  dispatch({ type: SET_CART_ITEMS, payload: cart });
 };
 
 // DELETE ITEM FROM CART =====================================

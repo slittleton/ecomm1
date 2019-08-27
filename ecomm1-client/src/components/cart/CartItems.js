@@ -10,15 +10,18 @@ const CartItems = props => {
   }, []);
 
   const cartTotal = () => {
-    if (props.cart) {
+    if (props.cart&& props.cart.length>0) {
       let prices = [];
       props.cart.forEach(item => {
         let cost = parseInt(item.count) * parseInt(item.product.price);
         prices.push(cost);
       });
       return prices.reduce((acc, curVal) => acc + curVal).toFixed(2);
+    }else{
+      return 0.00
     }
   };
+
   const delCartItem = id => () => {
     props.delFromCart(id);
   };

@@ -49,7 +49,9 @@ exports.createProduct = async (req, res) => {
       return res.status(400).json({ error: "all fields are required" });
     }
 
+    console.log("CATEGORY", category)
     const product = await new Product(fields);
+    console.log('PRODUCT', product);
 
     // Handle Uploaded Photo
     if (files.photo) {

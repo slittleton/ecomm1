@@ -8,8 +8,6 @@ const API = process.env.REACT_APP_API_URL;
 
 // UPDATE USER INFO ==================================================
 export const updateUserInfo = (info, _id) => async dispatch => {
-  console.log(info);
-
   let token = authToken().token;
 
   let updatedUser = await fetch(`${API}/user/update`, {
@@ -23,7 +21,6 @@ export const updateUserInfo = (info, _id) => async dispatch => {
   });
 
   updatedUser = await updatedUser.json();
-  console.log("updatedUser: ", updatedUser);
 
   if (updatedUser.addressUpdated) {
     dispatch({
@@ -72,7 +69,6 @@ export const getUserInfo = id => async dispatch => {
   });
 
   userInfo = await userInfo.json();
-  console.log("USER INFO", userInfo);
 
   dispatch({ type: SET_USER_DATA, payload: userInfo });
 };

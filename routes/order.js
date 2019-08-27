@@ -7,16 +7,25 @@ const {
   userOrders,
   addToUserOrderHistory
 } = require("../controllers/user");
-
 const { orderById, createOrder } = require("../controllers/order");
 
 router.post(
   "/order/create",
   checkAuth,
-  // addToUserOrderHistory,
+  userById,
+  addToUserOrderHistory,
   // decreaseQuantity,
   createOrder
 );
+router.get("/orders", checkAuth, checkAdmin, 
+// getOrdersList
+)
+router.get("/orders/user", checkAuth, userOrders);
+
+router.put("/order/:orderId/status", checkAuth, checkAdmin, 
+// updateOrderStatus
+)
+
 
 router.param("orderId", orderById);
 

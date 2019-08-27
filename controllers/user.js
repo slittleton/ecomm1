@@ -92,28 +92,41 @@ exports.userOrders = (req, res) => {
 
 // ADD ORDER TO USER ORDERS ======================================
 exports.addToUserOrderHistory = (req, res, next) => {
-  let history = [];
+  let orderItems = [];
+  console.log("BODY ORDER", req.body.order)
 
-  req.body.order.products.forEach(order => {
-    history.push({
-      _id: order._id,
-      name: order.name,
-      category: order.category,
-      description: order.description,
-      price: order.price,
-      quantity: order.quantity,
-      orderTotal: req.order.orderTotal
+  req.body.order.forEach(item => {
+    orderItems.push({
+      _id: item.product._id,
+      name: item.product.name,
+      category: item.product.category,
+      description: item.product.description,
+      price: item.product.price,
+      count: item.count
     });
   });
 
-  User.findOneAndUpdate(
-    { _id: req.profile.id },
-    { $push: { history: history } },
-    { new: true },
-    (err, info) => {
-      if (err) {
-        return res.status(400).json({ error: err });
-      }
+  let userOrder = {
+    orderTotal: req.body.orderTotal,
+    products: orderItems,
+    date: new Date()
+  };
+
+  let user = req.profile;
+
+  user.history = [...user.history, userOrder];
+  // user.history = [];
+  // req.profile = user;
+
+  req.body.order = {userOrder, user}
+
+  // console.log("USER ORDER", userOrder);
+  // console.log("UPDATED USER HISTORY", user);
+  user.save((err, data) => {
+    if (err) {
+      return res.status(400).json({ error: err });
     }
-  );
+  });
+
+  next();
 };

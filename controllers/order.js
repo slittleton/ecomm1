@@ -14,10 +14,31 @@ exports.orderById = (req, res, callback, id) => {
 }
 
 // CREATE ORDER =====================================================
-exports.createOrder = (req,res) => {
-  console.log(req.body)
+exports.createOrder = async (req,res) => {
+  // console.log('CREATE ORDER', req.body.order)
+  // console.log("PRODUCTS ORDERED", req.body.order.userOrder.products);
 
-  res.send("TODO finish server side creating order")
+let newOrder = {
+  products:req.body.order.userOrder.products,
+  amount: req.body.order.userOrder.orderTotal,
+  address: req.body.order.user.address,
+  user: req.body.order.user._id
+}
+  const order = await new Order(newOrder);
+
+  // console.log("ORDER", order)
+
+  order.save((error, data) => {
+    if (error) {
+      console.log(error)
+      return res.status(400).json({
+        error
+      });
+    }
+    console.log("DATA", data)
+    res.json({data});
+  });
+
 }
 
 // GET LIST OF ORDERS ===============================================

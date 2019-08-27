@@ -25,7 +25,7 @@ export default(state = INITIAL_STATE, action) =>{
     case EMPTY_CART:
       return{
         ...state,
-        cartItems: action.payload
+        cartItems: null
       }
     case CART_ERROR:
       return{
