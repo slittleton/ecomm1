@@ -8,9 +8,9 @@ const ProductsGrid = props => {
     <div className="grid">
       {products.map(product => {
         return (
-          <div className="grid-item " key={product._id}>
+          <div className="grid-item center" key={product._id}>
             <Link style={{ textDecoration: "none" }} to={`/productview/${product._id}`}>
-              <ProductPhoto product={product} imageStyling="img-small" />
+              <ProductPhoto product={product} imageStyling="img-small center" />
               <div className="grid-item-text">{product.name}</div>
               <div className="grid-item-text">
                 ${parseInt(product.price).toFixed(2)}
