@@ -117,11 +117,8 @@ exports.addToUserOrderHistory = (req, res, next) => {
   user.history = [...user.history, userOrder];
   // user.history = []; // Clear user history
 
-
   req.body.order = {userOrder, user}
 
-  // console.log("USER ORDER", userOrder);
-  // console.log("UPDATED USER HISTORY", user);
   user.save((err, data) => {
     if (err) {
       return res.status(400).json({ error: err });
