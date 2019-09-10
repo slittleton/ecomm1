@@ -78,7 +78,17 @@ const Home = props => {
             {viewProducts()}
           </div>
         </div>
+
       </Layout>
+      <div className="devmode">
+        <div className="devmode-title">
+          This Website Is Only A Demonstration
+        </div>
+        <div className="devmode-text">
+        The default sign in is set to an admin username and password. You can create a normal
+          user and sign in that way by clicking Sign Up
+        </div>
+      </div>
     </div>
   );
 };

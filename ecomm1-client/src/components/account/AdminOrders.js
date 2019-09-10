@@ -23,10 +23,10 @@ const AdminOrders = props => {
   useEffect(() => {
     props.getOrders();
     props.getOrderStatusList();
-    setTimeout(()=>{
-      props.resetOrderStatus()
-      console.log('reset')
-    }, 1000)
+    setTimeout(() => {
+      props.resetOrderStatus();
+      console.log("reset");
+    }, 1000);
   }, [props.orderStatusUpdated]);
 
   useEffect(() => {
@@ -48,13 +48,19 @@ const AdminOrders = props => {
           {orders.map((order, index) => {
             return (
               <div key={order._id} className="box">
-                <div className="mediumgray-back flx">
+                <div className="devmode-title">
+                  This Website Is Only A Demonstration
+                </div>
 
+                <div className="mediumgray-back flx">
                   <div className="tiny-pad">{`${parseInt(index) + 1})`}</div>
                   <div className="tiny-pad">| Order ID: {order._id} |</div>
-                  <div className="tiny-pad">| Order Status: {order.status} |</div>
-                  <div className="" style={{margin:0, padding: 0}}>{orderStatusSelector(order)}</div>
-
+                  <div className="tiny-pad">
+                    | Order Status: {order.status} |
+                  </div>
+                  <div className="" style={{ margin: 0, padding: 0 }}>
+                    {orderStatusSelector(order)}
+                  </div>
                 </div>
                 <div className="flx">
                   <div className="box" style={{ width: "100%" }}>
@@ -80,11 +86,11 @@ const AdminOrders = props => {
                 </div>
               </div>
             );
-          })} 
+          })}
         </div>
       );
-    }else{
-      return <div className="title">No Orders Found</div>
+    } else {
+      return <div className="title">No Orders Found</div>;
     }
   };
 

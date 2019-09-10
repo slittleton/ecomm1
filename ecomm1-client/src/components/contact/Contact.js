@@ -69,6 +69,9 @@ const Contact = props => {
     <Layout title="Contact" description="Feel free to send us a message">
       {showSuccess()}
       {showError()}
+      <div className="devmode-title">
+          This Website Is Only A Demonstration
+        </div>
       <div className="container">
         <form className="contact-form" onSubmit={handleSubmit}>
           <div className="form-control">

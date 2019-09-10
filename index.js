@@ -20,16 +20,16 @@ const error = require("./customMiddleware/error");
 const PORT = process.env.PORT || 8000;
 const mongoURI = process.env.MONGO_URI;
 
-// process.on("uncaughtException", ex => {
-//   console.log("exception", ex);
-//   winston.error(ex.message, ex);
-//   exit(1);
-// });
-// process.on("unhandledRejection", ex => {
-//   console.log("Promise resulted in Unhandled Rejection", ex);
-//   winston.error(ex.message, ex);
-//   exit(1);
-// });
+process.on("uncaughtException", ex => {
+  console.log("exception", ex);
+  winston.error(ex.message, ex);
+  exit(1);
+});
+process.on("unhandledRejection", ex => {
+  console.log("Promise resulted in Unhandled Rejection", ex);
+  winston.error(ex.message, ex);
+  exit(1);
+});
 
 winston.add(new winston.transports.File({ filename: "logfile.log" }));
 

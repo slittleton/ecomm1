@@ -10,9 +10,9 @@ import {
 } from "../actions/actionTypes";
 
 const INITIAL_STATE = {
-  signInStatus: true,
-  isAdmin: true,
-  userId: "5d4f55a44955e7384898f522",
+  signInStatus: false,
+  isAdmin: false,
+  userId: null,
   userEmail: "admin@email.com",
   userName: "admin",
   userAddress: null,

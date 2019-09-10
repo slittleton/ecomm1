@@ -169,6 +169,9 @@ const AdminCreate = props => {
       >
         {showError()}
         {showSuccess()}
+        <div className="devmode-title">
+          This Website Is Only A Demonstration
+        </div>
         <div className="container create">
           <div className="color-box ">
             <AdminCreateCategory

@@ -69,6 +69,9 @@ const UserSettings = props => {
         }`}
         accountMenu={<AdminMenu />}
       >
+        <div className="devmode-title">
+          This Website Is Only A Demonstration
+        </div>
         <div className="settings container ">
           <UserInfo
             history={history}

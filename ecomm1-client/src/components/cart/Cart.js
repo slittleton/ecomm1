@@ -22,6 +22,23 @@ const Cart = props => {
           <Checkout />
         </div>
       </Layout>
+      <div className="devmode">
+        <div className="devmode-cart">
+          You Cannot Actually Buy Anything. However, you can see the payment
+          process function using the following FAKE CREDIT CARD INFO
+        </div>
+        <div className="devmode-cart">
+          4111 1111 1111 1111, expiration 11/22, cvv 111
+        </div>
+        <div className="devmode-title">
+          This Website Is Only A Demonstration
+        </div>
+
+        <div className="devmode-text">
+          The default sign in is set to an admin username and password. You can
+          create a normal user and sign in that way by clicking Sign Up
+        </div>
+      </div>
     </div>
   );
 };

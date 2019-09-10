@@ -16,8 +16,7 @@ const SignUp = props => {
   const { name, email, password, redirect } = values;
 
   useEffect(() => {
-
-    if(redirect){
+    if (redirect) {
       setValues({ ...values, redirect: false });
     }
 
@@ -47,13 +46,9 @@ const SignUp = props => {
     props.signUp(name, email, password);
   };
 
-
   const showSuccess = () => {
     return (
-      <div
-        className="container"
-        style={{ display: redirect ? "" : "none" }}
-      >
+      <div className="container" style={{ display: redirect ? "" : "none" }}>
         <div className="success">
           Account Created, You Have Been Automatically Signed In
         </div>
@@ -76,6 +71,7 @@ const SignUp = props => {
       {showSuccess()}
       {showError()}
       {redirectOnSuccess()}
+      <div className="devmode-title">This Website Is Only A Demonstration</div>
       <SignupForm
         name={name}
         email={email}

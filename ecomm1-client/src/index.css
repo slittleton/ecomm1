@@ -52,13 +52,13 @@ body {
 .bottom-margin {
   margin-bottom: 0.5rem;
 }
-.small-margin{
-  margin:.5rem;
+.small-margin {
+  margin: 0.5rem;
 }
-.medium-pad{
+.medium-pad {
   padding: 1rem;
 }
-.small-pad{
+.small-pad {
   padding: 1rem;
 }
 .center {
@@ -67,41 +67,47 @@ body {
   text-align: center;
   vertical-align: center;
 }
-.tiny-pad{ padding: .25rem}
-.small-font{ font-size: .65rem}
-.spacer{
-  justify-content: space-between
+.tiny-pad {
+  padding: 0.25rem;
 }
-.margin-right-small{
-  margin-right: .5rem;
+.small-font {
+  font-size: 0.65rem;
 }
-.flex {display: flex}
+.spacer {
+  justify-content: space-between;
+}
+.margin-right-small {
+  margin-right: 0.5rem;
+}
+.flex {
+  display: flex;
+}
 .small-btn {
-  font-size:.75rem;
+  font-size: 0.75rem;
   /* border: 1px solid gray; */
   background-color: black;
-  color:rgb(196, 196, 196);
-  border-radius: .5rem;
-  margin: .25rem;
+  color: rgb(196, 196, 196);
+  border-radius: 0.5rem;
+  margin: 0.25rem;
   cursor: pointer;
 }
-.gray-back{
-  background-color: gray
+.gray-back {
+  background-color: gray;
 }
-.darkgray-back{
-  background-color: rgb(29, 29, 29)
+.darkgray-back {
+  background-color: rgb(29, 29, 29);
 }
-.mediumgray-back{
-  background-color: rgb(56, 56, 56)
+.mediumgray-back {
+  background-color: rgb(56, 56, 56);
 }
-.black-back{
-  background-color: black
+.black-back {
+  background-color: black;
 }
 .gray-text {
-  color: rgb(196, 196, 196)
+  color: rgb(196, 196, 196);
 }
 .medium-pad-top {
-  padding-top: .5rem
+  padding-top: 0.5rem;
 }
 
 /* MENU ==================================================== */
@@ -124,7 +130,6 @@ body {
   list-style-type: none;
   margin-right: 1rem;
   height: 100%;
-
 }
 
 .nav-item:hover {
@@ -228,7 +233,6 @@ body {
   padding-left: 0.5rem;
   background-color: rgb(41, 41, 41);
   color: white;
-
 }
 .form-field-create::placeholder {
   text-align: left;
@@ -253,10 +257,10 @@ body {
 .cart-btn {
   background-color: black;
   color: rgb(196, 196, 196);
-  border-radius: .5rem;
+  border-radius: 0.5rem;
   cursor: pointer;
 }
-.btn:hover{
+.btn:hover {
   cursor: pointer;
 }
 .select-field {
@@ -453,7 +457,7 @@ body {
 /* PHOTO STYLING =================================================== */
 .img-thumb {
   height: 50px;
-  width: 50px
+  width: 50px;
 }
 .img-small {
   height: 100px;
@@ -516,7 +520,35 @@ body {
 /* CART ================================================== */
 .cart-layout {
   display: flex;
+  justify-content: center;
 }
 .checkout-item {
-  display: flex
+  display: flex;
+}
+
+/*DEV MODE =======================================*/
+.devmode {
+  color: rgb(240, 240, 158);
+  text-align: center;
+  justify-content: center;
+}
+.devmode-title {
+  font-size: 2.5rem;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  color: rgb(240, 240, 158);
+}
+.devmode-text {
+  font-size: 1.5rem;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+}
+.devmode-cart {
+  font-size: 1.5rem;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  color: rgb(200, 253, 120);
 }
