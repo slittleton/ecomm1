@@ -48,10 +48,6 @@ const AdminOrders = props => {
           {orders.map((order, index) => {
             return (
               <div key={order._id} className="box">
-                <div className="devmode-title">
-                  This Website Is Only A Demonstration
-                </div>
-
                 <div className="mediumgray-back flx">
                   <div className="tiny-pad">{`${parseInt(index) + 1})`}</div>
                   <div className="tiny-pad">| Order ID: {order._id} |</div>
@@ -162,6 +158,9 @@ const AdminOrders = props => {
         description={`Welcome ${props.user.userName}`}
         accountMenu={<AdminMenu />}
       >
+        <div className="devmode-title">
+          This Website Is Only A Demonstration
+        </div>
         <div className="orders">
           <div className="title">List Of Recent Orders</div>
           <div className="orders-box">{showOrders()}</div>

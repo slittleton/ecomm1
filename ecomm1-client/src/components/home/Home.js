@@ -62,7 +62,7 @@ const Home = props => {
 
   return (
     <div className="home">
-      <Layout title="HOME" description="Welcome to the art store">
+      <Layout title="The Art Store" description="We have some pretty great art">
         <ProductSearch priceRange={priceRange} filteredByCategory={filteredByCategory} setSearch={setSearch}/>
         <div className="products-container">
           <div className="products">

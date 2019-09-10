@@ -2,7 +2,6 @@ const { Order } = require("../models/order");
 
 // ORDER BY ID  =====================================================
 exports.orderById = (req, res, callback, id) => {
-  // console.log('ORDER BY ID', id)
   Order.findById(id)
 
     .populate("products.product", "name, price")

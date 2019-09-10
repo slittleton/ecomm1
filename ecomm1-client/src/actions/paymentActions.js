@@ -1,9 +1,4 @@
 import {
-  SET_CART_ITEMS,
-  ADD_TO_CART,
-  DEL_FROM_CART,
-  EMPTY_CART,
-  CART_ERROR,
   SET_BRAINTREE_TOKEN,
   SET_PAYMENT_RESPONSE,
   USER_SETTINGS_ERROR
@@ -15,7 +10,6 @@ const API = process.env.REACT_APP_API_URL;
 // GET BRAINTREE CLIENT TOKEN ========================================
 
 export const getBraintreeClientToken = userId => async dispatch => {
-
   let token = authToken().token;
   try {
     let clientToken = await fetch(`${API}/braintree/getToken/${userId}`, {
@@ -50,6 +44,6 @@ export const processPayment = paymentData => async dispatch => {
 
     dispatch({ type: SET_PAYMENT_RESPONSE, payload: data });
   } catch (error) {
-    dispatch({ type:  USER_SETTINGS_ERROR, payload:  error });
+    dispatch({ type: USER_SETTINGS_ERROR, payload: error });
   }
 };

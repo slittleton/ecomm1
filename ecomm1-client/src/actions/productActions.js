@@ -99,6 +99,4 @@ export const resetSearchStatus = type => async dispatch => {
   }
 };
 
-// export const addToCart = () => async dispatch => {};
-// export const addToCart = () => async dispatch => {};
-// export const addToCart = () => async dispatch => {};
+
