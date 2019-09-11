@@ -5,14 +5,15 @@ const winston = require("winston");
 const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
+const path = require("path");
 
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
 const productRoutes = require("./routes/product");
 const categoryRoutes = require("./routes/category");
 const oderRoutes = require("./routes/order");
-const messageRoutes = require('./routes/message');
-const braintreeRoutes = require('./routes/braintree');
+const messageRoutes = require("./routes/message");
+const braintreeRoutes = require("./routes/braintree");
 
 const addCorsHeaders = require("./customMiddleware/addCorsHeaders");
 const error = require("./customMiddleware/error");
@@ -35,7 +36,7 @@ winston.add(new winston.transports.File({ filename: "logfile.log" }));
 
 mongoose
   .connect(mongoURI, { useCreateIndex: true, useNewUrlParser: true })
-  .then(()=>console.log('Connected to MongoDB...'));
+  .then(() => console.log("Connected to MongoDB..."));
 
 // Middlewares
 app.use(express.json());
@@ -52,5 +53,14 @@ app.use("/api", braintreeRoutes);
 
 // error handling middleware make sure to put it at bottom of middlewares
 app.use(error);
+
+if (process.env.NODE_ENV === "production") {
+  //set static folder
+  app.use(express.static("ecomm1-client/build"));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'ecomm1-client', 'build', 'index.html'))
+  });
+}
 
 app.listen(PORT, console.log(`Listening on port ${PORT}`));
