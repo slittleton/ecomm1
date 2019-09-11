@@ -80,7 +80,7 @@ const Signin = props => {
         </div>
         <div className="devmode-text">
           The default sign in is set to an admin username and password. You can create a normal
-          user and sign in that way by clicking Sign Up
+          user and sign in that way by clicking Sign Up. The admin login is admin@email.com and the admin password is password
         </div>
       </div>
       <SigninForm
