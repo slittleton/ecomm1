@@ -3,7 +3,7 @@ import {
   USER_SETTINGS_ERROR,
   SET_USER_DATA
 } from "./actionTypes";
-import { saveToken, authToken } from "./authMethods";
+import { authToken } from "./authMethods";
 const API = process.env.REACT_APP_API_URL;
 
 // UPDATE USER INFO ==================================================

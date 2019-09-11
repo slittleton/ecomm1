@@ -1,13 +1,9 @@
 import {
   SET_CART_ITEMS,
-  ADD_TO_CART,
-  DEL_FROM_CART,
   EMPTY_CART,
   CART_ERROR
 } from "./actionTypes";
 
-import { authToken, saveToken } from "./authMethods";
-const API = process.env.REACT_APP_API_URL;
 
 // GET CART ITEMS ==============================================
 export const getCartItems = () => async dispatch => {

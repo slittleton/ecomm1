@@ -9,7 +9,7 @@ import {
   ORDER_STATUS_UPDATED
 } from "./actionTypes";
 
-import { authToken, saveToken } from "./authMethods";
+import { authToken } from "./authMethods";
 const API = process.env.REACT_APP_API_URL;
 
 // CREATE ORDER =======================================================

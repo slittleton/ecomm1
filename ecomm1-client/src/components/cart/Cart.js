@@ -1,15 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import Layout from "../layout/Layout";
 import { connect } from "react-redux";
 import { getCartItems } from "../../actions/cartActions";
-import { Link } from "react-router-dom";
+
 import Checkout from "./Checkout";
-import ProductPhoto from "../product/ProductPhoto";
 import CartItems from "./CartItems";
 
 const Cart = props => {
-  const [checkoutStatus, setCheckoutStatus] = useState(false);
-
+  
   useEffect(() => {
     props.getCartItems();
   }, []);

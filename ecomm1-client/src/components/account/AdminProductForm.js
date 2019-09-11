@@ -1,7 +1,7 @@
 import React from 'react';
 
 const AdminProductForm = ({values, handleSubmit, handleChange, reduxCategories, title}) => {
-    const{name, photo, price, quantity, description} = values
+    const{name, price, quantity, description} = values
   return(
     <div className="container bottom-margin">
               <div className="box" style={{ width: "35rem" }}>

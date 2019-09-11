@@ -6,7 +6,7 @@ import {
   ADMIN_ERROR,
   ADMIN_ACTION_SUCCESS
 } from "./actionTypes";
-import { saveToken, authToken } from "./authMethods";
+import { authToken } from "./authMethods";
 
 const API = process.env.REACT_APP_API_URL;
 
