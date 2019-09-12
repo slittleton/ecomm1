@@ -1,14 +1,15 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { authToken } from "../../actions/authMethods";
+import { connect } from "react-redux";
 
 const PrivateRoute = (props) => {
   const { component: Component, ...rest } = props;
 
   const userTest = ()=> {
     if (props.user) {
-      return props.user._id;
-    } return false
+      return props.user.userId;
+    } return null
   }
   return (
   <Route
@@ -24,5 +25,13 @@ const PrivateRoute = (props) => {
     }
   />)
   }
-
-export default PrivateRoute;
+  const mapStateToProps = state => {
+    console.log("PRIVATE ROUTE", state);
+    return {
+      user: state.authReducer
+    };
+  };
+  export default connect(
+    mapStateToProps,
+    null
+  )(PrivateRoute);

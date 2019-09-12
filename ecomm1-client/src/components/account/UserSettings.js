@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../layout/Layout";
 import { connect } from "react-redux";
-import AdminMenu from "../layout/AdminMenu";
 import AddressForm from "./AddressForm";
 import { updateUserInfo, getUserOrders } from "../../actions/userActions";
 import UpdateUserNameEmail from "./UpdateUserNameEmail";
@@ -63,11 +62,10 @@ const UserSettings = props => {
   return (
     <div className="">
       <Layout
-        title="Admin Account - Settings"
+        title="user Account - Settings"
         description={`Welcome ${
           props.user.userName ? props.user.userName : null
         }`}
-        accountMenu={<AdminMenu />}
       >
         <div className="devmode-title">
           This Website Is Only A Demonstration
