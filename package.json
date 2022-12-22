@@ -23,7 +23,7 @@
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
     "formidable": "^1.2.1",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "mongoose": "^5.6.7",
     "query-string": "^6.8.2",
     "winston": "^3.2.1"
